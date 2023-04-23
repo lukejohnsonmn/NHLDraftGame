@@ -6,6 +6,7 @@
 	--light: #cff31e;
 	--accent: #d3c39a;
 	--text: white;
+	--gold: #ffcc33;
 }
 
 /* Original theme
@@ -24,12 +25,12 @@
 body {
 	background: var(--darkest);
 	color: var(--text);
-	font-family: sans-serif;
+	font-family: Verdana
 }
 
 table, th, td {
 	border-collapse: collapse;
-	border: 2px solid var(--darkest);
+	/*border: 2px solid var(--darkest);*/
 	padding: 5px;
 	font-size: 12px;
 }
@@ -55,12 +56,17 @@ h1 {
 
 
 /* Contacts table and image setup */
-#contacts {
-	width: 75%;
+#playerDiv {
+	width: 67%;
 }
 
-#contactsTable {
+#playerTable {
 	width: 100%;
+	text-align: center;
+}
+
+#playerTable th {
+	min-width: 35px;
 }
 
 #bigImage {
@@ -86,7 +92,37 @@ h1 {
 }
 
 .non-starter {
-	color: #bf0000;
+	color: #ff8080;/*#bf0000;*/
+}
+
+.salary-th {
+	border-top: 5px solid var(--gold);
+	border-left: 5px solid var(--gold);
+	border-right: 5px solid var(--gold);
+	width: 100px;
+}
+
+.salary-td {
+	border-left: 5px solid var(--gold);
+	border-right: 5px solid var(--gold);
+}
+
+.player-row:hover {
+	color: black;
+	font-weight: bold;
+	background-color: var(--gold);
+}
+
+#name-th {
+	width: 200px;
+}
+
+.player-row:hover td {
+	font-size: 14px;
+}
+
+.final-row {
+	border-bottom: 5px solid var(--gold);
 }
 
 .goldHeader {
@@ -180,6 +216,25 @@ nav a:hover {
 
 .text-basic {
 	padding: 5px;
+}
+
+#roleButtons {
+	display: flex;
+	margin: 20px;
+}
+
+
+.roleButton {
+	margin: 10px;
+	padding: 20px;
+	font-size: 24px;
+}
+
+.statPoints {
+	font-size: 11px;
+	color: var(--gold);
+	font-weight: normal;
+	padding-top: 0px;
 }
 
 

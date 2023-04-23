@@ -62,11 +62,11 @@
                 }
             }
 
-            for (var i=0; i < starters.length; i++) {
-                nonStarters.push(starters[i]);
+            for (var i=0; i < nonStarters.length; i++) {
+                starters.push(nonStarters[i]);
             }
 
-            populateTable(nonStarters);
+            populateTable(starters);
             
 
             return playerArr;
@@ -75,40 +75,49 @@
         function populateTable(playerArr) {
             var tableStr = '';
             for (var i=0; i < playerArr.length; i++) {
+                var finalRow = false;
+                if (i == playerArr.length-1) {
+                    finalRow = true;
+                }
                 if (i % 2 == 0) {
                     if (playerArr[i].startedLastGame == "True") {
-                        tableStr += '<tr class="even-row">' + getHTMLForPlayer(playerArr[i]) + '</tr>';
+                        tableStr += '<tr class="player-row even-row">' + getHTMLForPlayer(playerArr[i], finalRow) + '</tr>';
                     } else {
-                        tableStr += '<tr class="even-row non-starter">' + getHTMLForPlayer(playerArr[i]) + '</tr>';
+                        tableStr += '<tr class="player-row even-row non-starter">' + getHTMLForPlayer(playerArr[i], finalRow) + '</tr>';
                     }
                     
                 } else {
                     
                     if (playerArr[i].startedLastGame == "True") {
-                        tableStr += '<tr>' + getHTMLForPlayer(playerArr[i]) + '</tr>';
+                        tableStr += '<tr class="player-row">' + getHTMLForPlayer(playerArr[i], finalRow) + '</tr>';
                     } else {
-                        tableStr += '<tr class="non-starter">' + getHTMLForPlayer(playerArr[i]) + '</tr>';
+                        tableStr += '<tr class="player-row non-starter">' + getHTMLForPlayer(playerArr[i], finalRow) + '</tr>';
                     }
                 }
             }
-            document.getElementById('playerTable').innerHTML = tableStr;
+            document.getElementById('playerTableBody').innerHTML = tableStr;
         }
 
-        function getHTMLForPlayer(player) {
-            var htmlStr = '<td>' + player.fullName + '</td>';
+        function getHTMLForPlayer(player, finalRow) {
+            var htmlStr = '<td>' + player.positionCode + '</td>';
             htmlStr += '<td>' + player.jerseyNumber + '</td>';
-            htmlStr += '<td>' + player.positionCode + '</td>';
-            htmlStr += '<td>' + player.salary + '</td>';
+            htmlStr += '<td>' + player.fullName + '</td>';
+            if (finalRow) {
+                htmlStr += '<td class="salary-td final-row">' + player.salary + '</td>';
+            } else {
+                htmlStr += '<td class="salary-td">' + player.salary + '</td>';
+            }
+            
             htmlStr += '<td>' + player.games + '</td>';
-            htmlStr += '<td>' + player.timeOnIce + '</td>';
             htmlStr += '<td>' + player.goals + '</td>';
             htmlStr += '<td>' + player.assists + '</td>';
             htmlStr += '<td>' + player.shots + '</td>';
             htmlStr += '<td>' + player.blocked + '</td>';
             htmlStr += '<td>' + player.hits + '</td>';
             htmlStr += '<td>' + player.faceOffPct + '</td>';
-            htmlStr += '<td>' + player.penaltyMinutes + '</td>';
             htmlStr += '<td>' + player.plusMinus + '</td>';
+            htmlStr += '<td>' + player.penaltyMinutes + '</td>';
+            htmlStr += '<td>' + player.timeOnIce + '</td>';
             return htmlStr
         }
 
@@ -141,27 +150,54 @@
         <button type="button" onclick="light(0)">Light Off</button>  
         
     </p>
-    <div id="contacts">
-        <table id="contactsTable">
+
+    
+    <div id="playerDiv">
+        <div id="roleButtons">
+            <button type="button" class="roleButton" onclick="light(0)">Captain</button>
+            <button type="button" class="roleButton" onclick="light(0)">Scorer</button>
+            <button type="button" class="roleButton" onclick="light(0)">Playmaker</button>
+            <button type="button" class="roleButton" onclick="light(0)">Shooter</button>
+            <button type="button" class="roleButton" onclick="light(0)">Blocker</button>
+            <button type="button" class="roleButton" onclick="light(0)">Enforcer</button>
+            <button type="button" class="roleButton" onclick="light(0)">Center</button>
+        </div>
+        <table id="playerTable">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>#</th>
                     <th>Pos.</th>
-                    <th>Salary</th>
+                    <th>#</th>
+                    <th id="name-th">Name</th>
+                    <th class="salary-th">Salary</th>
                     <th>Games Played</th>
-                    <th>Ice Time / Game</th>
                     <th>Goals</th>
                     <th>Assists</th>
                     <th>Shots</th>
                     <th>Blocked Shots</th>
                     <th>Hits</th>
                     <th>Face Off %</th>
-                    <th>Penalty Minutes</th>
                     <th>Plus Minus</th>
+                    <th>Penalty Minutes</th>
+                    <th>Ice Time / Game</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th class="salary-td"></th>
+                    <th></th>
+                    <th class="statPoints">+15 per</div></th>
+                    <th class="statPoints">+10 per</div></th>
+                    <th class="statPoints">+1 per</div></th>
+                    <th class="statPoints">+1 per</div></th>
+                    <th class="statPoints">+1 per</div></th>
+                    <th class="statPoints">+1 per win<br>-1 per loss</div></th>
+                    <th class="statPoints">+/- 5 per</div></th>
+                    <th class="statPoints">-5 per min</div></th>
+                    <th></th>
                 </tr>
             </thead>
-            <tbody id="playerTable">
+            <tbody id="playerTableBody">
             </tbody>
         </table>
     </div>

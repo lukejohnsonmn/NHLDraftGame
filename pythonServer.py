@@ -167,7 +167,7 @@ class Roster:
         for player in self.roster:
             player.calcRemainingStats()
 
-        self.roster.sort(key=lambda x: x.salary)
+        self.roster.sort(key=lambda x: x.salary, reverse=True)
     
 def getRosterForTeam(teamId, teamName, season):
     teamRosterUrl = 'https://statsapi.web.nhl.com/api/v1/teams/' + str(teamId) + '?expand=team.roster&season=' + season
@@ -624,14 +624,14 @@ def formatRosterInfo(roster):
             line += str(player.salary) + ','
             line += str(player.perGameStats.games) + ','
             line += str(player.perGameStats.timeOnIce) + ','
-            line += str('{:.2f}'.format(player.perGameStats.goals)) + ','
-            line += str('{:.2f}'.format(player.perGameStats.assists)) + ','
-            line += str('{:.2f}'.format(player.perGameStats.shots)) + ','
-            line += str('{:.2f}'.format(player.perGameStats.blocked)) + ','
-            line += str('{:.2f}'.format(player.perGameStats.hits)) + ','
-            line += str('{:.2f}'.format(round(player.perGameStats.faceOffPct, 2))) + ','
-            line += str('{:.2f}'.format(player.perGameStats.penaltyMinutes)) + ','
-            line += str('{:.2f}'.format(player.perGameStats.plusMinus)) + '|'
+            line += str(player.seasonStats.goals) + ','
+            line += str(player.seasonStats.assists) + ','
+            line += str(player.seasonStats.shots) + ','
+            line += str(player.seasonStats.blocked) + ','
+            line += str(player.seasonStats.hits) + ','
+            line += str('{:.1f}'.format(round(player.perGameStats.faceOffPct, 1))) + ','
+            line += str(secondsToTimeStr(player.seasonStats.penaltyMinutes * 60)) + ','
+            line += str(player.seasonStats.plusMinus) + '|'
             outputStr += line
     return outputStr[:-1]
 
@@ -652,6 +652,29 @@ def writeToFile(paramName, paramSeason, paramTodaysDate):
         f = open(fileName, "r")
         return f.read()
 
+
+
+def formatRosterInfoOld(roster):
+    outputStr = ''
+    for player in roster.roster:
+        if player.positionCode != 'G':
+            line = str(player.fullName) + ','
+            line += str(player.jerseyNumber) + ','
+            line += str(player.positionCode) + ','
+            line += str(player.startedLastGame) + ','
+            line += str(player.salary) + ','
+            line += str(player.perGameStats.games) + ','
+            line += str(player.perGameStats.timeOnIce) + ','
+            line += str('{:.2f}'.format(player.perGameStats.goals)) + ','
+            line += str('{:.2f}'.format(player.perGameStats.assists)) + ','
+            line += str('{:.2f}'.format(player.perGameStats.shots)) + ','
+            line += str('{:.2f}'.format(player.perGameStats.blocked)) + ','
+            line += str('{:.2f}'.format(player.perGameStats.hits)) + ','
+            line += str('{:.2f}'.format(round(player.perGameStats.faceOffPct, 2))) + ','
+            line += str('{:.2f}'.format(player.perGameStats.penaltyMinutes)) + ','
+            line += str('{:.2f}'.format(player.perGameStats.plusMinus)) + '|'
+            outputStr += line
+    return outputStr[:-1]
 
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)
