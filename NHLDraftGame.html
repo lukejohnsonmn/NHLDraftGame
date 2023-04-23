@@ -4,163 +4,25 @@
         <meta charset="utf-8">
         <title>NHL Draft Game</title>
         <link rel="stylesheet" href="style.css">
+        <script src="gameScript.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script language="JavaScript" type="text/javascript" src="gameQuery.js"></script>
     </head> 
     <body>  
-    <script>
-
-        class Player {
-            constructor(infoArr) {
-                this.fullName = infoArr[0];
-                this.jerseyNumber = infoArr[1];
-                this.positionCode = infoArr[2];
-                this.startedLastGame = infoArr[3];
-                this.salary = infoArr[4];
-                this.games = infoArr[5];
-                this.timeOnIce = infoArr[6];
-                this.goals = infoArr[7];
-                this.assists = infoArr[8];
-                this.shots = infoArr[9];
-                this.blocked = infoArr[10];
-                this.hits = infoArr[11];
-                this.faceOffPct = infoArr[12];
-                this.penaltyMinutes = infoArr[13];
-                this.plusMinus = infoArr[14];
-            }
-        }
-
-        function comparePlayerSalary(a, b) {
-            if (a.salary < b.salary) {
-                return -1;
-            }
-            if (a.salary > b.salary) {
-                return 1;
-            }
-            return 0;
-        }
-
-        function getSeasonStats() {
-            const myUrl = "http://localhost:8080/get-season-stats";
-            const response = httpGet(myUrl);
-            const roster = createRoster(response)
-            return response;
-        }
-
-        function createRoster(responseCsv) {
-            const playerCsvArr = responseCsv.split("|");
-            const playerArr = [];
-            for (const playerCsv of playerCsvArr) {
-                playerArr.push(new Player(playerCsv.split(",")));
-            }
-
-            const starters = [];
-            const nonStarters = [];
-            for (var i=0; i < playerArr.length; i++) {
-                if (playerArr[i].startedLastGame == "True") {
-                    starters.push(playerArr[i]);
-                } else {
-                    nonStarters.push(playerArr[i]);
-                }
-            }
-
-            for (var i=0; i < nonStarters.length; i++) {
-                starters.push(nonStarters[i]);
-            }
-
-            populateTable(starters);
-            
-
-            return playerArr;
-        }
-
-        function populateTable(playerArr) {
-            var tableStr = '';
-            for (var i=0; i < playerArr.length; i++) {
-                var finalRow = false;
-                if (i == playerArr.length-1) {
-                    finalRow = true;
-                }
-                if (i % 2 == 0) {
-                    if (playerArr[i].startedLastGame == "True") {
-                        tableStr += '<tr class="player-row even-row">' + getHTMLForPlayer(playerArr[i], finalRow) + '</tr>';
-                    } else {
-                        tableStr += '<tr class="player-row even-row non-starter">' + getHTMLForPlayer(playerArr[i], finalRow) + '</tr>';
-                    }
-                    
-                } else {
-                    
-                    if (playerArr[i].startedLastGame == "True") {
-                        tableStr += '<tr class="player-row">' + getHTMLForPlayer(playerArr[i], finalRow) + '</tr>';
-                    } else {
-                        tableStr += '<tr class="player-row non-starter">' + getHTMLForPlayer(playerArr[i], finalRow) + '</tr>';
-                    }
-                }
-            }
-            document.getElementById('playerTableBody').innerHTML = tableStr;
-        }
-
-        function getHTMLForPlayer(player, finalRow) {
-            var htmlStr = '<td>' + player.positionCode + '</td>';
-            htmlStr += '<td>' + player.jerseyNumber + '</td>';
-            htmlStr += '<td>' + player.fullName + '</td>';
-            if (finalRow) {
-                htmlStr += '<td class="salary-td final-row">' + player.salary + '</td>';
-            } else {
-                htmlStr += '<td class="salary-td">' + player.salary + '</td>';
-            }
-            
-            htmlStr += '<td>' + player.games + '</td>';
-            htmlStr += '<td>' + player.goals + '</td>';
-            htmlStr += '<td>' + player.assists + '</td>';
-            htmlStr += '<td>' + player.shots + '</td>';
-            htmlStr += '<td>' + player.blocked + '</td>';
-            htmlStr += '<td>' + player.hits + '</td>';
-            htmlStr += '<td>' + player.faceOffPct + '</td>';
-            htmlStr += '<td>' + player.plusMinus + '</td>';
-            htmlStr += '<td>' + player.penaltyMinutes + '</td>';
-            htmlStr += '<td>' + player.timeOnIce + '</td>';
-            return htmlStr
-        }
-
-
-
-        function light(sw) {  
-            var myText;  
-            if (sw == 0) {  
-                myText = "Light off!";
-            } else if (sw == 1) {  
-                myText = "Light on!";
-            }  else {
-                myText = getSeasonStats();
-            }
-        }
-
-        function httpGet(theUrl) {
-            var xmlHttp = new XMLHttpRequest();
-            xmlHttp.open("GET", theUrl, false);
-            xmlHttp.send(null);
-            return xmlHttp.responseText;
-        }
-    </script>
-    <div id="myDiv">
-        Press the light switch!
-    </div>
     <p>  
-        <button type="button" onclick="light(2)">Get Player Stats</button> 
-        <button type="button" onclick="light(1)">Light On</button>  
-        <button type="button" onclick="light(0)">Light Off</button>  
-        
+        <button type="button" onclick="light(2)">Get Player Stats</button>
     </p>
 
     
     <div id="playerDiv">
         <div id="roleButtons">
-            <button type="button" class="roleButton" onclick="light(0)">Captain</button>
-            <button type="button" class="roleButton" onclick="light(0)">Scorer</button>
-            <button type="button" class="roleButton" onclick="light(0)">Playmaker</button>
-            <button type="button" class="roleButton" onclick="light(0)">Shooter</button>
-            <button type="button" class="roleButton" onclick="light(0)">Blocker</button>
-            <button type="button" class="roleButton" onclick="light(0)">Enforcer</button>
-            <button type="button" class="roleButton" onclick="light(0)">Center</button>
+            <button type="button" class="roleButton" id="captainButton" onclick="light(0)">Captain<div class="subButton">Goals x2 & Assists x2</div></button>
+            <button type="button" class="roleButton" id="scorerButton" onclick="light(0)">Scorer<div class="subButton">Goals x2</div></button>
+            <button type="button" class="roleButton" id="playmakerButton" onclick="light(0)">Playmaker<div class="subButton">Assists x2</div></button>
+            <button type="button" class="roleButton" id="shooterButton" onclick="light(0)">Shooter<div class="subButton">Shots x3</div></button>
+            <button type="button" class="roleButton" id="blockerButton" onclick="light(0)">Blocker<div class="subButton">Blocked Shots x4</div></button>
+            <button type="button" class="roleButton" id="enforcerButton" onclick="light(0)">Enforcer<div class="subButton">Hits x3</div></button>
+            <button type="button" class="roleButton" id="centerButton" onclick="light(0)">Center<div class="subButton">Face Off Wins x2</div></button>
         </div>
         <table id="playerTable">
             <thead>
@@ -170,12 +32,12 @@
                     <th id="name-th">Name</th>
                     <th class="salary-th">Salary</th>
                     <th>Games Played</th>
-                    <th>Goals</th>
-                    <th>Assists</th>
-                    <th>Shots</th>
-                    <th>Blocked Shots</th>
-                    <th>Hits</th>
-                    <th>Face Off %</th>
+                    <th id="headGoals">Goals</th>
+                    <th id="headAssists">Assists</th>
+                    <th id="headShots">Shots</th>
+                    <th id="headBlocked">Blocked Shots</th>
+                    <th id="headHits">Hits</th>
+                    <th id="headFaceOffs">Face Off %</th>
                     <th>Plus Minus</th>
                     <th>Penalty Minutes</th>
                     <th>Ice Time / Game</th>
@@ -186,12 +48,12 @@
                     <th></th>
                     <th class="salary-td"></th>
                     <th></th>
-                    <th class="statPoints">+15 per</div></th>
-                    <th class="statPoints">+10 per</div></th>
-                    <th class="statPoints">+1 per</div></th>
-                    <th class="statPoints">+1 per</div></th>
-                    <th class="statPoints">+1 per</div></th>
-                    <th class="statPoints">+1 per win<br>-1 per loss</div></th>
+                    <th class="statPoints" id="statGoals">+15 per</div></th>
+                    <th class="statPoints" id="statAssists">+10 per</div></th>
+                    <th class="statPoints" id="statShots">+1 per</div></th>
+                    <th class="statPoints" id="statBlocked">+1 per</div></th>
+                    <th class="statPoints" id="statHits">+1 per</div></th>
+                    <th class="statPoints" id="statFaceOffs">+1 per win<br>-1 per loss</div></th>
                     <th class="statPoints">+/- 5 per</div></th>
                     <th class="statPoints">-5 per min</div></th>
                     <th></th>

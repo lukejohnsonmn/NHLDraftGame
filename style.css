@@ -96,34 +96,39 @@ h1 {
 }
 
 .salary-th {
-	border-top: 5px solid var(--gold);
-	border-left: 5px solid var(--gold);
-	border-right: 5px solid var(--gold);
+	border-top: 5px solid var(--accent);
+	border-left: 5px solid var(--accent);
+	border-right: 5px solid var(--accent);
 	width: 100px;
 }
 
 .salary-td {
-	border-left: 5px solid var(--gold);
-	border-right: 5px solid var(--gold);
+	border-left: 5px solid var(--accent);
+	border-right: 5px solid var(--accent);
 }
 
+.final-row {
+	border-bottom: 5px solid var(--accent);
+}
+
+/*
 .player-row:hover {
 	color: black;
 	font-weight: bold;
-	background-color: var(--gold);
+	background-color:  var(--accent);
 }
+*/
 
 #name-th {
 	width: 200px;
 }
 
+/*
 .player-row:hover td {
 	font-size: 14px;
 }
+*/
 
-.final-row {
-	border-bottom: 5px solid var(--gold);
-}
 
 .goldHeader {
 	text-align: center;
@@ -220,13 +225,12 @@ nav a:hover {
 
 #roleButtons {
 	display: flex;
-	margin: 20px;
 }
 
 
 .roleButton {
 	margin: 10px;
-	padding: 20px;
+	padding: 15px;
 	font-size: 24px;
 }
 
@@ -237,7 +241,12 @@ nav a:hover {
 	padding-top: 0px;
 }
 
-
+.subButton {
+	font-size: 12px;
+	color: var(--gold);
+	padding: 0px;
+	margin: 0px;
+}
 
 /* Input tables for map on My Contacts page */
 #placesTable {
