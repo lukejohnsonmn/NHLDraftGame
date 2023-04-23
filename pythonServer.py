@@ -326,7 +326,11 @@ def secondsToTimeStr(timeSeconds):
     timeSeconds = math.floor(timeSeconds)
     minutes = math.floor(timeSeconds / 60)
     seconds = timeSeconds % 60
-    return str(minutes) + ':' + str(seconds)
+    if seconds < 10:
+        return str(minutes) + ':' + str(seconds) + '0'
+    else:
+        return str(minutes) + ':' + str(seconds)
+    
 
 def estimateFaceOffsPerSecond(teamStats):
     estGameMinutes = 64 * teamStats['ot'] + 60 * (teamStats['gamesPlayed'] - teamStats['ot'])

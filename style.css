@@ -1,0 +1,262 @@
+:root {
+	--mapHeight: 473px;
+	--darkest: #0e2d2b;
+	--dark: #3a5b30;
+	--neutral: #678936;
+	--light: #cff31e;
+	--accent: #d3c39a;
+	--text: white;
+}
+
+/* Original theme
+	--mapHeight: 460px;
+	--darkest: #0e2d2b;
+	--dark: #3a5b30;
+	--neutral: #678936;
+	--light: #cff31e;
+	--accent: #d3c39a;
+	--text: white;
+*/
+
+
+
+/* Default set up */
+body {
+	background: var(--darkest);
+	color: var(--text);
+	font-family: sans-serif;
+}
+
+table, th, td {
+	border-collapse: collapse;
+	border: 2px solid var(--darkest);
+	padding: 5px;
+	font-size: 12px;
+}
+
+td a {
+	color: var(--text);
+}
+
+td img {
+	height: 40px;
+	display: block;
+	margin: auto;
+}
+
+iframe {
+	border: 0px;
+}
+
+h1 {
+	color: var(--light);
+}
+
+
+
+/* Contacts table and image setup */
+#contacts {
+	width: 75%;
+}
+
+#contactsTable {
+	width: 100%;
+}
+
+#bigImage {
+	width: 25%;
+	text-align: center;
+}
+
+#calcHead {
+	color: var(--accent);
+}
+
+#calcLatLng {
+	font-size: 12px;
+}
+
+#calcDist {
+	padding: 5px;
+	border: 2px solid var(--accent);
+}
+
+.even-row {
+	background: var(--dark);
+}
+
+.non-starter {
+	color: #bf0000;
+}
+
+.goldHeader {
+	text-align: center;
+	font-size: 16px;
+	color: var(--accent);
+}
+
+
+
+/* Navigation bar */
+nav {
+	border: 2px solid var(--accent);
+	display: flex;
+	background: linear-gradient(to right, var(--light), var(--darkest));
+}
+
+nav a {
+	padding: 10px;
+	border: 2px solid var(--accent);
+	color: var(--text);
+	text-decoration: none;
+	margin: 2px;
+	background: var(--darkest);
+}
+
+nav a:hover {
+	background: var(--dark);
+}
+
+
+
+/* Flex box to contain elements related to the contacts table */
+#contactsContainer {
+	display: flex;
+}
+
+#contactsContainer > div {
+	padding: 10px;
+	margin: auto;
+}
+
+#contactsContainer > div > table {
+	background: var(--neutral);
+	min-width: 700px;
+}
+
+#contactsContainer > div > img {
+	display: block;
+	padding: 10px;
+	width: 300px;
+	margin: auto;
+}
+
+
+
+/* Widjets grid formatting */
+#widjets-grid {
+	display: grid;
+	grid-template-columns: auto auto;
+}
+
+#widjets-grid > div {
+	text-align: center;
+	padding: 10px;
+}
+
+
+
+/* Input formatting */
+.submit-btn, button {
+	display: block;
+	margin: auto;
+	padding: 5px;
+	width: 100%;
+	color: var(--text);
+	background-color: var(--darkest);
+	border: 2px solid var(--accent);
+}
+
+.submit-btn:hover, button:hover {
+	background-color: var(--dark);
+}
+
+.dropdown {
+	display: block;
+	margin: auto;
+	padding: 5px;
+	width: 100%;
+}
+
+.text-basic {
+	padding: 5px;
+}
+
+
+
+/* Input tables for map on My Contacts page */
+#placesTable {
+	background: var(--neutral);
+	text-align: right;
+	line-height: 1.4;
+	width: 100%;
+	height: 50%;
+	border: none;
+	border-bottom: 2px solid var(--darkest);
+	padding: 0px;
+}
+
+#directionsTable {
+	background: var(--dark);
+	text-align: right;
+	line-height: 1.4;
+	width: 100%;
+	height: 50%;
+	border: none;
+	border-top: 2px solid var(--darkest);
+	padding: 0px;
+}
+
+#placesTable td, #directionsTable td {
+	border: none;
+}
+
+#placesTable .leftSide, #directionsTable .leftSide {
+	text-align: left;
+}
+
+
+
+/* Flex box to contain map elements on My Contacts page */
+#mapsContainer {
+	display: flex;
+	margin: 10px;
+	margin-bottom: 20px;
+}
+
+#routeDirections {
+	padding: 10px;
+	border: 2px solid var(--text);
+	height: 449px;
+	width: 25%;
+	font-size: 12px;
+	line-height: 20px;
+	overflow: scroll;
+}
+
+#map {
+	border-collapse: collapse;
+	float: left;
+	height: var(--mapHeight);
+	width: 100%;
+	color: black;
+}
+
+#inputTables {
+	height: var(--mapHeight);
+	width: 25%;
+}
+
+
+
+/* Flex box to contain map elements on My Form page */
+#formMapContainer {
+	display: flex;
+	margin: 10px;
+}
+
+#formMap {
+	border-collapse: collapse;
+	width: 100%;
+	color: black;
+}

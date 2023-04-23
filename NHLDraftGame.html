@@ -1,5 +1,10 @@
 <!DOCTYPE html>  
-<html>  
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>NHL Draft Game</title>
+        <link rel="stylesheet" href="style.css">
+    </head> 
     <body>  
     <script>
 
@@ -47,10 +52,64 @@
                 playerArr.push(new Player(playerCsv.split(",")));
             }
 
-            for (const player of playerArr) {
-                console.log(player);
+            const starters = [];
+            const nonStarters = [];
+            for (var i=0; i < playerArr.length; i++) {
+                if (playerArr[i].startedLastGame == "True") {
+                    starters.push(playerArr[i]);
+                } else {
+                    nonStarters.push(playerArr[i]);
+                }
             }
+
+            for (var i=0; i < starters.length; i++) {
+                nonStarters.push(starters[i]);
+            }
+
+            populateTable(nonStarters);
+            
+
             return playerArr;
+        }
+
+        function populateTable(playerArr) {
+            var tableStr = '';
+            for (var i=0; i < playerArr.length; i++) {
+                if (i % 2 == 0) {
+                    if (playerArr[i].startedLastGame == "True") {
+                        tableStr += '<tr class="even-row">' + getHTMLForPlayer(playerArr[i]) + '</tr>';
+                    } else {
+                        tableStr += '<tr class="even-row non-starter">' + getHTMLForPlayer(playerArr[i]) + '</tr>';
+                    }
+                    
+                } else {
+                    
+                    if (playerArr[i].startedLastGame == "True") {
+                        tableStr += '<tr>' + getHTMLForPlayer(playerArr[i]) + '</tr>';
+                    } else {
+                        tableStr += '<tr class="non-starter">' + getHTMLForPlayer(playerArr[i]) + '</tr>';
+                    }
+                }
+            }
+            document.getElementById('playerTable').innerHTML = tableStr;
+        }
+
+        function getHTMLForPlayer(player) {
+            var htmlStr = '<td>' + player.fullName + '</td>';
+            htmlStr += '<td>' + player.jerseyNumber + '</td>';
+            htmlStr += '<td>' + player.positionCode + '</td>';
+            htmlStr += '<td>' + player.salary + '</td>';
+            htmlStr += '<td>' + player.games + '</td>';
+            htmlStr += '<td>' + player.timeOnIce + '</td>';
+            htmlStr += '<td>' + player.goals + '</td>';
+            htmlStr += '<td>' + player.assists + '</td>';
+            htmlStr += '<td>' + player.shots + '</td>';
+            htmlStr += '<td>' + player.blocked + '</td>';
+            htmlStr += '<td>' + player.hits + '</td>';
+            htmlStr += '<td>' + player.faceOffPct + '</td>';
+            htmlStr += '<td>' + player.penaltyMinutes + '</td>';
+            htmlStr += '<td>' + player.plusMinus + '</td>';
+            return htmlStr
         }
 
 
@@ -64,32 +123,17 @@
             }  else {
                 myText = getSeasonStats();
             }
-            document.getElementById('myDiv').textContent = myText;
         }
 
         function httpGet(theUrl) {
-            document.getElementById('calledUrl').textContent = theUrl;
-
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.open("GET", theUrl, false);
             xmlHttp.send(null);
             return xmlHttp.responseText;
         }
     </script>
-    <div id="myHeader">
-        -----------
-    </div>
-    <div id="calledUrl">
-        Called Url
-    </div>
-    <div id="upperDiv">
-        -----------
-    </div>
     <div id="myDiv">
         Press the light switch!
-    </div>
-    <div id="lowerDiv">
-        -----------
     </div>
     <p>  
         <button type="button" onclick="light(2)">Get Player Stats</button> 
@@ -97,15 +141,29 @@
         <button type="button" onclick="light(0)">Light Off</button>  
         
     </p>
-
-    <div id="testUpperDiv">
-        -----------
-    </div>
-    <div id="testDiv">
-        Test Div!
-    </div>
-    <div id="testLowerDiv">
-        -----------
+    <div id="contacts">
+        <table id="contactsTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>#</th>
+                    <th>Pos.</th>
+                    <th>Salary</th>
+                    <th>Games Played</th>
+                    <th>Ice Time / Game</th>
+                    <th>Goals</th>
+                    <th>Assists</th>
+                    <th>Shots</th>
+                    <th>Blocked Shots</th>
+                    <th>Hits</th>
+                    <th>Face Off %</th>
+                    <th>Penalty Minutes</th>
+                    <th>Plus Minus</th>
+                </tr>
+            </thead>
+            <tbody id="playerTable">
+            </tbody>
+        </table>
     </div>
     </body>  
 </html>  
