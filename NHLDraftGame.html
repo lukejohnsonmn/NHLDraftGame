@@ -1,0 +1,111 @@
+<!DOCTYPE html>  
+<html>  
+    <body>  
+    <script>
+
+        class Player {
+            constructor(infoArr) {
+                this.fullName = infoArr[0];
+                this.jerseyNumber = infoArr[1];
+                this.positionCode = infoArr[2];
+                this.startedLastGame = infoArr[3];
+                this.salary = infoArr[4];
+                this.games = infoArr[5];
+                this.timeOnIce = infoArr[6];
+                this.goals = infoArr[7];
+                this.assists = infoArr[8];
+                this.shots = infoArr[9];
+                this.blocked = infoArr[10];
+                this.hits = infoArr[11];
+                this.faceOffPct = infoArr[12];
+                this.penaltyMinutes = infoArr[13];
+                this.plusMinus = infoArr[14];
+            }
+        }
+
+        function comparePlayerSalary(a, b) {
+            if (a.salary < b.salary) {
+                return -1;
+            }
+            if (a.salary > b.salary) {
+                return 1;
+            }
+            return 0;
+        }
+
+        function getSeasonStats() {
+            const myUrl = "http://localhost:8080/get-season-stats";
+            const response = httpGet(myUrl);
+            const roster = createRoster(response)
+            return response;
+        }
+
+        function createRoster(responseCsv) {
+            const playerCsvArr = responseCsv.split("|");
+            const playerArr = [];
+            for (const playerCsv of playerCsvArr) {
+                playerArr.push(new Player(playerCsv.split(",")));
+            }
+
+            for (const player of playerArr) {
+                console.log(player);
+            }
+            return playerArr;
+        }
+
+
+
+        function light(sw) {  
+            var myText;  
+            if (sw == 0) {  
+                myText = "Light off!";
+            } else if (sw == 1) {  
+                myText = "Light on!";
+            }  else {
+                myText = getSeasonStats();
+            }
+            document.getElementById('myDiv').textContent = myText;
+        }
+
+        function httpGet(theUrl) {
+            document.getElementById('calledUrl').textContent = theUrl;
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("GET", theUrl, false);
+            xmlHttp.send(null);
+            return xmlHttp.responseText;
+        }
+    </script>
+    <div id="myHeader">
+        -----------
+    </div>
+    <div id="calledUrl">
+        Called Url
+    </div>
+    <div id="upperDiv">
+        -----------
+    </div>
+    <div id="myDiv">
+        Press the light switch!
+    </div>
+    <div id="lowerDiv">
+        -----------
+    </div>
+    <p>  
+        <button type="button" onclick="light(2)">Get Player Stats</button> 
+        <button type="button" onclick="light(1)">Light On</button>  
+        <button type="button" onclick="light(0)">Light Off</button>  
+        
+    </p>
+
+    <div id="testUpperDiv">
+        -----------
+    </div>
+    <div id="testDiv">
+        Test Div!
+    </div>
+    <div id="testLowerDiv">
+        -----------
+    </div>
+    </body>  
+</html>  

@@ -16,21 +16,21 @@ class MyServer(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.send_header("Content-type", "text/html")
+        self.send_header("Access-Control-Allow-Origin", "*")
         self.end_headers()
-        self.wfile.write(bytes("<html><head><title>https://pythonbasics.org</title></head>", "utf-8"))
-        self.wfile.write(bytes("<p>Request: %s</p>" % self.path, "utf-8"))
-        self.wfile.write(bytes("<body>", "utf-8"))
-        self.wfile.write(bytes("<p>This is an example web server.</p>", "utf-8"))
-        self.wfile.write(bytes("</body></html>", "utf-8"))
+        #self.wfile.write(bytes("<html><head><title>https://pythonbasics.org</title></head>", "utf-8"))
+        #self.wfile.write(bytes("<p>Request: %s</p>" % self.path, "utf-8"))
+        #self.wfile.write(bytes("<body>", "utf-8"))
+        #self.wfile.write(bytes("<p>This is an example web server.</p>", "utf-8"))
+        #self.wfile.write(bytes("</body></html>", "utf-8"))
 
         if self.path == "/get-season-stats":
-            teamStats = getSeasonStatsForStartingLineupOnDateForTeam('wild', '2023-04-11') #'wild', '2023-04-11'
-            print(teamStats)
-        elif self.path == "/test":
             paramName = 'wild'
             paramSeason = '20222023'
             paramTodaysDate = '2023-04-22'
-            print(writeToFile(paramName, paramSeason, paramTodaysDate))
+            print('ENDPOINT: /get-season-stats: ' + paramName + ', ' + paramSeason + ', ' + paramTodaysDate)
+            myResponse = writeToFile(paramName, paramSeason, paramTodaysDate)
+            self.wfile.write(bytes(myResponse, encoding='utf8'))
 
 class SalaryStats:
     def __init__(self, player):
@@ -618,18 +618,18 @@ def formatRosterInfo(roster):
             line += str(player.positionCode) + ','
             line += str(player.startedLastGame) + ','
             line += str(player.salary) + ','
-            line += str(player.perGameStats.timeOnIce) + ','
             line += str(player.perGameStats.games) + ','
-            line += str(player.perGameStats.goals) + ','
-            line += str(player.perGameStats.assists) + ','
-            line += str(player.perGameStats.shots) + ','
-            line += str(player.perGameStats.blocked) + ','
-            line += str(player.perGameStats.hits) + ','
-            line += str(round(player.perGameStats.faceOffPct, 2)) + ','
-            line += str(player.perGameStats.penaltyMinutes) + ','
-            line += str(player.perGameStats.plusMinus) + '\n'
+            line += str(player.perGameStats.timeOnIce) + ','
+            line += str('{:.2f}'.format(player.perGameStats.goals)) + ','
+            line += str('{:.2f}'.format(player.perGameStats.assists)) + ','
+            line += str('{:.2f}'.format(player.perGameStats.shots)) + ','
+            line += str('{:.2f}'.format(player.perGameStats.blocked)) + ','
+            line += str('{:.2f}'.format(player.perGameStats.hits)) + ','
+            line += str('{:.2f}'.format(round(player.perGameStats.faceOffPct, 2))) + ','
+            line += str('{:.2f}'.format(player.perGameStats.penaltyMinutes)) + ','
+            line += str('{:.2f}'.format(player.perGameStats.plusMinus)) + '|'
             outputStr += line
-    return outputStr
+    return outputStr[:-1]
 
 
 def writeToFile(paramName, paramSeason, paramTodaysDate):
