@@ -10,247 +10,267 @@ $(function() {
   $('#captainButton').hover(function() {
     if (!captainIsSelected) {
       if (!scorerIsSelected) {
-        $('.goals-td').css('background-color', 'rgba(255, 204, 51, .2)');
-        $('#headGoals').css('background-color', 'rgba(255, 204, 51, .2)');
-        $('#statGoals').css('background-color', 'rgba(255, 204, 51, .2)');
+        $('#captainButton').addClass("fire");
+        $('.goals-td').addClass("fire");
+        $('#headGoals').addClass("fire");
+        $('#statGoals').addClass("fire");
         $('#statGoals').html('+30 per');
       }
       if (!playmakerIsSelected) {
-        $('.assists-td').css('background-color', 'rgba(255, 204, 51, .2)');
-        $('#headAssists').css('background-color', 'rgba(255, 204, 51, .2)');
-        $('#statAssists').css('background-color', 'rgba(255, 204, 51, .2)');
+        $('#captainButton').addClass("fire");
+        $('.assists-td').addClass("fire");
+        $('#headAssists').addClass("fire");
+        $('#statAssists').addClass("fire");
         $('#statAssists').html('+20 per');
       }
-
     }
   }, function() {
     if (!captainIsSelected) {
-      // on mouseout, reset the background colour
       if (!scorerIsSelected) {
-        $('.goals-td').css('background-color', '');
-        $('#headGoals').css('background-color', '');
-        $('#statGoals').css('background-color', '');
+        $('#captainButton').removeClass("fire");
+        $('.goals-td').removeClass("fire");
+        $('#headGoals').removeClass("fire");
+        $('#statGoals').removeClass("fire");
         $('#statGoals').html('+15 per');
       }
       if (!playmakerIsSelected) {
-        $('.assists-td').css('background-color', '');
-        $('#headAssists').css('background-color', '');
-        $('#statAssists').css('background-color', '');
+        $('#captainButton').removeClass("fire");
+        $('.assists-td').removeClass("fire");
+        $('#headAssists').removeClass("fire");
+        $('#statAssists').removeClass("fire");
         $('#statAssists').html('+10 per');
       }
     }
   });
 });
-
-$(function() {
-  $('#scorerButton').hover(function() {
-    if (!scorerIsSelected && !captainIsSelected) {
-      $('.goals-td').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#headGoals').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#statGoals').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#statGoals').html('+30 per');
-    }
-  }, function() {
-    if (!scorerIsSelected && !captainIsSelected) {
-      // on mouseout, reset the background colour
-      $('.goals-td').css('background-color', '');
-      $('#headGoals').css('background-color', '');
-      $('#statGoals').css('background-color', '');
-      $('#statGoals').html('+15 per');
-    }
-  });
-});
-
-$(function() {
-  $('#playmakerButton').hover(function() {
-    if (!playmakerIsSelected && !captainIsSelected) {
-      $('.assists-td').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#headAssists').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#statAssists').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#statAssists').html('+20 per');
-    }
-  }, function() {
-    if (!playmakerIsSelected && !captainIsSelected) {
-      // on mouseout, reset the background colour
-      $('.assists-td').css('background-color', '');
-      $('#headAssists').css('background-color', '');
-      $('#statAssists').css('background-color', '');
-      $('#statAssists').html('+10 per');
-    }
-  });
-});
-
-$(function() {
-  $('#shooterButton').hover(function() {
-    if (!shooterIsSelected) {
-      $('.shots-td').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#headShots').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#statShots').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#statShots').html('+3 per');
-    }
-  }, function() {
-    if (!shooterIsSelected) {
-      // on mouseout, reset the background colour
-      $('.shots-td').css('background-color', '');
-      $('#headShots').css('background-color', '');
-      $('#statShots').css('background-color', '');
-      $('#statShots').html('+1 per');
-    }
-  });
-});
-
-$(function() {
-  $('#blockerButton').hover(function() {
-    if (!blockerIsSelected) {
-      $('.blocked-td').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#headBlocked').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#statBlocked').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#statBlocked').html('+4 per');
-    }
-  }, function() {
-    if (!blockerIsSelected) {
-      // on mouseout, reset the background colour
-      $('.blocked-td').css('background-color', '');
-      $('#headBlocked').css('background-color', '');
-      $('#statBlocked').css('background-color', '');
-      $('#statBlocked').html('+1 per');
-    }
-  });
-});
-
-$(function() {
-  $('#enforcerButton').hover(function() {
-    if (!enforcerIsSelected) {
-      $('.hits-td').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#headHits').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#statHits').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#statHits').html('+3 per');
-    }
-  }, function() {
-    if (!enforcerIsSelected) {
-      // on mouseout, reset the background colour
-      $('.hits-td').css('background-color', '');
-      $('#headHits').css('background-color', '');
-      $('#statHits').css('background-color', '');
-      $('#statHits').html('+1 per');
-    }
-  });
-});
-
-
-$(function() {
-  $('#centerButton').hover(function() {
-    if (!centerIsSelected) {
-      $('.faceOffPct-td').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#headFaceOffs').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#statFaceOffs').css('background-color', 'rgba(255, 204, 51, .2)');
-      $('#statFaceOffs').html('+2 per win<br>-1 per loss');
-    }
-  }, function() {
-    if (!centerIsSelected) {
-      // on mouseout, reset the background colour
-      $('.faceOffPct-td').css('background-color', '');
-      $('#headFaceOffs').css('background-color', '');
-      $('#statFaceOffs').css('background-color', '');
-      $('#statFaceOffs').html('+1 per win<br>-1 per loss');
-    }
-  });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
 $(function() {
   $('#captainButton').click(function() {
     resetAllSelectedRoles();
     captainIsSelected = true;
-    $('.goals-td').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#headGoals').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#statGoals').css('background-color', 'rgba(255, 204, 51, .4)');
+    $('#captainButton').addClass("darkFire");
+    $('.goals-td').addClass("darkFire");
+    $('#headGoals').addClass("darkFire");
+    $('#statGoals').addClass("darkFire");
     $('#statGoals').html('+30 per');
-    $('.assists-td').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#headAssists').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#statAssists').css('background-color', 'rgba(255, 204, 51, .4)');
+    $('.assists-td').addClass("darkFire");
+    $('#headAssists').addClass("darkFire");
+    $('#statAssists').addClass("darkFire");
     $('#statAssists').html('+20 per');
   });
 });
 
+
+
+
+$(function() {
+  $('#scorerButton').hover(function() {
+    if (!scorerIsSelected) {
+      $('#scorerButton').addClass("fire");
+      if (!captainIsSelected) {
+        $('.goals-td').addClass("fire");
+        $('#headGoals').addClass("fire");
+        $('#statGoals').addClass("fire");
+        $('#statGoals').html('+30 per');
+      }
+    }
+  }, function() {
+    if (!scorerIsSelected) {
+      $('#scorerButton').removeClass("fire");
+      if (!captainIsSelected) {
+        $('.goals-td').removeClass("fire");
+        $('#headGoals').removeClass("fire");
+        $('#statGoals').removeClass("fire");
+        $('#statGoals').html('+15 per');
+      }
+    }
+  });
+});
 $(function() {
   $('#scorerButton').click(function() {
     resetAllSelectedRoles();
     scorerIsSelected = true;
-    $('.goals-td').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#headGoals').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#statGoals').css('background-color', 'rgba(255, 204, 51, .4)');
+    $('#scorerButton').addClass("darkFire");
+    $('.goals-td').addClass("darkFire");
+    $('#headGoals').addClass("darkFire");
+    $('#statGoals').addClass("darkFire");
     $('#statGoals').html('+30 per');
   });
 });
 
+
+
+$(function() {
+  $('#playmakerButton').hover(function() {
+    if (!playmakerIsSelected) {
+      $('#playmakerButton').addClass("fire");
+      if (!captainIsSelected) {
+        $('.assists-td').addClass("fire");
+        $('#headAssists').addClass("fire");
+        $('#statAssists').addClass("fire");
+        $('#statAssists').html('+20 per');
+      }
+    }
+  }, function() {
+    if (!playmakerIsSelected) {
+      $('#playmakerButton').removeClass("fire");
+      if (!captainIsSelected) {
+        $('.assists-td').removeClass("fire");
+        $('#headAssists').removeClass("fire");
+        $('#statAssists').removeClass("fire");
+        $('#statAssists').html('+10 per');
+      }
+    }
+  });
+});
 $(function() {
   $('#playmakerButton').click(function() {
     resetAllSelectedRoles();
     playmakerIsSelected = true;
-    $('.assists-td').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#headAssists').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#statAssists').css('background-color', 'rgba(255, 204, 51, .4)');
+    $('#playmakerButton').addClass("darkFire");
+    $('.assists-td').addClass("darkFire");
+    $('#headAssists').addClass("darkFire");
+    $('#statAssists').addClass("darkFire");
     $('#statAssists').html('+20 per');
   });
 });
 
+
+
+
+$(function() {
+  $('#shooterButton').hover(function() {
+    $('#shooterButton').addClass("fire");
+    if (!shooterIsSelected) {
+      $('.shots-td').addClass("fire");
+      $('#headShots').addClass("fire");
+      $('#statShots').addClass("fire");
+      $('#statShots').html('+3 per');
+    }
+  }, function() {
+    if (!shooterIsSelected) {
+      $('#shooterButton').removeClass("fire");
+      $('.shots-td').removeClass("fire");
+      $('#headShots').removeClass("fire");
+      $('#statShots').removeClass("fire");
+      $('#statShots').html('+1 per');
+    }
+  });
+});
 $(function() {
   $('#shooterButton').click(function() {
     resetAllSelectedRoles();
     shooterIsSelected = true;
-    $('.shots-td').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#headShots').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#statShots').css('background-color', 'rgba(255, 204, 51, .4)');
+    $('#shooterButton').addClass("darkFire");
+    $('.shots-td').addClass("darkFire");
+    $('#headShots').addClass("darkFire");
+    $('#statShots').addClass("darkFire");
     $('#statShots').html('+3 per');
   });
 });
 
+
+
+
+$(function() {
+  $('#blockerButton').hover(function() {
+    if (!blockerIsSelected) {
+      $('#blockerButton').addClass("fire");
+      $('.blocked-td').addClass("fire");
+      $('#headBlocked').addClass("fire");
+      $('#statBlocked').addClass("fire");
+      $('#statBlocked').html('+4 per');
+    }
+  }, function() {
+    if (!blockerIsSelected) {
+      $('#blockerButton').removeClass("fire");
+      $('.blocked-td').removeClass("fire");
+      $('#headBlocked').removeClass("fire");
+      $('#statBlocked').removeClass("fire");
+      $('#statBlocked').html('+1 per');
+    }
+  });
+});
 $(function() {
   $('#blockerButton').click(function() {
     resetAllSelectedRoles();
     blockerIsSelected = true;
-    $('.blocked-td').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#headBlocked').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#statBlocked').css('background-color', 'rgba(255, 204, 51, .4)');
+    $('#blockerButton').addClass("darkFire");
+    $('.blocked-td').addClass("darkFire");
+    $('#headBlocked').addClass("darkFire");
+    $('#statBlocked').addClass("darkFire");
     $('#statBlocked').html('+4 per');
   });
 });
 
+
+
+
+$(function() {
+  $('#enforcerButton').hover(function() {
+    if (!enforcerIsSelected) {
+      $('#enforcerButton').addClass("fire");
+      $('.hits-td').addClass("fire");
+      $('#headHits').addClass("fire");
+      $('#statHits').addClass("fire");
+      $('#statHits').html('+3 per');
+    }
+  }, function() {
+    if (!enforcerIsSelected) {
+      $('#enforcerButton').removeClass("fire");
+      $('.hits-td').removeClass("fire");
+      $('#headHits').removeClass("fire");
+      $('#statHits').removeClass("fire");
+      $('#statHits').html('+1 per');
+    }
+  });
+});
 $(function() {
   $('#enforcerButton').click(function() {
     resetAllSelectedRoles();
     enforcerIsSelected = true;
-    $('.hits-td').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#headHits').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#statHits').css('background-color', 'rgba(255, 204, 51, .4)');
+    $('#enforcerButton').addClass("darkFire");
+    $('.hits-td').addClass("darkFire");
+    $('#headHits').addClass("darkFire");
+    $('#statHits').addClass("darkFire");
     $('#statHits').html('+3 per');
   });
 });
 
 
 
+
+$(function() {
+  $('#centerButton').hover(function() {
+    if (!centerIsSelected) {
+      $('#centerButton').addClass("fire");
+      $('.faceOffPct-td').addClass("fire");
+      $('#headFaceOffs').addClass("fire");
+      $('#statFaceOffs').addClass("fire");
+      $('#statFaceOffs').html('+2 per win<br>-1 per loss');
+    }
+  }, function() {
+    if (!centerIsSelected) {
+      $('#centerButton').removeClass("fire");
+      $('.faceOffPct-td').removeClass("fire");
+      $('#headFaceOffs').removeClass("fire");
+      $('#statFaceOffs').removeClass("fire");
+      $('#statFaceOffs').html('+1 per win<br>-1 per loss');
+    }
+  });
+});
 $(function() {
   $('#centerButton').click(function() {
     resetAllSelectedRoles();
     centerIsSelected = true;
-    $('.faceOffPct-td').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#headFaceOffs').css('background-color', 'rgba(255, 204, 51, .4)');
-    $('#statFaceOffs').css('background-color', 'rgba(255, 204, 51, .4)');
+    $('#centerButton').addClass("darkFire");
+    $('.faceOffPct-td').addClass("darkFire");
+    $('#headFaceOffs').addClass("darkFire");
+    $('#statFaceOffs').addClass("darkFire");
     $('#statFaceOffs').html('+2 per win<br>-1 per loss');
   });
 });
+
+
 
 
 function resetAllSelectedRoles() {
@@ -261,72 +281,63 @@ function resetAllSelectedRoles() {
   blockerIsSelected = false;
   enforcerIsSelected = false;
   centerIsSelected = false;
-  $('.goals-td').css('background-color', '');
-  $('#headGoals').css('background-color', '');
-  $('#statGoals').css('background-color', '');
+  $('#captainButton').removeClass("fire");
+  $('#scorerButton').removeClass("fire");
+  $('#playmakerButton').removeClass("fire");
+  $('#shooterButton').removeClass("fire");
+  $('#blockerButton').removeClass("fire");
+  $('#enforcerButton').removeClass("fire");
+  $('#centerButton').removeClass("fire");
+
+  $('#captainButton').removeClass("darkFire");
+  $('#scorerButton').removeClass("darkFire");
+  $('#playmakerButton').removeClass("darkFire");
+  $('#shooterButton').removeClass("darkFire");
+  $('#blockerButton').removeClass("darkFire");
+  $('#enforcerButton').removeClass("darkFire");
+  $('#centerButton').removeClass("darkFire");
+
+  $('.goals-td').removeClass("fire");
+  $('#headGoals').removeClass("fire");
+  $('#statGoals').removeClass("fire");
+  $('.assists-td').removeClass("fire");
+  $('#headAssists').removeClass("fire");
+  $('#statAssists').removeClass("fire");
+  $('.shots-td').removeClass("fire");
+  $('#headShots').removeClass("fire");
+  $('#statShots').removeClass("fire");
+  $('.blocked-td').removeClass("fire");
+  $('#headBlocked').removeClass("fire");
+  $('#statBlocked').removeClass("fire");
+  $('.hits-td').removeClass("fire");
+  $('#headHits').removeClass("fire");
+  $('#statHits').removeClass("fire");
+  $('.faceOffPct-td').removeClass("fire");
+  $('#headFaceOffs').removeClass("fire");
+  $('#statFaceOffs').removeClass("fire");
+  $('.goals-td').removeClass("darkFire");
+  $('#headGoals').removeClass("darkFire");
+  $('#statGoals').removeClass("darkFire");
+  $('.assists-td').removeClass("darkFire");
+  $('#headAssists').removeClass("darkFire");
+  $('#statAssists').removeClass("darkFire");
+  $('.shots-td').removeClass("darkFire");
+  $('#headShots').removeClass("darkFire");
+  $('#statShots').removeClass("darkFire");
+  $('.blocked-td').removeClass("darkFire");
+  $('#headBlocked').removeClass("darkFire");
+  $('#statBlocked').removeClass("darkFire");
+  $('.hits-td').removeClass("darkFire");
+  $('#headHits').removeClass("darkFire");
+  $('#statHits').removeClass("darkFire");
+  $('.faceOffPct-td').removeClass("darkFire");
+  $('#headFaceOffs').removeClass("darkFire");
+  $('#statFaceOffs').removeClass("darkFire");
+
   $('#statGoals').html('+15 per');
-  $('.assists-td').css('background-color', '');
-  $('#headAssists').css('background-color', '');
-  $('#statAssists').css('background-color', '');
   $('#statAssists').html('+10 per');
-  $('.shots-td').css('background-color', '');
-  $('#headShots').css('background-color', '');
-  $('#statShots').css('background-color', '');
   $('#statShots').html('+1 per');
-  $('.blocked-td').css('background-color', '');
-  $('#headBlocked').css('background-color', '');
-  $('#statBlocked').css('background-color', '');
   $('#statBlocked').html('+1 per');
-  $('.hits-td').css('background-color', '');
-  $('#headHits').css('background-color', '');
-  $('#statHits').css('background-color', '');
   $('#statHits').html('+1 per');
-  $('.faceOffPct-td').css('background-color', '');
-  $('#headFaceOffs').css('background-color', '');
-  $('#statFaceOffs').css('background-color', '');
   $('#statFaceOffs').html('+1 per win<br>-1 per loss');
 }
-
-
-
-
-$(function() {
-  $('#p0').hover(function() {
-    $('#p0').css('background-color', 'rgba(255, 204, 51, .2)');
-  }, function() {
-    $('#p0').css('background-color', '');
-  });
-});
-
-
-
-/*
-var p0IsSelected = false;
-$(function() {
-  $('#p0').hover(function() {
-    console.log('Yo');
-    if (!p0IsSelected) {
-      $('#p0').css('background-color', 'rgba(255, 204, 51, .2)');
-    }
-  }, function() {
-    if (!p0IsSelected) {
-      $('#p0').css('background-color', '');
-    }
-  });
-});
-
-$(function() {
-  $('#p0').click(function() {
-    console.log('Yo');
-    resetAllSelectedPlayers();
-    p0IsSelected = true;
-    $('#p0').css('background-color', 'rgba(255, 204, 51, .4)');
-  });
-});
-
-
-function resetAllSelectedPlayers() {
-  p0IsSelected = false;
-  $('#p0').css('background-color', '');
-}
-*/
