@@ -27,7 +27,7 @@ class MyServer(BaseHTTPRequestHandler):
         if self.path == "/get-season-stats":
             paramName = 'wild'
             paramSeason = '20222023'
-            paramTodaysDate = '2023-04-22'
+            paramTodaysDate = '2023-04-25'
             print('ENDPOINT: /get-season-stats: ' + paramName + ', ' + paramSeason + ', ' + paramTodaysDate)
             myResponse = writeToFile(paramName, paramSeason, paramTodaysDate)
             self.wfile.write(bytes(myResponse, encoding='utf8'))
