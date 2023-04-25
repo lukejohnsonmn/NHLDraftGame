@@ -1,22 +1,19 @@
 :root {
-	--mapHeight: 473px;
-	--darkest: #0e2d2b;
-	--dark: #3a5b30;
-	--neutral: #678936;
-	--light: #cff31e;
-	--accent: #d3c39a;
-	--text: white;
 	--gold: #ffcc33;
+	--text: white;
+	--primaryLight: #174f39;	/* 20% */
+	--primary: #123b2b;		/* 15% */
+	--primaryDark: #0c271d;	/* 10% */
+	--secondary: #A6192E;
 }
 
-/* Original theme
-	--mapHeight: 460px;
-	--darkest: #0e2d2b;
-	--dark: #3a5b30;
-	--neutral: #678936;
-	--light: #cff31e;
-	--accent: #d3c39a;
+/*
+	--gold: #ffcc33;
 	--text: white;
+	--primary: #154734;		/* https://www.cssfontstack.com/oldsites/hexcolortool/ 
+	--primaryDark: #063825;	/* darken 6% 
+	--primaryLight: #245643;	/* lighten 6% 
+	--secondary: #A6192E;
 */
 
 
@@ -100,35 +97,26 @@
 
 /* Default set up */
 body {
-	background: var(--darkest);
+	background: var(--primary);
 	color: var(--text);
 	font-family: Verdana
 }
 
 table, th, td {
 	border-collapse: collapse;
-	/*border: 2px solid var(--darkest);*/
 	padding: 5px;
 	font-size: 12px;
 }
 
-td a {
-	color: var(--text);
+table {
+	border: 8px solid var(--primaryLight);
 }
 
-td img {
-	height: 40px;
-	display: block;
-	margin: auto;
+thead {
+	background-color: var(--primaryLight);
 }
 
-iframe {
-	border: 0px;
-}
 
-h1 {
-	color: var(--light);
-}
 
 
 
@@ -146,26 +134,9 @@ h1 {
 	min-width: 35px;
 }
 
-#bigImage {
-	width: 25%;
-	text-align: center;
-}
-
-#calcHead {
-	color: var(--accent);
-}
-
-#calcLatLng {
-	font-size: 12px;
-}
-
-#calcDist {
-	padding: 5px;
-	border: 2px solid var(--accent);
-}
 
 .even-row {
-	background: var(--dark);
+	background: var(--primaryDark);
 }
 
 .non-starter {
@@ -173,104 +144,26 @@ h1 {
 }
 
 .salary-th {
-	border-top: 5px solid var(--accent);
-	border-left: 5px solid var(--accent);
-	border-right: 5px solid var(--accent);
+	border-top: 4px solid var(--secondary);
+	border-left: 4px solid var(--secondary);
+	border-right: 4px solid var(--secondary);
 	width: 100px;
 }
 
 .salary-td {
-	border-left: 5px solid var(--accent);
-	border-right: 5px solid var(--accent);
+	border-left: 4px solid var(--secondary);
+	border-right: 4px solid var(--secondary);
 }
 
 .final-row {
-	border-bottom: 5px solid var(--accent);
+	border-bottom: 4px solid var(--secondary);
 }
 
-/*
-.player-row:hover {
-	color: black;
-	font-weight: bold;
-	background-color:  var(--accent);
-}
-*/
 
 #name-th {
 	width: 200px;
 }
 
-/*
-.player-row:hover td {
-	font-size: 14px;
-}
-*/
-
-
-.goldHeader {
-	text-align: center;
-	font-size: 16px;
-	color: var(--accent);
-}
-
-
-
-/* Navigation bar */
-nav {
-	border: 2px solid var(--accent);
-	display: flex;
-	background: linear-gradient(to right, var(--light), var(--darkest));
-}
-
-nav a {
-	padding: 10px;
-	border: 2px solid var(--accent);
-	color: var(--text);
-	text-decoration: none;
-	margin: 2px;
-	background: var(--darkest);
-}
-
-nav a:hover {
-	background: var(--dark);
-}
-
-
-
-/* Flex box to contain elements related to the contacts table */
-#contactsContainer {
-	display: flex;
-}
-
-#contactsContainer > div {
-	padding: 10px;
-	margin: auto;
-}
-
-#contactsContainer > div > table {
-	background: var(--neutral);
-	min-width: 700px;
-}
-
-#contactsContainer > div > img {
-	display: block;
-	padding: 10px;
-	width: 300px;
-	margin: auto;
-}
-
-
-
-/* Widjets grid formatting */
-#widjets-grid {
-	display: grid;
-	grid-template-columns: auto auto;
-}
-
-#widjets-grid > div {
-	text-align: center;
-	padding: 10px;
-}
 
 
 
@@ -281,15 +174,9 @@ nav a:hover {
 	padding: 5px;
 	width: 100%;
 	color: var(--text);
-	background-color: var(--darkest);
-	border: 2px solid var(--accent);
+	background-color: var(--primaryDark);
+	border: 4px solid var(--secondary);
 }
-
-/*
-.submit-btn:hover, button:hover {
-	background-color: var(--dark);
-}
-*/
 
 .dropdown {
 	display: block;
@@ -325,81 +212,4 @@ nav a:hover {
 	color: var(--gold);
 	padding: 0px;
 	margin: 0px;
-}
-
-/* Input tables for map on My Contacts page */
-#placesTable {
-	background: var(--neutral);
-	text-align: right;
-	line-height: 1.4;
-	width: 100%;
-	height: 50%;
-	border: none;
-	border-bottom: 2px solid var(--darkest);
-	padding: 0px;
-}
-
-#directionsTable {
-	background: var(--dark);
-	text-align: right;
-	line-height: 1.4;
-	width: 100%;
-	height: 50%;
-	border: none;
-	border-top: 2px solid var(--darkest);
-	padding: 0px;
-}
-
-#placesTable td, #directionsTable td {
-	border: none;
-}
-
-#placesTable .leftSide, #directionsTable .leftSide {
-	text-align: left;
-}
-
-
-
-/* Flex box to contain map elements on My Contacts page */
-#mapsContainer {
-	display: flex;
-	margin: 10px;
-	margin-bottom: 20px;
-}
-
-#routeDirections {
-	padding: 10px;
-	border: 2px solid var(--text);
-	height: 449px;
-	width: 25%;
-	font-size: 12px;
-	line-height: 20px;
-	overflow: scroll;
-}
-
-#map {
-	border-collapse: collapse;
-	float: left;
-	height: var(--mapHeight);
-	width: 100%;
-	color: black;
-}
-
-#inputTables {
-	height: var(--mapHeight);
-	width: 25%;
-}
-
-
-
-/* Flex box to contain map elements on My Form page */
-#formMapContainer {
-	display: flex;
-	margin: 10px;
-}
-
-#formMap {
-	border-collapse: collapse;
-	width: 100%;
-	color: black;
 }

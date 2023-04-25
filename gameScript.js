@@ -457,7 +457,7 @@ $(function() {
       $('#shooterButton').removeClass("fire");
       $('.shots-td').removeClass("fire");
       $('#headShots').removeClass("fire");
-      $('#statBlocked').removeClass("fire");
+      $('#statShots').removeClass("fire");
       $('#shooterButton').addClass("lightFire");
       $('.shots-td').addClass("lightFire");
       $('#headShots').addClass("lightFire");
@@ -687,3 +687,71 @@ function resetAllSelectedRoles() {
   $('#statHits').html('+1 per');
   $('#statFaceOffs').html('+1 per win<br>-1 per loss');
 }
+
+var r = document.querySelector(':root');
+
+function Anaheim() {
+  r.style.setProperty('--primaryLight', '#612505'); // 20%
+  r.style.setProperty('--primary', '#491c04');      // 15%
+  r.style.setProperty('--primaryDark', '#301303');  // 10%
+  r.style.setProperty('--secondary', '#B9975B');
+}
+
+function Arizona() {
+  r.style.setProperty('--primaryLight', '#50161e');
+  r.style.setProperty('--primary', '#3c1016');
+  r.style.setProperty('--primaryDark', '#280b0f');
+  r.style.setProperty('--secondary', '#E2D6B5');
+}
+
+function Boston() {
+  r.style.setProperty('--primaryLight', '#664600');
+  r.style.setProperty('--primary', '#4d3400');
+  r.style.setProperty('--primaryDark', '#332300');
+  r.style.setProperty('--secondary', '#000000');
+}
+
+function Buffalo() {
+  r.style.setProperty('--primaryLight', '#002466');
+  r.style.setProperty('--primary', '#001b4d');
+  r.style.setProperty('--primaryDark', '#001233');
+  r.style.setProperty('--secondary', '#FFB81C');
+}
+
+function Calgary() {
+  r.style.setProperty('--primaryLight', '#66000e');
+  r.style.setProperty('--primary', '#4d000a');
+  r.style.setProperty('--primaryDark', '#330007');
+  r.style.setProperty('--secondary', '#FFB81C');
+}
+
+function Carolina() {
+  r.style.setProperty('--primaryLight', '#5e0812');
+  r.style.setProperty('--primary', '#47060d');
+  r.style.setProperty('--primaryDark', '#2f0409');
+  r.style.setProperty('--secondary', '#A4A9AD');
+}
+
+function Chicago() {
+  r.style.setProperty('--primaryLight', '#610514');
+  r.style.setProperty('--primary', '#49030f');
+  r.style.setProperty('--primaryDark', '#31020a');
+  r.style.setProperty('--secondary', '#FF671B');
+}
+
+function Colorado() {
+  r.style.setProperty('--primaryLight', '#4c1a2a');
+  r.style.setProperty('--primary', '#39141f');
+  r.style.setProperty('--primaryDark', '#260d15');
+  r.style.setProperty('--secondary', '#236192');
+}
+
+function Columbus() {
+  r.style.setProperty('--primaryLight', '#002e66');
+  r.style.setProperty('--primary', '#00224d');
+  r.style.setProperty('--primaryDark', '#001733');
+  r.style.setProperty('--secondary', '#CE1126');
+}
+
+
+Columbus();
