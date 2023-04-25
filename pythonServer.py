@@ -617,7 +617,8 @@ def formatRosterInfo(roster):
     outputStr = ''
     for player in roster.roster:
         if player.positionCode != 'G':
-            line = str(player.fullName) + ','
+            line = str(player.id) + ','
+            line += str(player.fullName) + ','
             line += str(player.jerseyNumber) + ','
             line += str(player.positionCode) + ','
             line += str(player.startedLastGame) + ','
