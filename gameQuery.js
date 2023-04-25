@@ -10,34 +10,34 @@ $(function() {
   $('#captainButton').hover(function() {
     if (!captainIsSelected) {
       if (!scorerIsSelected) {
-        $('#captainButton').addClass("fire");
-        $('.goals-td').addClass("fire");
-        $('#headGoals').addClass("fire");
-        $('#statGoals').addClass("fire");
+        $('#captainButton').addClass("lightFire");
+        $('.goals-td').addClass("lightFire");
+        $('#headGoals').addClass("lightFire");
+        $('#statGoals').addClass("lightFire");
         $('#statGoals').html('+30 per');
       }
       if (!playmakerIsSelected) {
-        $('#captainButton').addClass("fire");
-        $('.assists-td').addClass("fire");
-        $('#headAssists').addClass("fire");
-        $('#statAssists').addClass("fire");
+        $('#captainButton').addClass("lightFire");
+        $('.assists-td').addClass("lightFire");
+        $('#headAssists').addClass("lightFire");
+        $('#statAssists').addClass("lightFire");
         $('#statAssists').html('+20 per');
       }
     }
   }, function() {
     if (!captainIsSelected) {
       if (!scorerIsSelected) {
-        $('#captainButton').removeClass("fire");
-        $('.goals-td').removeClass("fire");
-        $('#headGoals').removeClass("fire");
-        $('#statGoals').removeClass("fire");
+        $('#captainButton').removeClass("lightFire");
+        $('.goals-td').removeClass("lightFire");
+        $('#headGoals').removeClass("lightFire");
+        $('#statGoals').removeClass("lightFire");
         $('#statGoals').html('+15 per');
       }
       if (!playmakerIsSelected) {
-        $('#captainButton').removeClass("fire");
-        $('.assists-td').removeClass("fire");
-        $('#headAssists').removeClass("fire");
-        $('#statAssists').removeClass("fire");
+        $('#captainButton').removeClass("lightFire");
+        $('.assists-td').removeClass("lightFire");
+        $('#headAssists').removeClass("lightFire");
+        $('#statAssists').removeClass("lightFire");
         $('#statAssists').html('+10 per');
       }
     }
@@ -45,17 +45,38 @@ $(function() {
 });
 $(function() {
   $('#captainButton').click(function() {
-    resetAllSelectedRoles();
-    captainIsSelected = true;
-    $('#captainButton').addClass("darkFire");
-    $('.goals-td').addClass("darkFire");
-    $('#headGoals').addClass("darkFire");
-    $('#statGoals').addClass("darkFire");
-    $('#statGoals').html('+30 per');
-    $('.assists-td').addClass("darkFire");
-    $('#headAssists').addClass("darkFire");
-    $('#statAssists').addClass("darkFire");
-    $('#statAssists').html('+20 per');
+
+    if (captainIsSelected) {
+      captainIsSelected = false;
+      $('#captainButton').removeClass("fire");
+      $('.goals-td').removeClass("fire");
+      $('#headGoals').removeClass("fire");
+      $('#statGoals').removeClass("fire");
+      $('#captainButton').addClass("lightFire");
+      $('.goals-td').addClass("lightFire");
+      $('#headGoals').addClass("lightFire");
+      $('#statGoals').addClass("lightFire");
+      $('#statGoals').html('+30 per');
+      $('.assists-td').removeClass("fire");
+      $('#headAssists').removeClass("fire");
+      $('#statAssists').removeClass("fire");
+      $('.assists-td').addClass("lightFire");
+      $('#headAssists').addClass("lightFire");
+      $('#statAssists').addClass("lightFire");
+      $('#statAssists').html('+20 per');
+    } else {
+      resetAllSelectedRoles();
+      captainIsSelected = true;
+      $('#captainButton').addClass("fire");
+      $('.goals-td').addClass("fire");
+      $('#headGoals').addClass("fire");
+      $('#statGoals').addClass("fire");
+      $('#statGoals').html('+30 per');
+      $('.assists-td').addClass("fire");
+      $('#headAssists').addClass("fire");
+      $('#statAssists').addClass("fire");
+      $('#statAssists').html('+20 per');
+    }
   });
 });
 
@@ -65,21 +86,21 @@ $(function() {
 $(function() {
   $('#scorerButton').hover(function() {
     if (!scorerIsSelected) {
-      $('#scorerButton').addClass("fire");
+      $('#scorerButton').addClass("lightFire");
       if (!captainIsSelected) {
-        $('.goals-td').addClass("fire");
-        $('#headGoals').addClass("fire");
-        $('#statGoals').addClass("fire");
+        $('.goals-td').addClass("lightFire");
+        $('#headGoals').addClass("lightFire");
+        $('#statGoals').addClass("lightFire");
         $('#statGoals').html('+30 per');
       }
     }
   }, function() {
     if (!scorerIsSelected) {
-      $('#scorerButton').removeClass("fire");
+      $('#scorerButton').removeClass("lightFire");
       if (!captainIsSelected) {
-        $('.goals-td').removeClass("fire");
-        $('#headGoals').removeClass("fire");
-        $('#statGoals').removeClass("fire");
+        $('.goals-td').removeClass("lightFire");
+        $('#headGoals').removeClass("lightFire");
+        $('#statGoals').removeClass("lightFire");
         $('#statGoals').html('+15 per');
       }
     }
@@ -87,13 +108,27 @@ $(function() {
 });
 $(function() {
   $('#scorerButton').click(function() {
-    resetAllSelectedRoles();
-    scorerIsSelected = true;
-    $('#scorerButton').addClass("darkFire");
-    $('.goals-td').addClass("darkFire");
-    $('#headGoals').addClass("darkFire");
-    $('#statGoals').addClass("darkFire");
-    $('#statGoals').html('+30 per');
+
+    if (scorerIsSelected) {
+      scorerIsSelected = false;
+      $('#scorerButton').removeClass("fire");
+      $('.goals-td').removeClass("fire");
+      $('#headGoals').removeClass("fire");
+      $('#statGoals').removeClass("fire");
+      $('#scorerButton').addClass("lightFire");
+      $('.goals-td').addClass("lightFire");
+      $('#headGoals').addClass("lightFire");
+      $('#statGoals').addClass("lightFire");
+      $('#statGoals').html('+30 per');
+    } else {
+      resetAllSelectedRoles();
+      scorerIsSelected = true;
+      $('#scorerButton').addClass("fire");
+      $('.goals-td').addClass("fire");
+      $('#headGoals').addClass("fire");
+      $('#statGoals').addClass("fire");
+      $('#statGoals').html('+30 per');
+    }
   });
 });
 
@@ -102,21 +137,21 @@ $(function() {
 $(function() {
   $('#playmakerButton').hover(function() {
     if (!playmakerIsSelected) {
-      $('#playmakerButton').addClass("fire");
+      $('#playmakerButton').addClass("lightFire");
       if (!captainIsSelected) {
-        $('.assists-td').addClass("fire");
-        $('#headAssists').addClass("fire");
-        $('#statAssists').addClass("fire");
+        $('.assists-td').addClass("lightFire");
+        $('#headAssists').addClass("lightFire");
+        $('#statAssists').addClass("lightFire");
         $('#statAssists').html('+20 per');
       }
     }
   }, function() {
     if (!playmakerIsSelected) {
-      $('#playmakerButton').removeClass("fire");
+      $('#playmakerButton').removeClass("lightFire");
       if (!captainIsSelected) {
-        $('.assists-td').removeClass("fire");
-        $('#headAssists').removeClass("fire");
-        $('#statAssists').removeClass("fire");
+        $('.assists-td').removeClass("lightFire");
+        $('#headAssists').removeClass("lightFire");
+        $('#statAssists').removeClass("lightFire");
         $('#statAssists').html('+10 per');
       }
     }
@@ -124,13 +159,26 @@ $(function() {
 });
 $(function() {
   $('#playmakerButton').click(function() {
-    resetAllSelectedRoles();
-    playmakerIsSelected = true;
-    $('#playmakerButton').addClass("darkFire");
-    $('.assists-td').addClass("darkFire");
-    $('#headAssists').addClass("darkFire");
-    $('#statAssists').addClass("darkFire");
-    $('#statAssists').html('+20 per');
+    if (playmakerIsSelected) {
+      playmakerIsSelected = false;
+      $('#playmakerButton').removeClass("fire");
+      $('.assists-td').removeClass("fire");
+      $('#headAssists').removeClass("fire");
+      $('#statAssists').removeClass("fire");
+      $('#playmakerButton').addClass("lightFire");
+      $('.assists-td').addClass("lightFire");
+      $('#headAssists').addClass("lightFire");
+      $('#statAssists').addClass("lightFire");
+      $('#statAssists').html('+20 per');
+    } else {
+      resetAllSelectedRoles();
+      playmakerIsSelected = true;
+      $('#playmakerButton').addClass("fire");
+      $('.assists-td').addClass("fire");
+      $('#headAssists').addClass("fire");
+      $('#statAssists').addClass("fire");
+      $('#statAssists').html('+20 per');
+    }
   });
 });
 
@@ -139,32 +187,45 @@ $(function() {
 
 $(function() {
   $('#shooterButton').hover(function() {
-    $('#shooterButton').addClass("fire");
     if (!shooterIsSelected) {
-      $('.shots-td').addClass("fire");
-      $('#headShots').addClass("fire");
-      $('#statShots').addClass("fire");
+      $('#shooterButton').addClass("lightFire");
+      $('.shots-td').addClass("lightFire");
+      $('#headShots').addClass("lightFire");
+      $('#statShots').addClass("lightFire");
       $('#statShots').html('+3 per');
     }
   }, function() {
     if (!shooterIsSelected) {
-      $('#shooterButton').removeClass("fire");
-      $('.shots-td').removeClass("fire");
-      $('#headShots').removeClass("fire");
-      $('#statShots').removeClass("fire");
+      $('#shooterButton').removeClass("lightFire");
+      $('.shots-td').removeClass("lightFire");
+      $('#headShots').removeClass("lightFire");
+      $('#statShots').removeClass("lightFire");
       $('#statShots').html('+1 per');
     }
   });
 });
 $(function() {
   $('#shooterButton').click(function() {
-    resetAllSelectedRoles();
-    shooterIsSelected = true;
-    $('#shooterButton').addClass("darkFire");
-    $('.shots-td').addClass("darkFire");
-    $('#headShots').addClass("darkFire");
-    $('#statShots').addClass("darkFire");
-    $('#statShots').html('+3 per');
+    if (shooterIsSelected) {
+      shooterIsSelected = false;
+      $('#shooterButton').removeClass("fire");
+      $('.shots-td').removeClass("fire");
+      $('#headShots').removeClass("fire");
+      $('#statBlocked').removeClass("fire");
+      $('#shooterButton').addClass("lightFire");
+      $('.shots-td').addClass("lightFire");
+      $('#headShots').addClass("lightFire");
+      $('#statShots').addClass("lightFire");
+      $('#statShots').html('+3 per');
+    } else {
+      resetAllSelectedRoles();
+      shooterIsSelected = true;
+      $('#shooterButton').addClass("fire");
+      $('.shots-td').addClass("fire");
+      $('#headShots').addClass("fire");
+      $('#statShots').addClass("fire");
+      $('#statShots').html('+3 per');
+    }
   });
 });
 
@@ -174,31 +235,44 @@ $(function() {
 $(function() {
   $('#blockerButton').hover(function() {
     if (!blockerIsSelected) {
-      $('#blockerButton').addClass("fire");
-      $('.blocked-td').addClass("fire");
-      $('#headBlocked').addClass("fire");
-      $('#statBlocked').addClass("fire");
+      $('#blockerButton').addClass("lightFire");
+      $('.blocked-td').addClass("lightFire");
+      $('#headBlocked').addClass("lightFire");
+      $('#statBlocked').addClass("lightFire");
       $('#statBlocked').html('+4 per');
     }
   }, function() {
     if (!blockerIsSelected) {
-      $('#blockerButton').removeClass("fire");
-      $('.blocked-td').removeClass("fire");
-      $('#headBlocked').removeClass("fire");
-      $('#statBlocked').removeClass("fire");
+      $('#blockerButton').removeClass("lightFire");
+      $('.blocked-td').removeClass("lightFire");
+      $('#headBlocked').removeClass("lightFire");
+      $('#statBlocked').removeClass("lightFire");
       $('#statBlocked').html('+1 per');
     }
   });
 });
 $(function() {
   $('#blockerButton').click(function() {
-    resetAllSelectedRoles();
-    blockerIsSelected = true;
-    $('#blockerButton').addClass("darkFire");
-    $('.blocked-td').addClass("darkFire");
-    $('#headBlocked').addClass("darkFire");
-    $('#statBlocked').addClass("darkFire");
-    $('#statBlocked').html('+4 per');
+    if (blockerIsSelected) {
+      blockerIsSelected = false;
+      $('#blockerButton').removeClass("fire");
+      $('.blocked-td').removeClass("fire");
+      $('#headBlocked').removeClass("fire");
+      $('#statBlocked').removeClass("fire");
+      $('#blockerButton').addClass("lightFire");
+      $('.blocked-td').addClass("lightFire");
+      $('#headBlocked').addClass("lightFire");
+      $('#statBlocked').addClass("lightFire");
+      $('#statBlocked').html('+4 per');
+    } else {
+      resetAllSelectedRoles();
+      blockerIsSelected = true;
+      $('#blockerButton').addClass("fire");
+      $('.blocked-td').addClass("fire");
+      $('#headBlocked').addClass("fire");
+      $('#statBlocked').addClass("fire");
+      $('#statBlocked').html('+4 per');
+    }
   });
 });
 
@@ -208,31 +282,44 @@ $(function() {
 $(function() {
   $('#enforcerButton').hover(function() {
     if (!enforcerIsSelected) {
-      $('#enforcerButton').addClass("fire");
-      $('.hits-td').addClass("fire");
-      $('#headHits').addClass("fire");
-      $('#statHits').addClass("fire");
+      $('#enforcerButton').addClass("lightFire");
+      $('.hits-td').addClass("lightFire");
+      $('#headHits').addClass("lightFire");
+      $('#statHits').addClass("lightFire");
       $('#statHits').html('+3 per');
     }
   }, function() {
     if (!enforcerIsSelected) {
-      $('#enforcerButton').removeClass("fire");
-      $('.hits-td').removeClass("fire");
-      $('#headHits').removeClass("fire");
-      $('#statHits').removeClass("fire");
+      $('#enforcerButton').removeClass("lightFire");
+      $('.hits-td').removeClass("lightFire");
+      $('#headHits').removeClass("lightFire");
+      $('#statHits').removeClass("lightFire");
       $('#statHits').html('+1 per');
     }
   });
 });
 $(function() {
   $('#enforcerButton').click(function() {
-    resetAllSelectedRoles();
-    enforcerIsSelected = true;
-    $('#enforcerButton').addClass("darkFire");
-    $('.hits-td').addClass("darkFire");
-    $('#headHits').addClass("darkFire");
-    $('#statHits').addClass("darkFire");
-    $('#statHits').html('+3 per');
+    if (enforcerIsSelected) {
+      enforcerIsSelected = false;
+      $('#enforcerButton').removeClass("fire");
+      $('.hits-td').removeClass("fire");
+      $('#headHits').removeClass("fire");
+      $('#statHits').removeClass("fire");
+      $('#enforcerButton').addClass("lightFire");
+      $('.hits-td').addClass("lightFire");
+      $('#headHits').addClass("lightFire");
+      $('#statHits').addClass("lightFire");
+      $('#statHits').html('+3 per');
+    } else {
+      resetAllSelectedRoles();
+      enforcerIsSelected = true;
+      $('#enforcerButton').addClass("fire");
+      $('.hits-td').addClass("fire");
+      $('#headHits').addClass("fire");
+      $('#statHits').addClass("fire");
+      $('#statHits').html('+3 per');
+    }
   });
 });
 
@@ -242,31 +329,44 @@ $(function() {
 $(function() {
   $('#centerButton').hover(function() {
     if (!centerIsSelected) {
-      $('#centerButton').addClass("fire");
-      $('.faceOffPct-td').addClass("fire");
-      $('#headFaceOffs').addClass("fire");
-      $('#statFaceOffs').addClass("fire");
+      $('#centerButton').addClass("lightFire");
+      $('.faceOffPct-td').addClass("lightFire");
+      $('#headFaceOffs').addClass("lightFire");
+      $('#statFaceOffs').addClass("lightFire");
       $('#statFaceOffs').html('+2 per win<br>-1 per loss');
     }
   }, function() {
     if (!centerIsSelected) {
-      $('#centerButton').removeClass("fire");
-      $('.faceOffPct-td').removeClass("fire");
-      $('#headFaceOffs').removeClass("fire");
-      $('#statFaceOffs').removeClass("fire");
+      $('#centerButton').removeClass("lightFire");
+      $('.faceOffPct-td').removeClass("lightFire");
+      $('#headFaceOffs').removeClass("lightFire");
+      $('#statFaceOffs').removeClass("lightFire");
       $('#statFaceOffs').html('+1 per win<br>-1 per loss');
     }
   });
 });
 $(function() {
   $('#centerButton').click(function() {
-    resetAllSelectedRoles();
-    centerIsSelected = true;
-    $('#centerButton').addClass("darkFire");
-    $('.faceOffPct-td').addClass("darkFire");
-    $('#headFaceOffs').addClass("darkFire");
-    $('#statFaceOffs').addClass("darkFire");
-    $('#statFaceOffs').html('+2 per win<br>-1 per loss');
+    if (centerIsSelected) {
+      centerIsSelected = false;
+      $('#centerButton').removeClass("fire");
+      $('.faceOffPct-td').removeClass("fire");
+      $('#headFaceOffs').removeClass("fire");
+      $('#statFaceOffs').removeClass("fire");
+      $('#centerButton').addClass("lightFire");
+      $('.faceOffPct-td').addClass("lightFire");
+      $('#headFaceOffs').addClass("lightFire");
+      $('#statFaceOffs').addClass("lightFire");
+      $('#statFaceOffs').html('+2 per win<br>-1 per loss');
+    } else {
+      resetAllSelectedRoles();
+      centerIsSelected = true;
+      $('#centerButton').addClass("fire");
+      $('.faceOffPct-td').addClass("fire");
+      $('#headFaceOffs').addClass("fire");
+      $('#statFaceOffs').addClass("fire");
+      $('#statFaceOffs').html('+2 per win<br>-1 per loss');
+    }
   });
 });
 
@@ -281,6 +381,14 @@ function resetAllSelectedRoles() {
   blockerIsSelected = false;
   enforcerIsSelected = false;
   centerIsSelected = false;
+  $('#captainButton').removeClass("lightFire");
+  $('#scorerButton').removeClass("lightFire");
+  $('#playmakerButton').removeClass("lightFire");
+  $('#shooterButton').removeClass("lightFire");
+  $('#blockerButton').removeClass("lightFire");
+  $('#enforcerButton').removeClass("lightFire");
+  $('#centerButton').removeClass("lightFire");
+
   $('#captainButton').removeClass("fire");
   $('#scorerButton').removeClass("fire");
   $('#playmakerButton').removeClass("fire");
@@ -289,14 +397,24 @@ function resetAllSelectedRoles() {
   $('#enforcerButton').removeClass("fire");
   $('#centerButton').removeClass("fire");
 
-  $('#captainButton').removeClass("darkFire");
-  $('#scorerButton').removeClass("darkFire");
-  $('#playmakerButton').removeClass("darkFire");
-  $('#shooterButton').removeClass("darkFire");
-  $('#blockerButton').removeClass("darkFire");
-  $('#enforcerButton').removeClass("darkFire");
-  $('#centerButton').removeClass("darkFire");
-
+  $('.goals-td').removeClass("lightFire");
+  $('#headGoals').removeClass("lightFire");
+  $('#statGoals').removeClass("lightFire");
+  $('.assists-td').removeClass("lightFire");
+  $('#headAssists').removeClass("lightFire");
+  $('#statAssists').removeClass("lightFire");
+  $('.shots-td').removeClass("lightFire");
+  $('#headShots').removeClass("lightFire");
+  $('#statShots').removeClass("lightFire");
+  $('.blocked-td').removeClass("lightFire");
+  $('#headBlocked').removeClass("lightFire");
+  $('#statBlocked').removeClass("lightFire");
+  $('.hits-td').removeClass("lightFire");
+  $('#headHits').removeClass("lightFire");
+  $('#statHits').removeClass("lightFire");
+  $('.faceOffPct-td').removeClass("lightFire");
+  $('#headFaceOffs').removeClass("lightFire");
+  $('#statFaceOffs').removeClass("lightFire");
   $('.goals-td').removeClass("fire");
   $('#headGoals').removeClass("fire");
   $('#statGoals').removeClass("fire");
@@ -315,24 +433,6 @@ function resetAllSelectedRoles() {
   $('.faceOffPct-td').removeClass("fire");
   $('#headFaceOffs').removeClass("fire");
   $('#statFaceOffs').removeClass("fire");
-  $('.goals-td').removeClass("darkFire");
-  $('#headGoals').removeClass("darkFire");
-  $('#statGoals').removeClass("darkFire");
-  $('.assists-td').removeClass("darkFire");
-  $('#headAssists').removeClass("darkFire");
-  $('#statAssists').removeClass("darkFire");
-  $('.shots-td').removeClass("darkFire");
-  $('#headShots').removeClass("darkFire");
-  $('#statShots').removeClass("darkFire");
-  $('.blocked-td').removeClass("darkFire");
-  $('#headBlocked').removeClass("darkFire");
-  $('#statBlocked').removeClass("darkFire");
-  $('.hits-td').removeClass("darkFire");
-  $('#headHits').removeClass("darkFire");
-  $('#statHits').removeClass("darkFire");
-  $('.faceOffPct-td').removeClass("darkFire");
-  $('#headFaceOffs').removeClass("darkFire");
-  $('#statFaceOffs').removeClass("darkFire");
 
   $('#statGoals').html('+15 per');
   $('#statAssists').html('+10 per');

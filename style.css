@@ -31,6 +31,17 @@
 	to   { text-shadow: -.1em -.2em .6em #fefcc9, -.15em 0 .6em #feec85, .1em -.25em .6em #ffae34, -.15em -.45em .5em #ec760c, .1em -.5em .6em #cd4606, 0 -.8em .6em #973716, -.2em -1em .8em #451b0e; }
 }
 
+.lightFire {
+	animation: lightBurn 1.5s linear infinite alternate;
+}
+  
+@keyframes lightBurn {
+	from { text-shadow: -.1em 0 .3em #bebd97, .1em -.1em .3em #beb164, -.2em -.2em .4em #bf8227, .2em -.3em .3em #b15809, -.2em -.4em .4em #9a3404, .1em -.5em .7em #712910, .1em -.7em .7em #34140a; }
+	45%  { text-shadow: .1em -.2em .5em #bebd97, .15em 0 .4em #beb164, -.1em -.25em .5em #bf8227, .15em -.45em .5em #b15809, -.1em -.5em .6em #9a3404, 0 -.8em .6em #712910, .2em -1em .8em #34140a; }
+	70%  { text-shadow: -.1em 0 .3em #bebd97, .1em -.1em .3em #beb164, -.2em -.2em .6em #bf8227, .2em -.3em .4em #b15809, -.2em -.4em .7em #9a3404, .1em -.5em .7em #712910, .1em -.7em .9em #34140a; }
+	to   { text-shadow: -.1em -.2em .6em #bebd97, -.15em 0 .6em #beb164, .1em -.25em .6em #bf8227, -.15em -.45em .5em #b15809, .1em -.5em .6em #9a3404, 0 -.8em .6em #712910, -.2em -1em .8em #34140a; }
+}
+
 .darkFire {
 	animation: darkBurn 1.5s linear infinite alternate;
 }
@@ -40,6 +51,17 @@
 	45%  { text-shadow: .1em -.2em .5em #ffe6cc, .15em 0 .4em #ffad99, -.1em -.25em .5em #ff6666, .15em -.45em .5em #cc0000, -.1em -.5em .6em #cc0066, 0 -.8em .6em #6600cc, .2em -1em .8em #000066; }
 	70%  { text-shadow: -.1em 0 .3em #ffe6cc, .1em -.1em .3em #ffad99, -.2em -.2em .6em #ff6666, .2em -.3em .4em #cc0000, -.2em -.4em .7em #cc0066, .1em -.5em .7em #6600cc, .1em -.7em .9em #000066; }
 	to   { text-shadow: -.1em -.2em .6em #ffe6cc, -.15em 0 .6em #ffad99, .1em -.25em .6em #ff6666, -.15em -.45em .5em #cc0000, .1em -.5em .6em #cc0066, 0 -.8em .6em #6600cc, -.2em -1em .8em #000066; }
+}
+
+.redFire {
+	animation: redBurn 1.5s linear infinite alternate;
+}
+  
+@keyframes redBurn {
+	from { text-shadow: -.1em 0 .3em #ffe6e6, .1em -.1em .3em #ff9999, -.2em -.2em .4em #ff4d4d, .2em -.3em .3em #ff0000, -.2em -.4em .4em #b30000, .1em -.5em .7em #660000, .1em -.7em .7em #1a0000; }
+	45%  { text-shadow: .1em -.2em .5em #ffe6e6, .15em 0 .4em #ff9999, -.1em -.25em .5em #ff4d4d, .15em -.45em .5em #ff0000, -.1em -.5em .6em #b30000, 0 -.8em .6em #660000, .2em -1em .8em #1a0000; }
+	70%  { text-shadow: -.1em 0 .3em #ffe6e6, .1em -.1em .3em #ff9999, -.2em -.2em .6em #ff4d4d, .2em -.3em .4em #ff0000, -.2em -.4em .7em #b30000, .1em -.5em .7em #660000, .1em -.7em .9em #1a0000; }
+	to   { text-shadow: -.1em -.2em .6em #ffe6e6, -.15em 0 .6em #ff9999, .1em -.25em .6em #ff4d4d, -.15em -.45em .5em #ff0000, .1em -.5em .6em #b30000, 0 -.8em .6em #660000, -.2em -1em .8em #1a0000; }
 }
 
 .greenFire {
@@ -58,10 +80,21 @@
 }
   
 @keyframes goldBurn {
-	from { text-shadow: -.1em 0 .3em #fff2cc, .1em -.1em .3em #ffdf80, -.2em -.2em .4em #ffcc33, .2em -.3em .3em #e6ac00, -.2em -.4em .4em #997300, .1em -.5em .7em #664d00, .1em -.7em .7em #332600; }
-	45%  { text-shadow: .1em -.2em .5em #fff2cc, .15em 0 .4em #ffdf80, -.1em -.25em .5em #ffcc33, .15em -.45em .5em #e6ac00, -.1em -.5em .6em #997300, 0 -.8em .6em #664d00, .2em -1em .8em #332600; }
-	70%  { text-shadow: -.1em 0 .3em #fff2cc, .1em -.1em .3em #ffdf80, -.2em -.2em .6em #ffcc33, .2em -.3em .4em #e6ac00, -.2em -.4em .7em #997300, .1em -.5em .7em #664d00, .1em -.7em .9em #332600; }
-	to   { text-shadow: -.1em -.2em .6em #fff2cc, -.15em 0 .6em #ffdf80, .1em -.25em .6em #ffcc33, -.15em -.45em .5em #e6ac00, .1em -.5em .6em #997300, 0 -.8em .6em #664d00, -.2em -1em .8em #332600; }
+	from { text-shadow: -.1em 0 .3em #fff2cc, .1em -.1em .3em #ffe699, -.2em -.2em .4em #ffd966, .2em -.3em .3em #ffcc33, -.2em -.4em .4em #ffbf00, .1em -.5em .7em #cc9900, .1em -.7em .7em #997300; }
+	45%  { text-shadow: .1em -.2em .5em #fff2cc, .15em 0 .4em #ffe699, -.1em -.25em .5em #ffd966, .15em -.45em .5em #ffcc33, -.1em -.5em .6em #ffbf00, 0 -.8em .6em #cc9900, .2em -1em .8em #997300; }
+	70%  { text-shadow: -.1em 0 .3em #fff2cc, .1em -.1em .3em #ffe699, -.2em -.2em .6em #ffd966, .2em -.3em .4em #ffcc33, -.2em -.4em .7em #ffbf00, .1em -.5em .7em #cc9900, .1em -.7em .9em #997300; }
+	to   { text-shadow: -.1em -.2em .6em #fff2cc, -.15em 0 .6em #ffe699, .1em -.25em .6em #ffd966, -.15em -.45em .5em #ffcc33, .1em -.5em .6em #ffbf00, 0 -.8em .6em #cc9900, -.2em -1em .8em #997300; }
+}
+
+.lightGoldFire {
+	animation: lightGoldBurn 1.5s linear infinite alternate;
+}
+  
+@keyframes lightGoldBurn {
+	from { text-shadow: -.1em 0 .3em #bfb699, .1em -.1em .3em #bfa760, -.2em -.2em .4em #bf9926, .2em -.3em .3em #ac8100, -.2em -.4em .4em #735600, .1em -.5em .7em #4c3a00, .1em -.7em .7em #261c00; }
+	45%  { text-shadow: .1em -.2em .5em #bfb699, .15em 0 .4em #bfa760, -.1em -.25em .5em #bf9926, .15em -.45em .5em #ac8100, -.1em -.5em .6em #735600, 0 -.8em .6em #4c3a00, .2em -1em .8em #261c00; }
+	70%  { text-shadow: -.1em 0 .3em #bfb699, .1em -.1em .3em #bfa760, -.2em -.2em .6em #bf9926, .2em -.3em .4em #ac8100, -.2em -.4em .7em #735600, .1em -.5em .7em #4c3a00, .1em -.7em .9em #261c00; }
+	to   { text-shadow: -.1em -.2em .6em #bfb699, -.15em 0 .6em #bfa760, .1em -.25em .6em #bf9926, -.15em -.45em .5em #ac8100, .1em -.5em .6em #735600, 0 -.8em .6em #4c3a00, -.2em -1em .8em #261c00; }
 }
 
 
