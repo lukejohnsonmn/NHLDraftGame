@@ -41,7 +41,7 @@ function comparePlayerSalary(a, b) {
 }
 
 function getSeasonStats() {
-    const myUrl = "http://localhost:8080/get-season-stats";
+    const myUrl = "http:// ();localhost:8080/get-season-stats";
     const response = httpGet(myUrl);
     roster = createRoster(response);
     return response;
@@ -690,68 +690,258 @@ function resetAllSelectedRoles() {
 
 var r = document.querySelector(':root');
 
-function Anaheim() {
-  r.style.setProperty('--primaryLight', '#612505'); // 20%
-  r.style.setProperty('--primary', '#491c04');      // 15%
-  r.style.setProperty('--primaryDark', '#301303');  // 10%
-  r.style.setProperty('--secondary', '#B9975B');
-}
-
-function Arizona() {
-  r.style.setProperty('--primaryLight', '#50161e');
-  r.style.setProperty('--primary', '#3c1016');
-  r.style.setProperty('--primaryDark', '#280b0f');
-  r.style.setProperty('--secondary', '#E2D6B5');
-}
-
-function Boston() {
-  r.style.setProperty('--primaryLight', '#664600');
-  r.style.setProperty('--primary', '#4d3400');
-  r.style.setProperty('--primaryDark', '#332300');
-  r.style.setProperty('--secondary', '#000000');
-}
-
-function Buffalo() {
-  r.style.setProperty('--primaryLight', '#002466');
-  r.style.setProperty('--primary', '#001b4d');
-  r.style.setProperty('--primaryDark', '#001233');
-  r.style.setProperty('--secondary', '#FFB81C');
-}
-
-function Calgary() {
-  r.style.setProperty('--primaryLight', '#66000e');
-  r.style.setProperty('--primary', '#4d000a');
-  r.style.setProperty('--primaryDark', '#330007');
-  r.style.setProperty('--secondary', '#FFB81C');
-}
-
-function Carolina() {
-  r.style.setProperty('--primaryLight', '#5e0812');
-  r.style.setProperty('--primary', '#47060d');
-  r.style.setProperty('--primaryDark', '#2f0409');
-  r.style.setProperty('--secondary', '#A4A9AD');
-}
-
-function Chicago() {
-  r.style.setProperty('--primaryLight', '#610514');
-  r.style.setProperty('--primary', '#49030f');
-  r.style.setProperty('--primaryDark', '#31020a');
-  r.style.setProperty('--secondary', '#FF671B');
-}
-
-function Colorado() {
+// Avalanche();
+function Avalanche() {
   r.style.setProperty('--primaryLight', '#4c1a2a');
   r.style.setProperty('--primary', '#39141f');
   r.style.setProperty('--primaryDark', '#260d15');
   r.style.setProperty('--secondary', '#236192');
 }
 
-function Columbus() {
+// Blackhawks();
+function Blackhawks() {
+  r.style.setProperty('--primaryLight', '#610514');
+  r.style.setProperty('--primary', '#49030f');
+  r.style.setProperty('--primaryDark', '#31020a');
+  r.style.setProperty('--secondary', '#FF671B');
+}
+
+// BlueJackets();
+function BlueJackets() {
   r.style.setProperty('--primaryLight', '#002e66');
   r.style.setProperty('--primary', '#00224d');
   r.style.setProperty('--primaryDark', '#001733');
   r.style.setProperty('--secondary', '#CE1126');
 }
 
+// Blues();
+function Blues() {
+  r.style.setProperty('--primaryLight', '#002466');
+  r.style.setProperty('--primary', '#001b4d');
+  r.style.setProperty('--primaryDark', '#001233');
+  r.style.setProperty('--secondary', '#FCB514');
+}
 
-Columbus();
+ Bruins();
+function Bruins() {
+  r.style.setProperty('--primaryLight', '#333333');
+  r.style.setProperty('--primary', '#262626');
+  r.style.setProperty('--primaryDark', '#1a1a1a');
+  r.style.setProperty('--secondary', '#FFB81C');
+}
+
+// Canadiens();
+function Canadiens() {
+  r.style.setProperty('--primaryLight', '#');
+  r.style.setProperty('--primary', '#');
+  r.style.setProperty('--primaryDark', '#');
+  r.style.setProperty('--secondary', '#');
+}
+
+// Canucks();
+function Canucks() {
+  r.style.setProperty('--primaryLight', '#570f16');
+  r.style.setProperty('--primary', '#410b11');
+  r.style.setProperty('--primaryDark', '#2c070b');
+  r.style.setProperty('--secondary', '#192168');
+}
+
+// Capitals();
+function Capitals() {
+  r.style.setProperty('--primaryLight', '#062b60');
+  r.style.setProperty('--primary', '#042148');
+  r.style.setProperty('--primaryDark', '#031630');
+  r.style.setProperty('--secondary', '#C8102E');
+}
+
+// Coyotes();
+function Coyotes() {
+  r.style.setProperty('--primaryLight', '#50161e');
+  r.style.setProperty('--primary', '#3c1016');
+  r.style.setProperty('--primaryDark', '#280b0f');
+  r.style.setProperty('--secondary', '#E2D6B5');
+}
+
+// Devils();
+function Devils() {
+  r.style.setProperty('--primaryLight', '#5e0812');
+  r.style.setProperty('--primary', '#47060d');
+  r.style.setProperty('--primaryDark', '#2f0409');
+  r.style.setProperty('--secondary', '#000000');
+}
+
+// Ducks();
+function Ducks() {
+  r.style.setProperty('--primaryLight', '#612505');
+  r.style.setProperty('--primary', '#491c04');
+  r.style.setProperty('--primaryDark', '#301303');
+  r.style.setProperty('--secondary', '#B9975B');
+}
+
+// Flames();
+function Flames() {
+  r.style.setProperty('--primaryLight', '#66000e');
+  r.style.setProperty('--primary', '#4d000a');
+  r.style.setProperty('--primaryDark', '#330007');
+  r.style.setProperty('--secondary', '#FFB81C');
+}
+
+// Flyers();
+function Flyers() {
+  r.style.setProperty('--primaryLight', '#651d01');
+  r.style.setProperty('--primary', '#4c1601');
+  r.style.setProperty('--primaryDark', '#320f01');
+  r.style.setProperty('--secondary', '#000000');
+}
+
+// GoldenKnights();
+function GoldenKnights() {
+  r.style.setProperty('--primaryLight', '#2c373a');
+  r.style.setProperty('--primary', '#21292b');
+  r.style.setProperty('--primaryDark', '#161b1d');
+  r.style.setProperty('--secondary', '#B4975A');
+}
+
+// Hurricanes();
+function Hurricanes() {
+  r.style.setProperty('--primaryLight', '#5e0812');
+  r.style.setProperty('--primary', '#47060d');
+  r.style.setProperty('--primaryDark', '#2f0409');
+  r.style.setProperty('--secondary', '#A4A9AD');
+}
+
+// Islanders();
+function Islanders() {
+  r.style.setProperty('--primaryLight', '#003666');
+  r.style.setProperty('--primary', '#00294d');
+  r.style.setProperty('--primaryDark', '#001b33');
+  r.style.setProperty('--secondary', '#F47D30');
+}
+
+// Jets();
+function Jets() {
+  r.style.setProperty('--primaryLight', '#062b60');
+  r.style.setProperty('--primary', '#042148');
+  r.style.setProperty('--primaryDark', '#031630');
+  r.style.setProperty('--secondary', '#7B303E');
+}
+
+// Kings();
+function Kings() {
+  r.style.setProperty('--primaryLight', '#333333');
+  r.style.setProperty('--primary', '#262626');
+  r.style.setProperty('--primaryDark', '#1a1a1a');
+  r.style.setProperty('--secondary', '#A2AAAD');
+}
+
+// Kraken();
+function Kraken() {
+  r.style.setProperty('--primaryLight', '#003866');
+  r.style.setProperty('--primary', '#002a4d');
+  r.style.setProperty('--primaryDark', '#001c33');
+  r.style.setProperty('--secondary', '#99D9D9');
+}
+
+// Lightning();
+function Lightning() {
+  r.style.setProperty('--primaryLight', '#002868');
+  r.style.setProperty('--primary', '#001d4d');
+  r.style.setProperty('--primaryDark', '#001433');
+  r.style.setProperty('--secondary', '#FFFFFF');
+}
+
+// MapleLeafs();
+function MapleLeafs() {
+  r.style.setProperty('--primaryLight', '#002466');
+  r.style.setProperty('--primary', '#001b4d');
+  r.style.setProperty('--primaryDark', '#001233');
+  r.style.setProperty('--secondary', '#FFFFFF');
+}
+
+// Oilers();
+function Oilers() {
+  r.style.setProperty('--primaryLight', '#062b60');
+  r.style.setProperty('--primary', '#042148');
+  r.style.setProperty('--primaryDark', '#031630');
+  r.style.setProperty('--secondary', '#FF4C00');
+}
+
+// Panthers();
+function Panthers() {
+  r.style.setProperty('--primaryLight', '#5e0816');
+  r.style.setProperty('--primary', '#470611');
+  r.style.setProperty('--primaryDark', '#2f040b');
+  r.style.setProperty('--secondary', '#B9975B');
+}
+
+// Penguins();
+function Penguins() {
+  r.style.setProperty('--primaryLight', '#333333');
+  r.style.setProperty('--primary', '#262626');
+  r.style.setProperty('--primaryDark', '#1a1a1a');
+  r.style.setProperty('--secondary', '#FCB514');
+}
+
+// Predators();
+function Predators() {
+  r.style.setProperty('--primaryLight', '#664600');
+  r.style.setProperty('--primary', '#4d3400');
+  r.style.setProperty('--primaryDark', '#332300');
+  r.style.setProperty('--secondary', '#041E42');
+}
+
+// Rangers();
+function Rangers() {
+  r.style.setProperty('--primaryLight', '#002266');
+  r.style.setProperty('--primary', '#001a4d');
+  r.style.setProperty('--primaryDark', '#001133');
+  r.style.setProperty('--secondary', '#CE1126');
+}
+
+// RedWings();
+function RedWings() {
+  r.style.setProperty('--primaryLight', '#5e0812');
+  r.style.setProperty('--primary', '#47060d');
+  r.style.setProperty('--primaryDark', '#2f0409');
+  r.style.setProperty('--secondary', '#FFFFFF');
+}
+
+// Sabres();
+function Sabres() {
+  r.style.setProperty('--primaryLight', '#002466');
+  r.style.setProperty('--primary', '#001b4d');
+  r.style.setProperty('--primaryDark', '#001233');
+  r.style.setProperty('--secondary', '#FFB81C');
+}
+
+// Senators();
+function Senators() {
+  r.style.setProperty('--primaryLight', '#5b0b14');
+  r.style.setProperty('--primary', '#44080f');
+  r.style.setProperty('--primaryDark', '#2e050a');
+  r.style.setProperty('--secondary', '#B79257');
+}
+
+// Sharks();
+function Sharks() {
+  r.style.setProperty('--primaryLight', '#005f66');
+  r.style.setProperty('--primary', '#00474d');
+  r.style.setProperty('--primaryDark', '#003033');
+  r.style.setProperty('--secondary', '#EA7200');
+}
+
+// Stars();
+function Stars() {
+  r.style.setProperty('--primaryLight', '#006847');
+  r.style.setProperty('--primary', '#004d34');
+  r.style.setProperty('--primaryDark', '#003323');
+  r.style.setProperty('--secondary', '#8F8F8C');
+}
+
+// Wild();
+function Wild() {
+  r.style.setProperty('--primaryLight', '#174f39');
+  r.style.setProperty('--primary', '#123b2b');
+  r.style.setProperty('--primaryDark', '#0c271d');
+  r.style.setProperty('--secondary', '#A6192E');
+}
