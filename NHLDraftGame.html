@@ -8,12 +8,13 @@
         <script src="gameScript.js"></script>
     </head> 
     <body>
-        <p>  
-            <button type="button" onclick="light(2)">Get Player Stats</button>
-        </p>
+        
 
         
-        <div id="playerDiv">
+        <div id="leftDiv">
+            <div id="teamNameDisplay">
+                Minnesota Wild
+            </div>
             <div id="roleButtons">
                 <button type="button" class="roleButton" id="captainButton" onclick="light(0)">Captain<div class="subButton">Goals x2 & Assists x2</div></button>
                 <button type="button" class="roleButton" id="scorerButton" onclick="light(0)">Scorer<div class="subButton">Goals x2</div></button>
@@ -64,5 +65,12 @@
                 </table>
             </div>
         </div>
+
+        <div id="rightDiv">
+            <p>  
+                <button type="button" onclick="light(2)">Get Player Stats</button>
+            </p>
+        </div>
+        
     </body>  
 </html>  

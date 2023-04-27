@@ -11,6 +11,159 @@
 }
 
 
+
+
+
+/* Default set up */
+body {
+	background: #21272c;
+	color: var(--text);
+	font-family: Verdana
+}
+
+table, th, td {
+	border-collapse: collapse;
+	padding: 5px;
+	font-size: 12px;
+}
+
+
+
+
+
+
+
+
+/* table team colors */
+#leftDiv {
+	float: left;
+	width: 66%;
+}
+#rightDiv {
+	float: right;
+	width: 33%;
+}
+
+#teamNameDisplay {
+	font-size: 48px;
+	text-align: center;
+	padding: 4px;
+	margin: var(--tableSpacing);
+	border: var(--tableSpacing) solid var(--primaryLight);
+	background: var(--primaryDark);
+	box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) var(--secondaryDark);
+}
+
+#playerTableDiv {
+	background-color: var(--primary);
+	margin: var(--tableSpacing);
+	box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) var(--secondaryDark);
+}
+
+#playerTable {
+	border-color: var(--primaryLight);
+	border-style: solid;
+	border-left-width: var(--tableSpacing);
+	border-right-width: var(--tableSpacing);
+	border-bottom-width: var(--tableSpacing);
+	text-align: center;
+}
+
+.statPoints {
+	font-size: 11px;
+	color: var(--secondaryLight);
+	font-weight: normal;
+	padding-top: 0px;
+}
+
+#player-thead {
+	background-color: var(--primaryLight);
+}
+
+#playerTable th {
+	min-width: 35px;
+}
+
+.even-row {
+	background: var(--primaryDark);
+}
+
+.non-starter {
+	color: #ff8080;/*#bf0000;*/
+}
+
+.salary-th {
+	border-left: 5px solid var(--secondaryDark);
+	border-right: 5px solid var(--secondaryDark);
+	width: 100px;
+}
+
+.salary-td {
+	border-left: 5px solid var(--secondaryDark);
+	border-right: 5px solid var(--secondaryDark);
+}
+
+.final-row {
+	border-bottom: var(--tableSpacing) solid var(--secondaryDark);
+}
+
+#name-th {
+	width: 200px;
+}
+
+#player-thead th {
+	min-width: 50px
+}
+
+#headFaceOffs {
+	width: 80px;
+}
+
+
+
+
+/* Input formatting */
+.submit-btn, button {
+	display: block;
+	margin: auto;
+	padding: 5px;
+	width: 100%;
+	color: var(--text);
+	background-color: #2c343a; /* 8394a1*/
+	border: 4px solid #d1d7d8;
+}
+
+.dropdown {
+	display: block;
+	margin: auto;
+	padding: 5px;
+	width: 100%;
+}
+
+.text-basic {
+	padding: 5px;
+}
+
+#roleButtons {
+	display: flex;
+	padding: 10px;
+}
+
+.roleButton {
+	margin: 0px 10px;
+	padding: 15px;
+	font-size: 24px;
+}
+
+.subButton {
+	font-size: 12px;
+	color: var(--gold);
+	padding: 0px;
+	margin: 0px;
+}
+
+
+
 .fire {
 	animation: burn 1.5s linear infinite alternate;
 }
@@ -88,129 +241,13 @@
 	to   { text-shadow: -.1em -.2em .6em #bfb699, -.15em 0 .6em #bfa760, .1em -.25em .6em #bf9926, -.15em -.45em .5em #ac8100, .1em -.5em .6em #735600, 0 -.8em .6em #4c3a00, -.2em -1em .8em #261c00; }
 }
 
-
-/* Default set up */
-body {
-	background: #21272c;
-	color: var(--text);
-	font-family: Verdana
+.blackFire {
+	animation: blackBurn 1.5s linear infinite alternate;
 }
-
-table, th, td {
-	border-collapse: collapse;
-	padding: 5px;
-	font-size: 12px;
-}
-
-
-
-
-
-
-
-
-/* table team colors */
-#playerDiv {
-	width: 67%;
-}
-
-#playerTableDiv {
-	background-color: var(--primary);
-	margin: var(--tableSpacing);
-	box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) var(--secondaryDark);
-}
-
-#playerTable {
-	border: var(--tableSpacing) solid var(--primaryLight);
-	width: 100%;
-	text-align: center;
-}
-
-.statPoints {
-	font-size: 11px;
-	color: var(--secondaryLight);
-	font-weight: normal;
-	padding-top: 0px;
-}
-
-#player-thead {
-	background-color: var(--primaryLight);
-}
-
-#playerTable th {
-	min-width: 35px;
-}
-
-.even-row {
-	background: var(--primaryDark);
-}
-
-.non-starter {
-	color: #ff8080;/*#bf0000;*/
-}
-
-.salary-th {
-	border-top: var(--tableSpacing) solid var(--secondaryDark);
-	border-left: 5px solid var(--secondaryDark);
-	border-right: 5px solid var(--secondaryDark);
-	width: 100px;
-}
-
-.salary-td {
-	border-left: 5px solid var(--secondaryDark);
-	border-right: 5px solid var(--secondaryDark);
-}
-
-.final-row {
-	border-bottom: var(--tableSpacing) solid var(--secondaryDark);
-}
-
-#name-th {
-	width: 200px;
-}
-
-
-
-
-/* Input formatting */
-.submit-btn, button {
-	display: block;
-	margin: auto;
-	padding: 5px;
-	width: 100%;
-	color: var(--text);
-	background-color: #2c343a; /* 8394a1*/
-	border: 4px solid #d1d7d8;
-}
-
-.dropdown {
-	display: block;
-	margin: auto;
-	padding: 5px;
-	width: 100%;
-}
-
-.text-basic {
-	padding: 5px;
-}
-
-#roleButtons {
-	display: flex;
-	padding: 10px;
-}
-
-
-.roleButton {
-	margin: 10px;
-	padding: 15px;
-	font-size: 24px;
-}
-
-
-
-.subButton {
-	font-size: 12px;
-	color: var(--gold);
-	padding: 0px;
-	margin: 0px;
+  
+@keyframes blackBurn {
+	from { text-shadow: -.1em 0 .3em #4d4d4d, .1em -.1em .3em #404040, -.2em -.2em .4em #333333, .2em -.3em .3em #262626, -.2em -.4em .4em #1a1a1a, .1em -.5em .7em #0d0d0d, .1em -.7em .7em #000000; }
+	45%  { text-shadow: .1em -.2em .5em #4d4d4d, .15em 0 .4em #404040, -.1em -.25em .5em #333333, .15em -.45em .5em #262626, -.1em -.5em .6em #1a1a1a, 0 -.8em .6em #0d0d0d, .2em -1em .8em #000000; }
+	70%  { text-shadow: -.1em 0 .3em #4d4d4d, .1em -.1em .3em #404040, -.2em -.2em .6em #333333, .2em -.3em .4em #262626, -.2em -.4em .7em #1a1a1a, .1em -.5em .7em #0d0d0d, .1em -.7em .9em #000000; }
+	to   { text-shadow: -.1em -.2em .6em #4d4d4d, -.15em 0 .6em #404040, .1em -.25em .6em #333333, -.15em -.45em .5em #262626, .1em -.5em .6em #1a1a1a, 0 -.8em .6em #0d0d0d, -.2em -1em .8em #000000; }
 }
