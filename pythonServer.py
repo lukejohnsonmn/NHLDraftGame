@@ -25,7 +25,7 @@ class MyServer(BaseHTTPRequestHandler):
         #self.wfile.write(bytes("</body></html>", "utf-8"))
 
         if self.path == "/get-season-stats":
-            paramName = 'wild'
+            paramName = 'boston'
             paramSeason = '20222023'
             paramTodaysDate = '2023-04-25'
             print('ENDPOINT: /get-season-stats: ' + paramName + ', ' + paramSeason + ', ' + paramTodaysDate)

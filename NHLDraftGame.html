@@ -23,44 +23,46 @@
                 <button type="button" class="roleButton" id="enforcerButton" onclick="light(0)">Enforcer<div class="subButton">Hits x3</div></button>
                 <button type="button" class="roleButton" id="centerButton" onclick="light(0)">Center<div class="subButton">Face Off Wins x2</div></button>
             </div>
-            <table id="playerTable">
-                <thead>
-                    <tr>
-                        <th>Pos.</th>
-                        <th>#</th>
-                        <th id="name-th">Name</th>
-                        <th class="salary-th">Salary</th>
-                        <th>Games Played</th>
-                        <th id="headGoals">Goals</th>
-                        <th id="headAssists">Assists</th>
-                        <th id="headShots">Shots</th>
-                        <th id="headBlocked">Blocked Shots</th>
-                        <th id="headHits">Hits</th>
-                        <th id="headFaceOffs">Face Off %</th>
-                        <th>Plus Minus</th>
-                        <th>Penalty Minutes</th>
-                        <th>Ice Time / Game</th>
-                    </tr>
-                    <tr>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th class="salary-td"></th>
-                        <th></th>
-                        <th class="statPoints" id="statGoals">+15 per</div></th>
-                        <th class="statPoints" id="statAssists">+10 per</div></th>
-                        <th class="statPoints" id="statShots">+1 per</div></th>
-                        <th class="statPoints" id="statBlocked">+1 per</div></th>
-                        <th class="statPoints" id="statHits">+1 per</div></th>
-                        <th class="statPoints" id="statFaceOffs">+1 per win<br>-1 per loss</div></th>
-                        <th class="statPoints">+/- 5 per</div></th>
-                        <th class="statPoints">-5 per min</div></th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody id="playerTableBody">
-                </tbody>
-            </table>
+            <div id="playerTableDiv">
+                <table id="playerTable">
+                    <thead id="player-thead">
+                        <tr>
+                            <th>Pos.</th>
+                            <th>#</th>
+                            <th id="name-th">Name</th>
+                            <th class="salary-th">Salary</th>
+                            <th>Games Played</th>
+                            <th id="headGoals">Goals</th>
+                            <th id="headAssists">Assists</th>
+                            <th id="headShots">Shots</th>
+                            <th id="headBlocked">Blocked Shots</th>
+                            <th id="headHits">Hits</th>
+                            <th id="headFaceOffs">Face Off %</th>
+                            <th>Plus Minus</th>
+                            <th>Penalty Minutes</th>
+                            <th>Ice Time / Game</th>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th class="salary-td"></th>
+                            <th></th>
+                            <th class="statPoints" id="statGoals">+15 per</div></th>
+                            <th class="statPoints" id="statAssists">+10 per</div></th>
+                            <th class="statPoints" id="statShots">+1 per</div></th>
+                            <th class="statPoints" id="statBlocked">+1 per</div></th>
+                            <th class="statPoints" id="statHits">+1 per</div></th>
+                            <th class="statPoints" id="statFaceOffs">+1 per win<br>-1 per loss</div></th>
+                            <th class="statPoints">+/- 5 per</div></th>
+                            <th class="statPoints">-5 per min</div></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="playerTableBody">
+                    </tbody>
+                </table>
+            </div>
         </div>
     </body>  
 </html>  
