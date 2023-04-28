@@ -7,7 +7,9 @@
 	--secondaryLight: #e44e64;
 	--secondaryDark: #b11b31;
 	--tableSpacing: 20px;
+	--negTableSpacing: -20px;
 	--halfTableSpacing: 10px;
+	
 }
 
 
@@ -44,7 +46,7 @@ table, th, td {
 	width: 33%;
 }
 
-#teamNameDisplay {
+#teamTitle {
 	font-size: 48px;
 	text-align: center;
 	padding: 4px;
@@ -93,22 +95,22 @@ table, th, td {
 }
 
 .salary-th {
-	border-left: 5px solid var(--secondaryDark);
-	border-right: 5px solid var(--secondaryDark);
 	width: 100px;
+	color: var(--secondaryLight);
+	font-size: 26px;
+	box-shadow: 0 var(--tableSpacing) 6px -6px var(--secondaryDark);
 }
 
-.salary-td {
-	border-left: 5px solid var(--secondaryDark);
-	border-right: 5px solid var(--secondaryDark);
-}
-
-.final-row {
-	border-bottom: var(--tableSpacing) solid var(--secondaryDark);
-}
-
-#name-th {
+#headName {
 	width: 200px;
+}
+
+.name-td {
+	box-shadow: var(--tableSpacing) 0 6px -6px var(--secondaryDark);
+}
+
+.gamesPlayed-td {
+	box-shadow: var(--negTableSpacing) 0 6px -6px var(--secondaryDark);
 }
 
 #player-thead th {

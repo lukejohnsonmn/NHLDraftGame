@@ -100,14 +100,14 @@ function populateTable(playerArr) {
 function getHTMLForPlayer(player, finalRow) {
     var htmlStr = '<td><div hidden>'+player.id+'</div>' + player.positionCode + '</td>';
     htmlStr += '<td>' + player.jerseyNumber + '</td>';
-    htmlStr += '<td>' + player.fullName + '</td>';
+    htmlStr += '<td class="name-td">' + player.fullName + '</td>';
     if (finalRow) {
         htmlStr += '<td class="final-row salary-td">' + player.salary + '</td>';
     } else {
         htmlStr += '<td class="salary-td">' + player.salary + '</td>';
     }
     
-    htmlStr += '<td>' + player.games + '</td>';
+    htmlStr += '<td class="gamesPlayed-td">' + player.games + '</td>';
     htmlStr += '<td class="goals-td">' + player.goals + '</td>';
     htmlStr += '<td class="assists-td">' + player.assists + '</td>';
     htmlStr += '<td class="shots-td">' + player.shots + '</td>';
@@ -129,8 +129,11 @@ function light(sw) {
     } else if (sw == 1) {  
         myText = "Light on!";
     }  else {
+        var selectedTeam = 'Ducks';
         myText = getSeasonStats();
         afterPlayerRowsLoaded();
+        Sharks();
+        selectColorScheme(selectedTeam);
     }
 }
 
@@ -141,14 +144,57 @@ function httpGet(theUrl) {
   return xmlHttp.responseText;
 }
 
+function selectColorScheme(teamName) {
+  switch(teamName) {
+    case 'Avalanche':Avalanche();break;
+    case 'Blackhawks':Blackhawks();break;
+    case 'BlueJackets':BlueJackets();break;
+    case 'Blues':Blues();break;
+    case 'Bruins':Bruins();break;
+    case 'Canadiens':Canadiens();break;
+    case 'Canucks':Canucks();break;
+    case 'Capitals':Capitals();break;
+    case 'Coyotes':Coyotes();break;
+    case 'Devils':Devils();break;
+    case 'Ducks':Ducks();break;
+    case 'Flames':Flames();break;
+    case 'Flyers':Flyers();break;
+    case 'GoldenKnights':GoldenKnights();break;
+    case 'Hurricanes':Hurricanes();break;
+    case 'Islanders':Islanders();break;
+    case 'Jets':Jets();break;
+    case 'Kings':Kings();break;
+    case 'Kraken':Kraken();break;
+    case 'Lightning':Lightning();break;
+    case 'MapleLeafs':MapleLeafs();break;
+    case 'Oilers':Oilers();break;
+    case 'Panthers':Panthers();break;
+    case 'Penguins':Penguins();break;
+    case 'Predators':Predators();break;
+    case 'Rangers':Rangers();break;
+    case 'RedWings':RedWings();break;
+    case 'Sabres':Sabres();break;
+    case 'Senators':Senators();break;
+    case 'Sharks':Sharks();break;
+    case 'Stars':Stars();break;
+    case 'Wild':Wild();break;
+    default:Wild();
+  }
+}
+
 var selectedPlayer = null;
 
 function afterPlayerRowsLoaded() {
-    var p0Selected = false;var p1Selected = false;var p2Selected = false;var p3Selected = false;var p4Selected = false;var p5Selected = false;
-    var p6Selected = false;var p7Selected = false;var p8Selected = false;var p9Selected = false;var p10Selected = false;var p11Selected = false;
-    var p12Selected = false;var p13Selected = false;var p14Selected = false;var p15Selected = false;var p16Selected = false;var p17Selected = false;
-    var p18Selected = false;var p19Selected = false;var p20Selected = false;var p21Selected = false;var p22Selected = false;var p23Selected = false;
-    var p24Selected = false;var p25Selected = false;var p26Selected = false;var p27Selected = false;var p28Selected = false;var p29Selected = false;
+    var p0Selected = false;var p1Selected = false;var p2Selected = false;var p3Selected = false;var p4Selected = false;
+    var p5Selected = false;var p6Selected = false;var p7Selected = false;var p8Selected = false;var p9Selected = false;
+    var p10Selected = false;var p11Selected = false;var p12Selected = false;var p13Selected = false;var p14Selected = false;
+    var p15Selected = false;var p16Selected = false;var p17Selected = false;var p18Selected = false;var p19Selected = false;
+    var p20Selected = false;var p21Selected = false;var p22Selected = false;var p23Selected = false;var p24Selected = false;
+    var p25Selected = false;var p26Selected = false;var p27Selected = false;var p28Selected = false;var p29Selected = false;
+    var p30Selected = false;var p31Selected = false;var p32Selected = false;var p33Selected = false;var p34Selected = false;
+    var p35Selected = false;var p36Selected = false;var p37Selected = false;var p38Selected = false;var p39Selected = false;
+    var p40Selected = false;var p41Selected = false;var p42Selected = false;var p43Selected = false;var p44Selected = false;
+    var p45Selected = false;var p46Selected = false;var p47Selected = false;var p48Selected = false;var p49Selected = false;
 
     $(function() {$('#p0').hover(function() {if (!p0Selected) {$("#p0").addClass("lightGoldFire");}}, function() {if (!p0Selected) {$("#p0").removeClass("lightGoldFire");}});});
     $(function() {$('#p1').hover(function() {if (!p1Selected) {$("#p1").addClass("lightGoldFire");}}, function() {if (!p1Selected) {$("#p1").removeClass("lightGoldFire");}});});
@@ -180,6 +226,26 @@ function afterPlayerRowsLoaded() {
     $(function() {$('#p27').hover(function() {if (!p27Selected) {$("#p27").addClass("lightGoldFire");}}, function() {if (!p27Selected) {$("#p27").removeClass("lightGoldFire");}});});
     $(function() {$('#p28').hover(function() {if (!p28Selected) {$("#p28").addClass("lightGoldFire");}}, function() {if (!p28Selected) {$("#p28").removeClass("lightGoldFire");}});});
     $(function() {$('#p29').hover(function() {if (!p29Selected) {$("#p29").addClass("lightGoldFire");}}, function() {if (!p29Selected) {$("#p29").removeClass("lightGoldFire");}});});
+    $(function() {$('#p30').hover(function() {if (!p30Selected) {$("#p30").addClass("lightGoldFire");}}, function() {if (!p30Selected) {$("#p30").removeClass("lightGoldFire");}});});
+    $(function() {$('#p31').hover(function() {if (!p31Selected) {$("#p31").addClass("lightGoldFire");}}, function() {if (!p31Selected) {$("#p31").removeClass("lightGoldFire");}});});
+    $(function() {$('#p32').hover(function() {if (!p32Selected) {$("#p32").addClass("lightGoldFire");}}, function() {if (!p32Selected) {$("#p32").removeClass("lightGoldFire");}});});
+    $(function() {$('#p33').hover(function() {if (!p33Selected) {$("#p33").addClass("lightGoldFire");}}, function() {if (!p33Selected) {$("#p33").removeClass("lightGoldFire");}});});
+    $(function() {$('#p34').hover(function() {if (!p34Selected) {$("#p34").addClass("lightGoldFire");}}, function() {if (!p34Selected) {$("#p34").removeClass("lightGoldFire");}});});
+    $(function() {$('#p35').hover(function() {if (!p35Selected) {$("#p35").addClass("lightGoldFire");}}, function() {if (!p35Selected) {$("#p35").removeClass("lightGoldFire");}});});
+    $(function() {$('#p36').hover(function() {if (!p36Selected) {$("#p36").addClass("lightGoldFire");}}, function() {if (!p36Selected) {$("#p36").removeClass("lightGoldFire");}});});
+    $(function() {$('#p37').hover(function() {if (!p37Selected) {$("#p37").addClass("lightGoldFire");}}, function() {if (!p37Selected) {$("#p37").removeClass("lightGoldFire");}});});
+    $(function() {$('#p38').hover(function() {if (!p38Selected) {$("#p38").addClass("lightGoldFire");}}, function() {if (!p38Selected) {$("#p38").removeClass("lightGoldFire");}});});
+    $(function() {$('#p39').hover(function() {if (!p39Selected) {$("#p39").addClass("lightGoldFire");}}, function() {if (!p39Selected) {$("#p39").removeClass("lightGoldFire");}});});
+    $(function() {$('#p40').hover(function() {if (!p40Selected) {$("#p40").addClass("lightGoldFire");}}, function() {if (!p40Selected) {$("#p40").removeClass("lightGoldFire");}});});
+    $(function() {$('#p41').hover(function() {if (!p41Selected) {$("#p41").addClass("lightGoldFire");}}, function() {if (!p41Selected) {$("#p41").removeClass("lightGoldFire");}});});
+    $(function() {$('#p42').hover(function() {if (!p42Selected) {$("#p42").addClass("lightGoldFire");}}, function() {if (!p42Selected) {$("#p42").removeClass("lightGoldFire");}});});
+    $(function() {$('#p43').hover(function() {if (!p43Selected) {$("#p43").addClass("lightGoldFire");}}, function() {if (!p43Selected) {$("#p43").removeClass("lightGoldFire");}});});
+    $(function() {$('#p44').hover(function() {if (!p44Selected) {$("#p44").addClass("lightGoldFire");}}, function() {if (!p44Selected) {$("#p44").removeClass("lightGoldFire");}});});
+    $(function() {$('#p45').hover(function() {if (!p45Selected) {$("#p45").addClass("lightGoldFire");}}, function() {if (!p45Selected) {$("#p45").removeClass("lightGoldFire");}});});
+    $(function() {$('#p46').hover(function() {if (!p46Selected) {$("#p46").addClass("lightGoldFire");}}, function() {if (!p46Selected) {$("#p46").removeClass("lightGoldFire");}});});
+    $(function() {$('#p47').hover(function() {if (!p47Selected) {$("#p47").addClass("lightGoldFire");}}, function() {if (!p47Selected) {$("#p47").removeClass("lightGoldFire");}});});
+    $(function() {$('#p48').hover(function() {if (!p48Selected) {$("#p48").addClass("lightGoldFire");}}, function() {if (!p48Selected) {$("#p48").removeClass("lightGoldFire");}});});
+    $(function() {$('#p49').hover(function() {if (!p49Selected) {$("#p49").addClass("lightGoldFire");}}, function() {if (!p49Selected) {$("#p49").removeClass("lightGoldFire");}});});
 
     $(function() {$('#p0').click(function() {resetAllSelectedPlayers();if (p0Selected) {p0Selected = false;selectedPlayer = null;$("#p0").addClass("lightGoldFire");} else {resetAllSelectedStatus();p0Selected = true;selectedPlayer = parsePlayerFromRow('p0');$("#p0").addClass("goldFire");}});});
     $(function() {$('#p1').click(function() {resetAllSelectedPlayers();if (p1Selected) {p1Selected = false;selectedPlayer = null;$("#p1").addClass("lightGoldFire");} else {resetAllSelectedStatus();p1Selected = true;selectedPlayer = parsePlayerFromRow('p1');$("#p1").addClass("goldFire");}});});
@@ -211,28 +277,64 @@ function afterPlayerRowsLoaded() {
     $(function() {$('#p27').click(function() {resetAllSelectedPlayers();if (p27Selected) {p27Selected = false;selectedPlayer = null;$("#p27").addClass("lightGoldFire");} else {resetAllSelectedStatus();p27Selected = true;selectedPlayer = parsePlayerFromRow('p27');$("#p27").addClass("goldFire");}});});
     $(function() {$('#p28').click(function() {resetAllSelectedPlayers();if (p28Selected) {p28Selected = false;selectedPlayer = null;$("#p28").addClass("lightGoldFire");} else {resetAllSelectedStatus();p28Selected = true;selectedPlayer = parsePlayerFromRow('p28');$("#p28").addClass("goldFire");}});});
     $(function() {$('#p29').click(function() {resetAllSelectedPlayers();if (p29Selected) {p29Selected = false;selectedPlayer = null;$("#p29").addClass("lightGoldFire");} else {resetAllSelectedStatus();p29Selected = true;selectedPlayer = parsePlayerFromRow('p29');$("#p29").addClass("goldFire");}});});
+    $(function() {$('#p30').click(function() {resetAllSelectedPlayers();if (p30Selected) {p30Selected = false;selectedPlayer = null;$("#p30").addClass("lightGoldFire");} else {resetAllSelectedStatus();p30Selected = true;selectedPlayer = parsePlayerFromRow('p30');$("#p30").addClass("goldFire");}});});
+    $(function() {$('#p31').click(function() {resetAllSelectedPlayers();if (p31Selected) {p31Selected = false;selectedPlayer = null;$("#p31").addClass("lightGoldFire");} else {resetAllSelectedStatus();p31Selected = true;selectedPlayer = parsePlayerFromRow('p31');$("#p31").addClass("goldFire");}});});
+    $(function() {$('#p32').click(function() {resetAllSelectedPlayers();if (p32Selected) {p32Selected = false;selectedPlayer = null;$("#p32").addClass("lightGoldFire");} else {resetAllSelectedStatus();p32Selected = true;selectedPlayer = parsePlayerFromRow('p32');$("#p32").addClass("goldFire");}});});
+    $(function() {$('#p33').click(function() {resetAllSelectedPlayers();if (p33Selected) {p33Selected = false;selectedPlayer = null;$("#p33").addClass("lightGoldFire");} else {resetAllSelectedStatus();p33Selected = true;selectedPlayer = parsePlayerFromRow('p33');$("#p33").addClass("goldFire");}});});
+    $(function() {$('#p34').click(function() {resetAllSelectedPlayers();if (p34Selected) {p34Selected = false;selectedPlayer = null;$("#p34").addClass("lightGoldFire");} else {resetAllSelectedStatus();p34Selected = true;selectedPlayer = parsePlayerFromRow('p34');$("#p34").addClass("goldFire");}});});
+    $(function() {$('#p35').click(function() {resetAllSelectedPlayers();if (p35Selected) {p35Selected = false;selectedPlayer = null;$("#p35").addClass("lightGoldFire");} else {resetAllSelectedStatus();p35Selected = true;selectedPlayer = parsePlayerFromRow('p35');$("#p35").addClass("goldFire");}});});
+    $(function() {$('#p36').click(function() {resetAllSelectedPlayers();if (p36Selected) {p36Selected = false;selectedPlayer = null;$("#p36").addClass("lightGoldFire");} else {resetAllSelectedStatus();p36Selected = true;selectedPlayer = parsePlayerFromRow('p36');$("#p36").addClass("goldFire");}});});
+    $(function() {$('#p37').click(function() {resetAllSelectedPlayers();if (p37Selected) {p37Selected = false;selectedPlayer = null;$("#p37").addClass("lightGoldFire");} else {resetAllSelectedStatus();p37Selected = true;selectedPlayer = parsePlayerFromRow('p37');$("#p37").addClass("goldFire");}});});
+    $(function() {$('#p38').click(function() {resetAllSelectedPlayers();if (p38Selected) {p38Selected = false;selectedPlayer = null;$("#p38").addClass("lightGoldFire");} else {resetAllSelectedStatus();p38Selected = true;selectedPlayer = parsePlayerFromRow('p38');$("#p38").addClass("goldFire");}});});
+    $(function() {$('#p39').click(function() {resetAllSelectedPlayers();if (p39Selected) {p39Selected = false;selectedPlayer = null;$("#p39").addClass("lightGoldFire");} else {resetAllSelectedStatus();p39Selected = true;selectedPlayer = parsePlayerFromRow('p39');$("#p39").addClass("goldFire");}});});
+    $(function() {$('#p40').click(function() {resetAllSelectedPlayers();if (p40Selected) {p40Selected = false;selectedPlayer = null;$("#p40").addClass("lightGoldFire");} else {resetAllSelectedStatus();p40Selected = true;selectedPlayer = parsePlayerFromRow('p40');$("#p40").addClass("goldFire");}});});
+    $(function() {$('#p41').click(function() {resetAllSelectedPlayers();if (p41Selected) {p41Selected = false;selectedPlayer = null;$("#p41").addClass("lightGoldFire");} else {resetAllSelectedStatus();p41Selected = true;selectedPlayer = parsePlayerFromRow('p41');$("#p41").addClass("goldFire");}});});
+    $(function() {$('#p42').click(function() {resetAllSelectedPlayers();if (p42Selected) {p42Selected = false;selectedPlayer = null;$("#p42").addClass("lightGoldFire");} else {resetAllSelectedStatus();p42Selected = true;selectedPlayer = parsePlayerFromRow('p42');$("#p42").addClass("goldFire");}});});
+    $(function() {$('#p43').click(function() {resetAllSelectedPlayers();if (p43Selected) {p43Selected = false;selectedPlayer = null;$("#p43").addClass("lightGoldFire");} else {resetAllSelectedStatus();p43Selected = true;selectedPlayer = parsePlayerFromRow('p43');$("#p43").addClass("goldFire");}});});
+    $(function() {$('#p44').click(function() {resetAllSelectedPlayers();if (p44Selected) {p44Selected = false;selectedPlayer = null;$("#p44").addClass("lightGoldFire");} else {resetAllSelectedStatus();p44Selected = true;selectedPlayer = parsePlayerFromRow('p44');$("#p44").addClass("goldFire");}});});
+    $(function() {$('#p45').click(function() {resetAllSelectedPlayers();if (p45Selected) {p45Selected = false;selectedPlayer = null;$("#p45").addClass("lightGoldFire");} else {resetAllSelectedStatus();p45Selected = true;selectedPlayer = parsePlayerFromRow('p45');$("#p45").addClass("goldFire");}});});
+    $(function() {$('#p46').click(function() {resetAllSelectedPlayers();if (p46Selected) {p46Selected = false;selectedPlayer = null;$("#p46").addClass("lightGoldFire");} else {resetAllSelectedStatus();p46Selected = true;selectedPlayer = parsePlayerFromRow('p46');$("#p46").addClass("goldFire");}});});
+    $(function() {$('#p47').click(function() {resetAllSelectedPlayers();if (p47Selected) {p47Selected = false;selectedPlayer = null;$("#p47").addClass("lightGoldFire");} else {resetAllSelectedStatus();p47Selected = true;selectedPlayer = parsePlayerFromRow('p47');$("#p47").addClass("goldFire");}});});
+    $(function() {$('#p48').click(function() {resetAllSelectedPlayers();if (p48Selected) {p48Selected = false;selectedPlayer = null;$("#p48").addClass("lightGoldFire");} else {resetAllSelectedStatus();p48Selected = true;selectedPlayer = parsePlayerFromRow('p48');$("#p48").addClass("goldFire");}});});
+    $(function() {$('#p49').click(function() {resetAllSelectedPlayers();if (p49Selected) {p49Selected = false;selectedPlayer = null;$("#p49").addClass("lightGoldFire");} else {resetAllSelectedStatus();p49Selected = true;selectedPlayer = parsePlayerFromRow('p49');$("#p49").addClass("goldFire");}});});
+
 
     function resetAllSelectedStatus() {
-        p0Selected = false;p1Selected = false;p2Selected = false;p3Selected = false;p4Selected = false;p5Selected = false;
-        p6Selected = false;p7Selected = false;p8Selected = false;p9Selected = false;p10Selected = false;p11Selected = false;
-        p12Selected = false;p13Selected = false;p14Selected = false;p15Selected = false;p16Selected = false;p17Selected = false;
-        p18Selected = false;p19Selected = false;p20Selected = false;p21Selected = false;p22Selected = false;p23Selected = false;
-        p24Selected = false;p25Selected = false;p26Selected = false;p27Selected = false;p28Selected = false;p29Selected = false;
+        p0Selected = false;p1Selected = false;p2Selected = false;p3Selected = false;p4Selected = false;
+        p5Selected = false;p6Selected = false;p7Selected = false;p8Selected = false;p9Selected = false;
+        p10Selected = false;p11Selected = false;p12Selected = false;p13Selected = false;p14Selected = false;
+        p15Selected = false;p16Selected = false;p17Selected = false;p18Selected = false;p19Selected = false;
+        p20Selected = false;p21Selected = false;p22Selected = false;p23Selected = false;p24Selected = false;
+        p25Selected = false;p26Selected = false;p27Selected = false;p28Selected = false;p29Selected = false;
+        p30Selected = false;p31Selected = false;p32Selected = false;p33Selected = false;p34Selected = false;
+        p35Selected = false;p36Selected = false;p37Selected = false;p38Selected = false;p39Selected = false;
+        p40Selected = false;p41Selected = false;p42Selected = false;p43Selected = false;p44Selected = false;
+        p45Selected = false;p46Selected = false;p47Selected = false;p48Selected = false;p49Selected = false;
     }
 }
 
 function resetAllSelectedPlayers() {
-    $('#p0').removeClass("lightGoldFire");$('#p1').removeClass("lightGoldFire");$('#p2').removeClass("lightGoldFire");$('#p3').removeClass("lightGoldFire");$('#p4').removeClass("lightGoldFire");$('#p5').removeClass("lightGoldFire");
-    $('#p6').removeClass("lightGoldFire");$('#p7').removeClass("lightGoldFire");$('#p8').removeClass("lightGoldFire");$('#p9').removeClass("lightGoldFire");$('#p10').removeClass("lightGoldFire");$('#p11').removeClass("lightGoldFire");
-    $('#p12').removeClass("lightGoldFire");$('#p13').removeClass("lightGoldFire");$('#p14').removeClass("lightGoldFire");$('#p15').removeClass("lightGoldFire");$('#p16').removeClass("lightGoldFire");$('#p17').removeClass("lightGoldFire");
-    $('#p18').removeClass("lightGoldFire");$('#p19').removeClass("lightGoldFire");$('#p20').removeClass("lightGoldFire");$('#p21').removeClass("lightGoldFire");$('#p22').removeClass("lightGoldFire");$('#p23').removeClass("lightGoldFire");
-    $('#p24').removeClass("lightGoldFire");$('#p25').removeClass("lightGoldFire");$('#p26').removeClass("lightGoldFire");$('#p27').removeClass("lightGoldFire");$('#p28').removeClass("lightGoldFire");$('#p29').removeClass("lightGoldFire");
+    $('#p0').removeClass("lightGoldFire");$('#p1').removeClass("lightGoldFire");$('#p2').removeClass("lightGoldFire");$('#p3').removeClass("lightGoldFire");$('#p4').removeClass("lightGoldFire");
+    $('#p5').removeClass("lightGoldFire");$('#p6').removeClass("lightGoldFire");$('#p7').removeClass("lightGoldFire");$('#p8').removeClass("lightGoldFire");$('#p9').removeClass("lightGoldFire");
+    $('#p10').removeClass("lightGoldFire");$('#p11').removeClass("lightGoldFire");$('#p12').removeClass("lightGoldFire");$('#p13').removeClass("lightGoldFire");$('#p14').removeClass("lightGoldFire");
+    $('#p15').removeClass("lightGoldFire");$('#p16').removeClass("lightGoldFire");$('#p17').removeClass("lightGoldFire");$('#p18').removeClass("lightGoldFire");$('#p19').removeClass("lightGoldFire");
+    $('#p20').removeClass("lightGoldFire");$('#p21').removeClass("lightGoldFire");$('#p22').removeClass("lightGoldFire");$('#p23').removeClass("lightGoldFire");$('#p24').removeClass("lightGoldFire");
+    $('#p25').removeClass("lightGoldFire");$('#p26').removeClass("lightGoldFire");$('#p27').removeClass("lightGoldFire");$('#p28').removeClass("lightGoldFire");$('#p29').removeClass("lightGoldFire");
+    $('#p30').removeClass("lightGoldFire");$('#p31').removeClass("lightGoldFire");$('#p32').removeClass("lightGoldFire");$('#p33').removeClass("lightGoldFire");$('#p34').removeClass("lightGoldFire");
+    $('#p35').removeClass("lightGoldFire");$('#p36').removeClass("lightGoldFire");$('#p37').removeClass("lightGoldFire");$('#p38').removeClass("lightGoldFire");$('#p39').removeClass("lightGoldFire");
+    $('#p40').removeClass("lightGoldFire");$('#p41').removeClass("lightGoldFire");$('#p42').removeClass("lightGoldFire");$('#p43').removeClass("lightGoldFire");$('#p44').removeClass("lightGoldFire");
+    $('#p45').removeClass("lightGoldFire");$('#p46').removeClass("lightGoldFire");$('#p47').removeClass("lightGoldFire");$('#p48').removeClass("lightGoldFire");$('#p49').removeClass("lightGoldFire");
 
-    $('#p0').removeClass("goldFire");$('#p1').removeClass("goldFire");$('#p2').removeClass("goldFire");$('#p3').removeClass("goldFire");$('#p4').removeClass("goldFire");$('#p5').removeClass("goldFire");
-    $('#p6').removeClass("goldFire");$('#p7').removeClass("goldFire");$('#p8').removeClass("goldFire");$('#p9').removeClass("goldFire");$('#p10').removeClass("goldFire");$('#p11').removeClass("goldFire");
-    $('#p12').removeClass("goldFire");$('#p13').removeClass("goldFire");$('#p14').removeClass("goldFire");$('#p15').removeClass("goldFire");$('#p16').removeClass("goldFire");$('#p17').removeClass("goldFire");
-    $('#p18').removeClass("goldFire");$('#p19').removeClass("goldFire");$('#p20').removeClass("goldFire");$('#p21').removeClass("goldFire");$('#p22').removeClass("goldFire");$('#p23').removeClass("goldFire");
-    $('#p24').removeClass("goldFire");$('#p25').removeClass("goldFire");$('#p26').removeClass("goldFire");$('#p27').removeClass("goldFire");$('#p28').removeClass("goldFire");$('#p29').removeClass("goldFire");
+    $('#p0').removeClass("goldFire");$('#p1').removeClass("goldFire");$('#p2').removeClass("goldFire");$('#p3').removeClass("goldFire");$('#p4').removeClass("goldFire");
+    $('#p5').removeClass("goldFire");$('#p6').removeClass("goldFire");$('#p7').removeClass("goldFire");$('#p8').removeClass("goldFire");$('#p9').removeClass("goldFire");
+    $('#p10').removeClass("goldFire");$('#p11').removeClass("goldFire");$('#p12').removeClass("goldFire");$('#p13').removeClass("goldFire");$('#p14').removeClass("goldFire");
+    $('#p15').removeClass("goldFire");$('#p16').removeClass("goldFire");$('#p17').removeClass("goldFire");$('#p18').removeClass("goldFire");$('#p19').removeClass("goldFire");
+    $('#p20').removeClass("goldFire");$('#p21').removeClass("goldFire");$('#p22').removeClass("goldFire");$('#p23').removeClass("goldFire");$('#p24').removeClass("goldFire");
+    $('#p25').removeClass("goldFire");$('#p26').removeClass("goldFire");$('#p27').removeClass("goldFire");$('#p28').removeClass("goldFire");$('#p29').removeClass("goldFire");
+    $('#p30').removeClass("goldFire");$('#p31').removeClass("goldFire");$('#p32').removeClass("goldFire");$('#p33').removeClass("goldFire");$('#p34').removeClass("goldFire");
+    $('#p35').removeClass("goldFire");$('#p36').removeClass("goldFire");$('#p37').removeClass("goldFire");$('#p38').removeClass("goldFire");$('#p39').removeClass("goldFire");
+    $('#p40').removeClass("goldFire");$('#p41').removeClass("goldFire");$('#p42').removeClass("goldFire");$('#p43').removeClass("goldFire");$('#p44').removeClass("goldFire");
+    $('#p45').removeClass("goldFire");$('#p46').removeClass("goldFire");$('#p47').removeClass("goldFire");$('#p48').removeClass("goldFire");$('#p49').removeClass("goldFire");
 }
 
 function parsePlayerFromRow(id) {
@@ -690,8 +792,8 @@ function resetAllSelectedRoles() {
 
 var r = document.querySelector(':root');
 
-// Avalanche();
 function Avalanche() {
+  $('#teamTitle').html('Colorado Avalanche');
   r.style.setProperty('--primaryLight', '#4c1a2a');
   r.style.setProperty('--primary', '#39141f');
   r.style.setProperty('--primaryDark', '#260d15');
@@ -700,8 +802,8 @@ function Avalanche() {
   r.style.setProperty('--secondaryDark', '#286ea4');
 }
 
-// Blackhawks();
 function Blackhawks() {
+  $('#teamTitle').html('Chicago Blackhawks');
   r.style.setProperty('--primaryLight', '#610514');
   r.style.setProperty('--primary', '#49030f');
   r.style.setProperty('--primaryDark', '#31020a');
@@ -710,8 +812,8 @@ function Blackhawks() {
   r.style.setProperty('--secondaryDark', '#cca700');
 }
 
-// BlueJackets();
 function BlueJackets() {
+  $('#teamTitle').html('Columbus Blue Jackets');
   r.style.setProperty('--primaryLight', '#002e66');
   r.style.setProperty('--primary', '#00224d');
   r.style.setProperty('--primaryDark', '#001733');
@@ -720,8 +822,8 @@ function BlueJackets() {
   r.style.setProperty('--secondaryDark', '#bd0f24');
 }
 
-// Blues();
 function Blues() {
+  $('#teamTitle').html('Saint Louis Blues');
   r.style.setProperty('--primaryLight', '#002466');
   r.style.setProperty('--primary', '#001b4d');
   r.style.setProperty('--primaryDark', '#001233');
@@ -730,8 +832,8 @@ function Blues() {
   r.style.setProperty('--secondaryDark', '#c98e03');
 }
 
-// Bruins();
 function Bruins() {
+  $('#teamTitle').html('Boston Bruins');
   r.style.setProperty('--primaryLight', '#333333');
   r.style.setProperty('--primary', '#262626');
   r.style.setProperty('--primaryDark', '#1a1a1a');
@@ -740,8 +842,8 @@ function Bruins() {
   r.style.setProperty('--secondaryDark', '#cc8b00');
 }
 
-// Canadiens();
 function Canadiens() {
+  $('#teamTitle').html('Montreal Canadiens');
   r.style.setProperty('--primaryLight', '#570f16');
   r.style.setProperty('--primary', '#410b11');
   r.style.setProperty('--primaryDark', '#2c070b');
@@ -750,8 +852,8 @@ function Canadiens() {
   r.style.setProperty('--secondaryDark', '#2834a4');
 }
 
-// Canucks();
 function Canucks() {
+  $('#teamTitle').html('Vancouver Canucks');
   r.style.setProperty('--primaryLight', '#002466');
   r.style.setProperty('--primary', '#001b4d');
   r.style.setProperty('--primaryDark', '#001233');
@@ -760,8 +862,8 @@ function Canucks() {
   r.style.setProperty('--secondaryDark', '#00cc5f');
 }
 
-// Capitals();
 function Capitals() {
+  $('#teamTitle').html('Washington Capitals');
   r.style.setProperty('--primaryLight', '#5e0816');
   r.style.setProperty('--primary', '#470611');
   r.style.setProperty('--primaryDark', '#2f040b');
@@ -770,8 +872,8 @@ function Capitals() {
   r.style.setProperty('--secondaryDark', '#267bf2');
 }
 
-// Coyotes();
 function Coyotes() {
+  $('#teamTitle').html('Phoenix Coyotes');
   r.style.setProperty('--primaryLight', '#50161e');
   r.style.setProperty('--primary', '#3c1016');
   r.style.setProperty('--primaryDark', '#280b0f');
@@ -780,208 +882,208 @@ function Coyotes() {
   r.style.setProperty('--secondaryDark', '#937b39');
 }
 
-// Devils();
 function Devils() {
-  r.style.setProperty('--primaryLight', '#5e0812');
-  r.style.setProperty('--primary', '#47060d');
-  r.style.setProperty('--primaryDark', '#2f0409');
-  //r.style.setProperty('--secondary', '#000000');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  $('#teamTitle').html('New Jersey Devils');
+  r.style.setProperty('--primaryLight', '#333333');
+  r.style.setProperty('--primary', '#262626');
+  r.style.setProperty('--primaryDark', '#1a1a1a');
+  //r.style.setProperty('--secondary', '#CE1126');
+  r.style.setProperty('--secondaryLight', '#f04257');
+  r.style.setProperty('--secondaryDark', '#bd0f24');
 }
 
-// Ducks();
 function Ducks() {
+  $('#teamTitle').html('Anaheim Ducks');
   r.style.setProperty('--primaryLight', '#612505');
   r.style.setProperty('--primary', '#491c04');
   r.style.setProperty('--primaryDark', '#301303');
   //r.style.setProperty('--secondary', '#B9975B');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#c2a470');
+  r.style.setProperty('--secondaryDark', '#8f713d');
 }
 
-// Flames();
 function Flames() {
+  $('#teamTitle').html('Calgary Flames');
   r.style.setProperty('--primaryLight', '#66000e');
   r.style.setProperty('--primary', '#4d000a');
   r.style.setProperty('--primaryDark', '#330007');
   //r.style.setProperty('--secondary', '#FFB81C');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#ffbe33');
+  r.style.setProperty('--secondaryDark', '#cc8b00');
 }
 
-// Flyers();
 function Flyers() {
-  r.style.setProperty('--primaryLight', '#651d01');
-  r.style.setProperty('--primary', '#4c1601');
-  r.style.setProperty('--primaryDark', '#320f01');
-  //r.style.setProperty('--secondary', '#000000');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  $('#teamTitle').html('Philadelphia Flyers');
+  r.style.setProperty('--primaryLight', '#333333');
+  r.style.setProperty('--primary', '#262626');
+  r.style.setProperty('--primaryDark', '#1a1a1a');
+  //r.style.setProperty('--secondary', '#F74902');
+  r.style.setProperty('--secondaryLight', '#fd6e35');
+  r.style.setProperty('--secondaryDark', '#ca3b02');
 }
 
-// GoldenKnights();
 function GoldenKnights() {
+  $('#teamTitle').html('Vegas Golden Knights');
   r.style.setProperty('--primaryLight', '#2c373a');
   r.style.setProperty('--primary', '#21292b');
   r.style.setProperty('--primaryDark', '#161b1d');
   //r.style.setProperty('--secondary', '#B4975A');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#c0a772');
+  r.style.setProperty('--secondaryDark', '#8d743f');
 }
 
-// Hurricanes();
 function Hurricanes() {
+  $('#teamTitle').html('Carolina Hurricanes');
   r.style.setProperty('--primaryLight', '#5e0812');
   r.style.setProperty('--primary', '#47060d');
   r.style.setProperty('--primaryDark', '#2f0409');
   //r.style.setProperty('--secondary', '#A4A9AD');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#949a9e');
+  r.style.setProperty('--secondaryDark', '#61676b');
 }
 
-// Islanders();
 function Islanders() {
+  $('#teamTitle').html('New York Islanders');
   r.style.setProperty('--primaryLight', '#003666');
   r.style.setProperty('--primary', '#00294d');
   r.style.setProperty('--primaryDark', '#001b33');
   //r.style.setProperty('--secondary', '#F47D30');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#f5873d');
+  r.style.setProperty('--secondaryDark', '#c2540a');
 }
 
-// Jets();
 function Jets() {
+  $('#teamTitle').html('Winnipeg Jets');
   r.style.setProperty('--primaryLight', '#062b60');
   r.style.setProperty('--primary', '#042148');
   r.style.setProperty('--primaryDark', '#031630');
   //r.style.setProperty('--secondary', '#7B303E');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#c66c7d');
+  r.style.setProperty('--secondaryDark', '#93394a');
 }
 
-// Kings();
 function Kings() {
+  $('#teamTitle').html('Los Angeles Kings');
   r.style.setProperty('--primaryLight', '#333333');
   r.style.setProperty('--primary', '#262626');
   r.style.setProperty('--primaryDark', '#1a1a1a');
   //r.style.setProperty('--secondary', '#A2AAAD');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#939c9f');
+  r.style.setProperty('--secondaryDark', '#60696c');
 }
 
-// Kraken();
 function Kraken() {
+  $('#teamTitle').html('Seattle Kraken');
   r.style.setProperty('--primaryLight', '#003866');
   r.style.setProperty('--primary', '#002a4d');
   r.style.setProperty('--primaryDark', '#001c33');
   //r.style.setProperty('--secondary', '#99D9D9');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#6ac8c8');
+  r.style.setProperty('--secondaryDark', '#379595');
 }
 
-// Lightning();
 function Lightning() {
+  $('#teamTitle').html('Tampa Bay Lighting');
   r.style.setProperty('--primaryLight', '#002868');
   r.style.setProperty('--primary', '#001d4d');
   r.style.setProperty('--primaryDark', '#001433');
   //r.style.setProperty('--secondary', '#FFFFFF');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#cccccc');
+  r.style.setProperty('--secondaryDark', '#999999');
 }
 
-// MapleLeafs();
 function MapleLeafs() {
+  $('#teamTitle').html('Toronto Maple Leafs');
   r.style.setProperty('--primaryLight', '#002466');
   r.style.setProperty('--primary', '#001b4d');
   r.style.setProperty('--primaryDark', '#001233');
   //r.style.setProperty('--secondary', '#FFFFFF');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#cccccc');
+  r.style.setProperty('--secondaryDark', '#999999');
 }
 
-// Oilers();
 function Oilers() {
+  $('#teamTitle').html('Edmonton Oilers');
   r.style.setProperty('--primaryLight', '#062b60');
   r.style.setProperty('--primary', '#042148');
   r.style.setProperty('--primaryDark', '#031630');
   //r.style.setProperty('--secondary', '#FF4C00');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#ff7033');
+  r.style.setProperty('--secondaryDark', '#cc3d00');
 }
 
-// Panthers();
 function Panthers() {
+  $('#teamTitle').html('Florida Panthers');
   r.style.setProperty('--primaryLight', '#5e0816');
   r.style.setProperty('--primary', '#470611');
   r.style.setProperty('--primaryDark', '#2f040b');
   //r.style.setProperty('--secondary', '#B9975B');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#c2a470');
+  r.style.setProperty('--secondaryDark', '#8f713d');
 }
 
-// Penguins();
 function Penguins() {
+  $('#teamTitle').html('Pittsburgh Penguins');
   r.style.setProperty('--primaryLight', '#333333');
   r.style.setProperty('--primary', '#262626');
   r.style.setProperty('--primaryDark', '#1a1a1a');
   //r.style.setProperty('--secondary', '#FCB514');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#fcc136');
+  r.style.setProperty('--secondaryDark', '#c98e03');
 }
 
-// Predators();
 function Predators() {
-  r.style.setProperty('--primaryLight', '#664600');
-  r.style.setProperty('--primary', '#4d3400');
-  r.style.setProperty('--primaryDark', '#332300');
-  //r.style.setProperty('--secondary', '#041E42');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  $('#teamTitle').html('Nashville Predators');
+  r.style.setProperty('--primaryLight', '#062b60');
+  r.style.setProperty('--primary', '#042148');
+  r.style.setProperty('--primaryDark', '#031630');
+  //r.style.setProperty('--secondary', '#FFB81C');
+  r.style.setProperty('--secondaryLight', '#ffbe33');
+  r.style.setProperty('--secondaryDark', '#cc8b00');
 }
 
-// Rangers();
 function Rangers() {
+  $('#teamTitle').html('New York Rangers');
   r.style.setProperty('--primaryLight', '#002266');
   r.style.setProperty('--primary', '#001a4d');
   r.style.setProperty('--primaryDark', '#001133');
   //r.style.setProperty('--secondary', '#CE1126');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#f04257');
+  r.style.setProperty('--secondaryDark', '#bd0f24');
 }
 
-// RedWings();
 function RedWings() {
+  $('#teamTitle').html('Detroit Red Wings');
   r.style.setProperty('--primaryLight', '#5e0812');
   r.style.setProperty('--primary', '#47060d');
   r.style.setProperty('--primaryDark', '#2f0409');
   //r.style.setProperty('--secondary', '#FFFFFF');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#cccccc');
+  r.style.setProperty('--secondaryDark', '#999999');
 }
 
-// Sabres();
 function Sabres() {
+  $('#teamTitle').html('Buffalo Sabres');
   r.style.setProperty('--primaryLight', '#002466');
   r.style.setProperty('--primary', '#001b4d');
   r.style.setProperty('--primaryDark', '#001233');
   //r.style.setProperty('--secondary', '#FFB81C');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#ffbe33');
+  r.style.setProperty('--secondaryDark', '#cc8b00');
 }
 
-// Senators();
 function Senators() {
+  $('#teamTitle').html('Ottawa Senators');
   r.style.setProperty('--primaryLight', '#5b0b14');
   r.style.setProperty('--primary', '#44080f');
   r.style.setProperty('--primaryDark', '#2e050a');
   //r.style.setProperty('--secondary', '#B79257');
-  r.style.setProperty('--secondaryLight', '#');
-  r.style.setProperty('--secondaryDark', '#');
+  r.style.setProperty('--secondaryLight', '#c2a370');
+  r.style.setProperty('--secondaryDark', '#8f703d');
 }
 
-// Sharks();
 function Sharks() {
+  $('#teamTitle').html('San Jose Sharks');
   r.style.setProperty('--primaryLight', '#005f66');
   r.style.setProperty('--primary', '#00474d');
   r.style.setProperty('--primaryDark', '#003033');
@@ -990,8 +1092,8 @@ function Sharks() {
   r.style.setProperty('--secondaryDark', '#cc6300');
 }
 
-// Stars();
 function Stars() {
+  $('#teamTitle').html('Dallas Stars');
   r.style.setProperty('--primaryLight', '#006847');
   r.style.setProperty('--primary', '#004d34');
   r.style.setProperty('--primaryDark', '#003323');
@@ -1000,11 +1102,11 @@ function Stars() {
   r.style.setProperty('--secondaryDark', '#676765');
 }
 
- Wild();
 function Wild() {
+  $('#teamTitle').html('Minnesota Wild');
   r.style.setProperty('--primaryLight', '#174f39');
   r.style.setProperty('--primary', '#123b2b');
   r.style.setProperty('--primaryDark', '#0c271d');
-  r.style.setProperty('--secondaryLight', '#e44e64'); // '#A6192E' 40% border shadow, 60% text
+  r.style.setProperty('--secondaryLight', '#e44e64');
   r.style.setProperty('--secondaryDark', '#b11b31');
 }
