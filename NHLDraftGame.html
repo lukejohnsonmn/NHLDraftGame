@@ -13,11 +13,39 @@
         
         <div id="leftDiv">
             <div id="teamTitle">
-                <select id="teamDropdown">
-                    <option value="Select">Select Team</option>
-                    <option value="Ducks">Anaheim Ducks</option>
-                    <option value="Bruins">Boston Bruins</option>
-                    <option value="Sabres">Buffalo Sabres</option>
+                <select id="teamDropdown" onchange="selectTeam();">
+                    <option id="Select" value="Select">Select Team</option>
+                    <option id="Ducks" value="Ducks">Anaheim Ducks</option>
+                    <option id="Bruins" value="Bruins">Boston Bruins</option>
+                    <option id="Sabres" value="Sabres">Buffalo Sabres</option>
+                    <option id="Flames" value="Flames">Calgary Flames</option>
+                    <option id="Hurricanes" value="Hurricanes">Carolina Hurricanes</option>
+                    <option id="Blackhawks" value="Blackhawks">Chicago Blackhawks</option>
+                    <option id="Avalanche" value="Avalanche">Colorado Avalanche</option>
+                    <option id="BlueJackets" value="BlueJackets">Columbus Blue Jackets</option>
+                    <option id="Stars" value="Stars">Dallas Stars</option>
+                    <option id="RedWings" value="RedWings">Detroit Red Wings</option>
+                    <option id="Oilers" value="Oilers">Edmonton Oilers</option>
+                    <option id="Panthers" value="Panthers">Florida Panthers</option>
+                    <option id="Kings" value="Kings">Los Angeles Kings</option>
+                    <option id="Wild" value="Wild">Minnesota Wild</option>
+                    <option id="Canadiens" value="Canadiens">Montreal Canadiens</option>
+                    <option id="Predators" value="Predators">Nashville Predators</option>
+                    <option id="Devils" value="Devils">New Jersey Devils</option>
+                    <option id="Islanders" value="Islanders">New York Islanders</option>
+                    <option id="Rangers" value="Rangers">New York Rangers</option>
+                    <option id="Senators" value="Senators">Ottawa Senators</option>
+                    <option id="Flyers" value="Flyers">Philadelphia Flyers</option>
+                    <option id="Penguins" value="Penguins">Pittsburgh Penguins</option>
+                    <option id="Sharks" value="Sharks">San Jose Sharks</option>
+                    <option id="Kraken" value="Kraken">Seattle Kraken</option>
+                    <option id="Blues" value="Blues">St Louis Blues</option>
+                    <option id="Lightning" value="Lightning">Tampa Bay Lightning</option>
+                    <option id="MapleLeafs" value="MapleLeafs">Toronto Maple Leafs</option>
+                    <option id="Canucks" value="Canucks">Vancouver Canucks</option>
+                    <option id="GoldenKnights" value="GoldenKnights">Vegas Golden Knights</option>
+                    <option id="Capitals" value="Capitals">Washington Capitals</option>
+                    <option id="Jets" value="Jets">Winnipeg Jets</option>
                 </select>
             </div>
             
@@ -73,9 +101,6 @@
         </div>
 
         <div id="rightDiv">
-            <p>  
-                <button type="button" onclick="light(2)">Get Player Stats</button>
-            </p>
         </div>
         
     </body>  

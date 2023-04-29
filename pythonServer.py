@@ -24,8 +24,10 @@ class MyServer(BaseHTTPRequestHandler):
         #self.wfile.write(bytes("<p>This is an example web server.</p>", "utf-8"))
         #self.wfile.write(bytes("</body></html>", "utf-8"))
 
-        if self.path == "/get-season-stats":
-            paramName = 'boston'
+        path = self.path.split("?")
+
+        if path[0] == "/get-season-stats":
+            paramName = path[1]
             paramSeason = '20222023'
             paramTodaysDate = '2023-04-28'
             print('ENDPOINT: /get-season-stats: ' + paramName + ', ' + paramSeason + ', ' + paramTodaysDate)
@@ -51,9 +53,9 @@ class SalaryStats:
 
 class Team:
     # season: '20222023'
-    def __init__(self, name, season):
-        self.id = mapTeamNameToId(name)
-        self.name = mapIdToTeamName(self.id)
+    def __init__(self, id, name, season):
+        self.id = id
+        self.name = name
         self.season = season
         self.stats = getSeasonStatsForTeam(self)
         self.estFaceOffsPerSecond = estimateFaceOffsPerSecond(self.stats)
@@ -121,7 +123,7 @@ class GameStats:
         self.timeOnIce = jsonStats['timeOnIce']
 
 class Player:
-    def __init__(self, id, fullName, jerseyNumber, position, teamName, season):
+    def __init__(self, id, fullName, jerseyNumber, position, teamId, teamName, season):
         self.id = id
         self.fullName = fullName
         self.jerseyNumber = jerseyNumber
@@ -130,10 +132,11 @@ class Player:
         self.positionType = position['type']
         self.teamName = teamName
         self.season = season
-        self.team = Team(teamName, season)
+        self.team = Team(teamId, teamName, season)
         self.startedLastGame = False
 
         jsonStats = getSeasonStatsForPlayer(self)
+        self.seasonStats = None
         if jsonStats != None:
             if (self.positionCode != 'G'):
                 self.seasonStats = SeasonStats(jsonStats)
@@ -144,10 +147,13 @@ class Player:
             self.salary = 0
         
     def calcRemainingStats(self):
-        if (self.positionCode != 'G'):
-            self.perGameStats = PerGameStats(self.seasonStats)
-            self.salaryStats = SalaryStats(self)
-            self.salary = calcAvgSalary(self.salaryStats)
+        if self.positionCode != 'G':
+            if self.seasonStats != None:
+                self.perGameStats = PerGameStats(self.seasonStats)
+                self.salaryStats = SalaryStats(self)
+                self.salary = calcAvgSalary(self.salaryStats)
+            else:
+                self.positionCode = 'G'
     
     def setStartedLastGame(self):
         self.startedLastGame = True
@@ -159,7 +165,7 @@ class Roster:
         self.name = mapIdToTeamName(self.id)
         self.season = season
         self.todaysDate = todaysDate
-        self.team = Team(self.name, self.season)
+        self.team = Team(self.id, self.name, self.season)
         self.roster = getRosterForTeam(self.id, self.name, self.season)
         addPostSeasonStatsToPlayers(self)
         getStartingLineupForLastGame(self, todaysDate)
@@ -178,9 +184,12 @@ def getRosterForTeam(teamId, teamName, season):
     for p in jsonRoster:
         pId = p['person']['id']
         pFullName = p['person']['fullName']
-        pJerseyNumber = p['jerseyNumber']
+        try:
+            pJerseyNumber = p['jerseyNumber']
+        except:
+            pJerseyNumber = '0'
         pPosition = p['position']
-        playerList.append(Player(pId, pFullName, pJerseyNumber, pPosition, teamName, season))
+        playerList.append(Player(pId, pFullName, pJerseyNumber, pPosition, teamId, teamName, season))
     return playerList
 
 def getStartingLineupForLastGame(roster, todaysDate):
@@ -231,7 +240,7 @@ def addPostSeasonStatsToPlayers(roster):
         statsToMerge = getDictOfStatsToMerge(roster, gamePk)
         for key in statsToMerge:
             for player in roster.roster:
-                if key == player.id:
+                if key == player.id and player.seasonStats != None:
                     player.seasonStats.addPostSeasonStats(statsToMerge[key])
                     break
 
@@ -398,58 +407,6 @@ def printStuff(roster):
     print(teamStats)
 
 
-# date example: 2023-02-09
-def getSeasonStatsForStartingLineupOnDateForTeam(teamName, date):
-    # get gamePk
-    season = '20222023'
-    teamObj = Team(teamName, season)
-    gamePk = getGamePkGivenTeamAndDate(teamObj, date)
-
-    myText = 'My team: ' + str(teamObj.id) + ', ' + teamObj.name + ' --> My gamePk: ' + str(gamePk)
-    print(myText)
-
-    #get boxscores --> get player ids for team
-    playerIds = getAllStartingPlayerIdsForGamePk(teamObj, gamePk)
-
-    playerArr = []
-    for playerId in playerIds:
-        newPlayer = createNewPlayerFromId(playerId, season)
-        if newPlayer.positionCode != 'G':
-            playerArr.append(newPlayer)
-
-    playerArr.sort(key=lambda x: x.salary.avgSalary)
-
-    teamStats = 'Name\t\t\tAvg\tCaptain\tScorer\tPlaymkr\tCenter\tEnforce\tShooter\tBlocker\n'
-    for player in playerArr:
-        salaryStr = player.fullName + '\t'
-        if len(player.fullName) < 16:
-            salaryStr += '\t'
-        salaryStr += str(player.salary.avgSalary) + '\t'
-        salaryStr += str(player.salary.captain) + '\t'
-        salaryStr += str(player.salary.scorer) + '\t'
-        salaryStr += str(player.salary.playmaker) + '\t'
-        salaryStr += str(player.salary.center) + '\t'
-        salaryStr += str(player.salary.enforcer) + '\t'
-        salaryStr += str(player.salary.shooter) + '\t'
-        salaryStr += str(player.salary.blocker) + '\n'
-        teamStats += salaryStr
-    return teamStats
-
-def createNewPlayerFromId(id, season):
-    playerUrl = 'https://statsapi.web.nhl.com/api/v1/people/' + str(id) + '?season=' + season
-    response = httpGet(playerUrl)
-    jsonData = json.loads(response)
-    info = jsonData['people'][0]
-    fullName = info['fullName']
-    jerseyNumber = info['primaryNumber']
-    position = info['primaryPosition']
-    teamName = info['currentTeam']['name']
-    return Player(id, fullName, jerseyNumber, position, teamName, season)
-
-def parsePlayerStats(jsonText):
-    jsonData = json.loads(jsonText)
-    return jsonData['stats'][0]['splits'][0]['stat']
-
 def getGamePkGivenTeamAndDate(teamObj, date):
     scheduleUrl = 'https://statsapi.web.nhl.com/api/v1/schedule?date=' + date
     response = httpGet(scheduleUrl)
@@ -480,79 +437,79 @@ def httpGet(url):
 
 def mapTeamNameToId(teamName):
     name = teamName.lower()
-    if ('jersey' in name) or ('devils' in name):
+    if ('devils' in name):
         return 1
-    elif ('york' in name) or ('islanders' in name):
+    elif ('islanders' in name):
         return 2
-    elif ('york' in name) or ('rangers' in name):
+    elif ('rangers' in name):
         return 3
-    elif ('philadelphia' in name) or ('flyers' in name):
+    elif ('flyers' in name):
         return 4
-    elif ('pittsburgh' in name) or ('penguins' in name):
+    elif ('penguins' in name):
         return 5
-    elif ('boston' in name) or ('bruins' in name):
+    elif ('bruins' in name):
         return 6
-    elif ('buffalo' in name) or ('sabres' in name):
+    elif ('sabres' in name):
         return 7
-    elif ('montreal' in name) or ('montréal' in name) or ('canadiens' in name):
+    elif ('canadiens' in name):
         return 8
-    elif ('ottawa' in name) or ('senators' in name):
+    elif ('senators' in name):
         return 9
-    elif ('toronto' in name) or ('maple leafs' in name):
+    elif ('mapleleafs' in name):
         return 10
-    elif ('carolina' in name) or ('hurricanes' in name):
+    elif ('hurricanes' in name):
         return 12
-    elif ('florida' in name) or ('panthers' in name):
+    elif ('panthers' in name):
         return 13
-    elif ('tampa bay' in name) or ('lightning' in name):
+    elif ('lightning' in name):
         return 14
-    elif ('washington' in name) or ('capitals' in name):
+    elif ('capitals' in name):
         return 15
-    elif ('chicago' in name) or ('blackhawks' in name):
+    elif ('blackhawks' in name):
         return 16
-    elif ('detroit' in name) or ('red wings' in name):
+    elif ('redwings' in name):
         return 17
-    elif ('nashville' in name) or ('predators' in name):
+    elif ('predators' in name):
         return 18
-    elif ('st. louis' in name) or ('blues' in name):
+    elif ('blues' in name):
         return 19
-    elif ('calgary' in name) or ('flames' in name):
+    elif ('flames' in name):
         return 20
-    elif ('colorado' in name) or ('avalanche' in name):
+    elif ('avalanche' in name):
         return 21
-    elif ('edmonton' in name) or ('oilers' in name):
+    elif ('oilers' in name):
         return 22
-    elif ('vancouver' in name) or ('canucks' in name):
+    elif ('canucks' in name):
         return 23
-    elif ('anaheim' in name) or ('ducks' in name):
+    elif ('ducks' in name):
         return 24
-    elif ('dallas' in name) or ('stars' in name):
+    elif ('stars' in name):
         return 25
-    elif ('los angeles' in name) or ('kings' in name):
+    elif ('kings' in name):
         return 26
-    elif ('san jose' in name) or ('sharks' in name):
+    elif ('sharks' in name):
         return 28
-    elif ('columbus' in name) or ('blue jackets' in name):
+    elif ('bluejackets' in name):
         return 29
-    elif ('minnesota' in name) or ('wild' in name):
+    elif ('wild' in name):
         return 30
-    elif ('winnipeg' in name) or ('jets' in name):
+    elif ('jets' in name):
         return 52
-    elif ('arizona' in name) or ('coyotes' in name):
+    elif ('coyotes' in name):
         return 53
-    elif ('vegas' in name) or ('golden knights' in name):
+    elif ('goldenknights' in name):
         return 54
-    elif ('seattle' in name) or ('kraken' in name):
+    elif ('kraken' in name):
         return 55
     return 0
 
 def mapIdToTeamName(id):
     if (id == 1):
-        return 'Jersey Devils'
+        return 'New Jersey Devils'
     elif (id == 2):
-        return 'York Islanders'
+        return 'New York Islanders'
     elif (id == 3):
-        return 'York Rangers'
+        return 'New York Rangers'
     elif (id == 4):
         return 'Philadelphia Flyers'
     elif (id == 5):

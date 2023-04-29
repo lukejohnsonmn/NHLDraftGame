@@ -1,6 +1,6 @@
 :root {
 	--gold: #ffcc33;
-	--text: white;
+	--text: #ffffff;
 	--primaryLight: #333333;	/* 20% */
 	--primary: #262626;		/* 15% */
 	--primaryDark: #1a1a1a;	/* 10% */
@@ -40,6 +40,7 @@ table, th, td {
 #leftDiv {
 	float: left;
 	width: 66%;
+	color: var(--text);
 }
 #rightDiv {
 	float: right;
@@ -61,7 +62,7 @@ table, th, td {
 	text-align: center;
 	font-size: 48px;
 	color: var(--text);
-	background: var(--primaryDark);
+	background: transparent;
 	border-width: 0px;
 	width: 100%;
 	padding: 6px;
@@ -144,6 +145,7 @@ table, th, td {
 
 
 
+
 /* Input formatting */
 .submit-btn, button {
 	display: block;
@@ -153,17 +155,6 @@ table, th, td {
 	color: var(--text);
 	background-color: #262626;
 	border: 4px solid #e6e6e6;
-}
-
-.dropdown {
-	display: block;
-	margin: auto;
-	padding: 5px;
-	width: 100%;
-}
-
-.text-basic {
-	padding: 5px;
 }
 
 #roleButtons {
@@ -273,3 +264,164 @@ table, th, td {
 	70%  { text-shadow: -.1em 0 .3em #4d4d4d, .1em -.1em .3em #404040, -.2em -.2em .6em #333333, .2em -.3em .4em #262626, -.2em -.4em .7em #1a1a1a, .1em -.5em .7em #0d0d0d, .1em -.7em .9em #000000; }
 	to   { text-shadow: -.1em -.2em .6em #4d4d4d, -.15em 0 .6em #404040, .1em -.25em .6em #333333, -.15em -.45em .5em #262626, .1em -.5em .6em #1a1a1a, 0 -.8em .6em #0d0d0d, -.2em -1em .8em #000000; }
 }
+
+#Avalanche {
+	background-color: #6F263D;
+	color: #5ba1d7;
+}
+  
+#Blackhawks {
+	background-color: #CF0A2C;
+	color: #ffda33;
+}
+
+#BlueJackets {
+	background-color: #002654;
+	color: #f04257;
+}
+
+#Blues {
+	background-color: #002F87;
+	color: #fcc136;
+}
+
+#Bruins {
+	background-color: #000000;
+	color: #ffbe33;
+}
+
+#Canadiens {
+	background-color: #AF1E2D;
+	color: #5b67d7;
+}
+
+#Canucks {
+	background-color: #00205B;
+	color: #33ff92;
+}
+
+#Capitals {
+	background-color: #C8102E;
+	color: #3e8af4;
+}
+
+#Coyotes {
+	background-color: #8C2633;
+	color: #c6ae6c;
+}
+
+#Devils {
+	background-color: #000000;
+	color: #f04257;
+}
+
+#Ducks {
+	background-color: #F47A38;
+	color: #ffffff;
+}
+
+#Flames {
+	background-color: #D2001C;
+	color: #ffbe33;
+}
+
+#Flyers {
+	background-color: #000000;
+	color: #fd6e35;
+}
+
+#GoldenKnights {
+	background-color: #000000;
+	color: #c0a772;
+}
+
+#Hurricanes {
+	background-color: #CE1126;
+	color: #a1a6aa;
+}
+
+#Islanders {
+	background-color: #00539B;
+	color: #f5873d;
+}
+
+#Jets {
+	background-color: #041E42;
+	color: #c66c7d;
+}
+
+#Kings {
+	background-color: #111111;
+	color: #939c9f;
+}
+
+#Kraken {
+	background-color: #001628;
+	color: #6ac8c8;
+}
+
+#Lightning {
+	background-color: #002868;
+	color: #ffffff;
+}
+
+#MapleLeafs {
+	background-color: #00205B;
+	color: #ffffff;
+}
+
+#Oilers {
+	background-color: #041E42;
+	color: #ff7033;
+}
+
+#Panthers {
+	background-color: #C8102E;
+	color: #c2a470;
+}
+
+#Penguins {
+	background-color: #000000;
+	color: #fcc136;
+}
+
+#Predators {
+	background-color: #041E42;
+	color: #ffbe33;
+}
+
+#Rangers {
+	background-color: #0038A8;
+	color: #f04257;
+}
+
+#RedWings {
+	background-color: #CE1126;
+	color: #ffffff;
+}
+
+#Sabres {
+	background-color: #003087;
+	color: #ffbe33;
+}
+
+#Senators {
+	background-color: #DA1A32;
+	color: #c2a370;
+}
+
+#Sharks {
+	background-color: #006D75;
+	color: #ff9633;
+}
+
+#Stars {
+	background-color: #006847;
+	color: #9a9a98;
+}
+
+#Wild {
+	background-color: #154734;
+	color: #e44e64;
+}
+  
