@@ -13,8 +13,14 @@
         
         <div id="leftDiv">
             <div id="teamTitle">
-                Minnesota Wild
+                <select id="teamDropdown">
+                    <option value="Select">Select Team</option>
+                    <option value="Ducks">Anaheim Ducks</option>
+                    <option value="Bruins">Boston Bruins</option>
+                    <option value="Sabres">Buffalo Sabres</option>
+                </select>
             </div>
+            
             <div id="roleButtons">
                 <button type="button" class="roleButton" id="captainButton" onclick="light(0)">Captain<div class="subButton">Goals x2 & Assists x2</div></button>
                 <button type="button" class="roleButton" id="scorerButton" onclick="light(0)">Scorer<div class="subButton">Goals x2</div></button>

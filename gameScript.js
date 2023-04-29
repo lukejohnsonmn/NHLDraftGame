@@ -129,7 +129,7 @@ function light(sw) {
     } else if (sw == 1) {  
         myText = "Light on!";
     }  else {
-        var selectedTeam = 'Ducks';
+        var selectedTeam = 'Bruins';
         myText = getSeasonStats();
         afterPlayerRowsLoaded();
         Sharks();
