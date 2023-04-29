@@ -21,14 +21,17 @@ class Player {
 
 class SalaryPlayer {
     constructor(infoArr) {
-        this.positionCode = infoArr[0];
-        this.jerseyNumber = infoArr[1];
-        this.fullName = infoArr[2];
-        this.salary = infoArr[3];
+        this.id = infoArr[0];
+        this.positionCode = infoArr[1];
+        this.jerseyNumber = infoArr[2];
+        this.fullName = infoArr[3];
+        this.salary = infoArr[4];
+        this.role = infoArr[5];
     }
 }
 
 var roster = null;
+var selectedPlayer = null;
 
 var selectedTeamId = "Select";
 var captainIsSelected = false;
@@ -39,7 +42,7 @@ var blockerIsSelected = false;
 var enforcerIsSelected = false;
 var centerIsSelected = false;
 
-var selectedPlayer = null;
+
 
 var playerButtonsHTML = '<button type="button" class="roleButton" id="captainButton">Captain<div class="subButton">Goals x2 & Assists x2</div></button>';
 playerButtonsHTML += '<button type="button" class="roleButton" id="scorerButton">Scorer<div class="subButton">Goals x2</div></button>';
@@ -109,6 +112,7 @@ function populateTable(playerArr) {
             }
         }
     }
+    tableStr += '<tr class="tableEnd"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>'
     document.getElementById('playerTableBody').innerHTML = tableStr;
 }
 
@@ -210,9 +214,61 @@ function selectColorScheme() {
   }
 }
 
+function getSelectedRole() {
+  if (captainIsSelected)
+    return 1;
+  if (scorerIsSelected)
+    return 2;
+  if (playmakerIsSelected)
+    return 3;
+  if (shooterIsSelected)
+    return 4;
+  if (blockerIsSelected)
+    return 5;
+  if (enforcerIsSelected)
+    return 6;
+  if (centerIsSelected)
+    return 7;
+  return 0;
+}
 
+function tryInsertPlayer() {
+  const selectedRole = getSelectedRole();
+  if (selectedPlayer != null && selectedRole > 0) {
+    const curLineup = getCurLineup();
+    console.log("selected stuff: " + selectedRole + ", " + selectedPlayer.fullName);
+  }
+}
 
+function getCurLineup() {
+  var lineupList = [];
+  for (var i = 0; i < 5; i++) {
+    const player = parsePlayerFromLineup('pl' + i);
+    if (player != null) {
+      lineupList.push(player);
+    }
+  }
+  return lineupList;
+}
 
+function playerIsAlreadyInLineup(playerId) {
+  for (const player of roster) {
+    if (player.id == playerId) {
+        return true;
+    }
+  }
+  return false;
+}
+
+function parsePlayerFromLineup(id) {
+  const playerId = document.getElementById(id).innerHTML.split('<div hidden="">')[1].split('</div>')[0];
+  for (const player of roster) {
+      if (player.id == playerId) {
+          return player;
+      }
+  }
+  return null;
+}
 
 function afterPlayerRowsLoaded() {
 
@@ -227,107 +283,107 @@ function afterPlayerRowsLoaded() {
     var p40Selected = false;var p41Selected = false;var p42Selected = false;var p43Selected = false;var p44Selected = false;
     var p45Selected = false;var p46Selected = false;var p47Selected = false;var p48Selected = false;var p49Selected = false;
 
-    $(function() {$('#p0').hover(function() {if (!p0Selected) {$("#p0").addClass("selectedGoldShadow");}}, function() {if (!p0Selected) {$("#p0").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p1').hover(function() {if (!p1Selected) {$("#p1").addClass("selectedGoldShadow");}}, function() {if (!p1Selected) {$("#p1").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p2').hover(function() {if (!p2Selected) {$("#p2").addClass("selectedGoldShadow");}}, function() {if (!p2Selected) {$("#p2").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p3').hover(function() {if (!p3Selected) {$("#p3").addClass("selectedGoldShadow");}}, function() {if (!p3Selected) {$("#p3").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p4').hover(function() {if (!p4Selected) {$("#p4").addClass("selectedGoldShadow");}}, function() {if (!p4Selected) {$("#p4").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p5').hover(function() {if (!p5Selected) {$("#p5").addClass("selectedGoldShadow");}}, function() {if (!p5Selected) {$("#p5").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p6').hover(function() {if (!p6Selected) {$("#p6").addClass("selectedGoldShadow");}}, function() {if (!p6Selected) {$("#p6").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p7').hover(function() {if (!p7Selected) {$("#p7").addClass("selectedGoldShadow");}}, function() {if (!p7Selected) {$("#p7").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p8').hover(function() {if (!p8Selected) {$("#p8").addClass("selectedGoldShadow");}}, function() {if (!p8Selected) {$("#p8").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p9').hover(function() {if (!p9Selected) {$("#p9").addClass("selectedGoldShadow");}}, function() {if (!p9Selected) {$("#p9").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p10').hover(function() {if (!p10Selected) {$("#p10").addClass("selectedGoldShadow");}}, function() {if (!p10Selected) {$("#p10").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p11').hover(function() {if (!p11Selected) {$("#p11").addClass("selectedGoldShadow");}}, function() {if (!p11Selected) {$("#p11").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p12').hover(function() {if (!p12Selected) {$("#p12").addClass("selectedGoldShadow");}}, function() {if (!p12Selected) {$("#p12").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p13').hover(function() {if (!p13Selected) {$("#p13").addClass("selectedGoldShadow");}}, function() {if (!p13Selected) {$("#p13").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p14').hover(function() {if (!p14Selected) {$("#p14").addClass("selectedGoldShadow");}}, function() {if (!p14Selected) {$("#p14").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p15').hover(function() {if (!p15Selected) {$("#p15").addClass("selectedGoldShadow");}}, function() {if (!p15Selected) {$("#p15").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p16').hover(function() {if (!p16Selected) {$("#p16").addClass("selectedGoldShadow");}}, function() {if (!p16Selected) {$("#p16").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p17').hover(function() {if (!p17Selected) {$("#p17").addClass("selectedGoldShadow");}}, function() {if (!p17Selected) {$("#p17").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p18').hover(function() {if (!p18Selected) {$("#p18").addClass("selectedGoldShadow");}}, function() {if (!p18Selected) {$("#p18").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p19').hover(function() {if (!p19Selected) {$("#p19").addClass("selectedGoldShadow");}}, function() {if (!p19Selected) {$("#p19").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p20').hover(function() {if (!p20Selected) {$("#p20").addClass("selectedGoldShadow");}}, function() {if (!p20Selected) {$("#p20").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p21').hover(function() {if (!p21Selected) {$("#p21").addClass("selectedGoldShadow");}}, function() {if (!p21Selected) {$("#p21").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p22').hover(function() {if (!p22Selected) {$("#p22").addClass("selectedGoldShadow");}}, function() {if (!p22Selected) {$("#p22").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p23').hover(function() {if (!p23Selected) {$("#p23").addClass("selectedGoldShadow");}}, function() {if (!p23Selected) {$("#p23").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p24').hover(function() {if (!p24Selected) {$("#p24").addClass("selectedGoldShadow");}}, function() {if (!p24Selected) {$("#p24").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p25').hover(function() {if (!p25Selected) {$("#p25").addClass("selectedGoldShadow");}}, function() {if (!p25Selected) {$("#p25").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p26').hover(function() {if (!p26Selected) {$("#p26").addClass("selectedGoldShadow");}}, function() {if (!p26Selected) {$("#p26").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p27').hover(function() {if (!p27Selected) {$("#p27").addClass("selectedGoldShadow");}}, function() {if (!p27Selected) {$("#p27").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p28').hover(function() {if (!p28Selected) {$("#p28").addClass("selectedGoldShadow");}}, function() {if (!p28Selected) {$("#p28").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p29').hover(function() {if (!p29Selected) {$("#p29").addClass("selectedGoldShadow");}}, function() {if (!p29Selected) {$("#p29").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p30').hover(function() {if (!p30Selected) {$("#p30").addClass("selectedGoldShadow");}}, function() {if (!p30Selected) {$("#p30").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p31').hover(function() {if (!p31Selected) {$("#p31").addClass("selectedGoldShadow");}}, function() {if (!p31Selected) {$("#p31").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p32').hover(function() {if (!p32Selected) {$("#p32").addClass("selectedGoldShadow");}}, function() {if (!p32Selected) {$("#p32").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p33').hover(function() {if (!p33Selected) {$("#p33").addClass("selectedGoldShadow");}}, function() {if (!p33Selected) {$("#p33").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p34').hover(function() {if (!p34Selected) {$("#p34").addClass("selectedGoldShadow");}}, function() {if (!p34Selected) {$("#p34").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p35').hover(function() {if (!p35Selected) {$("#p35").addClass("selectedGoldShadow");}}, function() {if (!p35Selected) {$("#p35").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p36').hover(function() {if (!p36Selected) {$("#p36").addClass("selectedGoldShadow");}}, function() {if (!p36Selected) {$("#p36").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p37').hover(function() {if (!p37Selected) {$("#p37").addClass("selectedGoldShadow");}}, function() {if (!p37Selected) {$("#p37").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p38').hover(function() {if (!p38Selected) {$("#p38").addClass("selectedGoldShadow");}}, function() {if (!p38Selected) {$("#p38").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p39').hover(function() {if (!p39Selected) {$("#p39").addClass("selectedGoldShadow");}}, function() {if (!p39Selected) {$("#p39").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p40').hover(function() {if (!p40Selected) {$("#p40").addClass("selectedGoldShadow");}}, function() {if (!p40Selected) {$("#p40").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p41').hover(function() {if (!p41Selected) {$("#p41").addClass("selectedGoldShadow");}}, function() {if (!p41Selected) {$("#p41").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p42').hover(function() {if (!p42Selected) {$("#p42").addClass("selectedGoldShadow");}}, function() {if (!p42Selected) {$("#p42").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p43').hover(function() {if (!p43Selected) {$("#p43").addClass("selectedGoldShadow");}}, function() {if (!p43Selected) {$("#p43").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p44').hover(function() {if (!p44Selected) {$("#p44").addClass("selectedGoldShadow");}}, function() {if (!p44Selected) {$("#p44").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p45').hover(function() {if (!p45Selected) {$("#p45").addClass("selectedGoldShadow");}}, function() {if (!p45Selected) {$("#p45").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p46').hover(function() {if (!p46Selected) {$("#p46").addClass("selectedGoldShadow");}}, function() {if (!p46Selected) {$("#p46").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p47').hover(function() {if (!p47Selected) {$("#p47").addClass("selectedGoldShadow");}}, function() {if (!p47Selected) {$("#p47").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p48').hover(function() {if (!p48Selected) {$("#p48").addClass("selectedGoldShadow");}}, function() {if (!p48Selected) {$("#p48").removeClass("selectedGoldShadow");}});});
-    $(function() {$('#p49').hover(function() {if (!p49Selected) {$("#p49").addClass("selectedGoldShadow");}}, function() {if (!p49Selected) {$("#p49").removeClass("selectedGoldShadow");}});});
+    $(function() {$('#p0').hover(function() {if (!p0Selected) {$("#p0").addClass("goldShadow");}}, function() {if (!p0Selected) {$("#p0").removeClass("goldShadow");}});});
+    $(function() {$('#p1').hover(function() {if (!p1Selected) {$("#p1").addClass("goldShadow");}}, function() {if (!p1Selected) {$("#p1").removeClass("goldShadow");}});});
+    $(function() {$('#p2').hover(function() {if (!p2Selected) {$("#p2").addClass("goldShadow");}}, function() {if (!p2Selected) {$("#p2").removeClass("goldShadow");}});});
+    $(function() {$('#p3').hover(function() {if (!p3Selected) {$("#p3").addClass("goldShadow");}}, function() {if (!p3Selected) {$("#p3").removeClass("goldShadow");}});});
+    $(function() {$('#p4').hover(function() {if (!p4Selected) {$("#p4").addClass("goldShadow");}}, function() {if (!p4Selected) {$("#p4").removeClass("goldShadow");}});});
+    $(function() {$('#p5').hover(function() {if (!p5Selected) {$("#p5").addClass("goldShadow");}}, function() {if (!p5Selected) {$("#p5").removeClass("goldShadow");}});});
+    $(function() {$('#p6').hover(function() {if (!p6Selected) {$("#p6").addClass("goldShadow");}}, function() {if (!p6Selected) {$("#p6").removeClass("goldShadow");}});});
+    $(function() {$('#p7').hover(function() {if (!p7Selected) {$("#p7").addClass("goldShadow");}}, function() {if (!p7Selected) {$("#p7").removeClass("goldShadow");}});});
+    $(function() {$('#p8').hover(function() {if (!p8Selected) {$("#p8").addClass("goldShadow");}}, function() {if (!p8Selected) {$("#p8").removeClass("goldShadow");}});});
+    $(function() {$('#p9').hover(function() {if (!p9Selected) {$("#p9").addClass("goldShadow");}}, function() {if (!p9Selected) {$("#p9").removeClass("goldShadow");}});});
+    $(function() {$('#p10').hover(function() {if (!p10Selected) {$("#p10").addClass("goldShadow");}}, function() {if (!p10Selected) {$("#p10").removeClass("goldShadow");}});});
+    $(function() {$('#p11').hover(function() {if (!p11Selected) {$("#p11").addClass("goldShadow");}}, function() {if (!p11Selected) {$("#p11").removeClass("goldShadow");}});});
+    $(function() {$('#p12').hover(function() {if (!p12Selected) {$("#p12").addClass("goldShadow");}}, function() {if (!p12Selected) {$("#p12").removeClass("goldShadow");}});});
+    $(function() {$('#p13').hover(function() {if (!p13Selected) {$("#p13").addClass("goldShadow");}}, function() {if (!p13Selected) {$("#p13").removeClass("goldShadow");}});});
+    $(function() {$('#p14').hover(function() {if (!p14Selected) {$("#p14").addClass("goldShadow");}}, function() {if (!p14Selected) {$("#p14").removeClass("goldShadow");}});});
+    $(function() {$('#p15').hover(function() {if (!p15Selected) {$("#p15").addClass("goldShadow");}}, function() {if (!p15Selected) {$("#p15").removeClass("goldShadow");}});});
+    $(function() {$('#p16').hover(function() {if (!p16Selected) {$("#p16").addClass("goldShadow");}}, function() {if (!p16Selected) {$("#p16").removeClass("goldShadow");}});});
+    $(function() {$('#p17').hover(function() {if (!p17Selected) {$("#p17").addClass("goldShadow");}}, function() {if (!p17Selected) {$("#p17").removeClass("goldShadow");}});});
+    $(function() {$('#p18').hover(function() {if (!p18Selected) {$("#p18").addClass("goldShadow");}}, function() {if (!p18Selected) {$("#p18").removeClass("goldShadow");}});});
+    $(function() {$('#p19').hover(function() {if (!p19Selected) {$("#p19").addClass("goldShadow");}}, function() {if (!p19Selected) {$("#p19").removeClass("goldShadow");}});});
+    $(function() {$('#p20').hover(function() {if (!p20Selected) {$("#p20").addClass("goldShadow");}}, function() {if (!p20Selected) {$("#p20").removeClass("goldShadow");}});});
+    $(function() {$('#p21').hover(function() {if (!p21Selected) {$("#p21").addClass("goldShadow");}}, function() {if (!p21Selected) {$("#p21").removeClass("goldShadow");}});});
+    $(function() {$('#p22').hover(function() {if (!p22Selected) {$("#p22").addClass("goldShadow");}}, function() {if (!p22Selected) {$("#p22").removeClass("goldShadow");}});});
+    $(function() {$('#p23').hover(function() {if (!p23Selected) {$("#p23").addClass("goldShadow");}}, function() {if (!p23Selected) {$("#p23").removeClass("goldShadow");}});});
+    $(function() {$('#p24').hover(function() {if (!p24Selected) {$("#p24").addClass("goldShadow");}}, function() {if (!p24Selected) {$("#p24").removeClass("goldShadow");}});});
+    $(function() {$('#p25').hover(function() {if (!p25Selected) {$("#p25").addClass("goldShadow");}}, function() {if (!p25Selected) {$("#p25").removeClass("goldShadow");}});});
+    $(function() {$('#p26').hover(function() {if (!p26Selected) {$("#p26").addClass("goldShadow");}}, function() {if (!p26Selected) {$("#p26").removeClass("goldShadow");}});});
+    $(function() {$('#p27').hover(function() {if (!p27Selected) {$("#p27").addClass("goldShadow");}}, function() {if (!p27Selected) {$("#p27").removeClass("goldShadow");}});});
+    $(function() {$('#p28').hover(function() {if (!p28Selected) {$("#p28").addClass("goldShadow");}}, function() {if (!p28Selected) {$("#p28").removeClass("goldShadow");}});});
+    $(function() {$('#p29').hover(function() {if (!p29Selected) {$("#p29").addClass("goldShadow");}}, function() {if (!p29Selected) {$("#p29").removeClass("goldShadow");}});});
+    $(function() {$('#p30').hover(function() {if (!p30Selected) {$("#p30").addClass("goldShadow");}}, function() {if (!p30Selected) {$("#p30").removeClass("goldShadow");}});});
+    $(function() {$('#p31').hover(function() {if (!p31Selected) {$("#p31").addClass("goldShadow");}}, function() {if (!p31Selected) {$("#p31").removeClass("goldShadow");}});});
+    $(function() {$('#p32').hover(function() {if (!p32Selected) {$("#p32").addClass("goldShadow");}}, function() {if (!p32Selected) {$("#p32").removeClass("goldShadow");}});});
+    $(function() {$('#p33').hover(function() {if (!p33Selected) {$("#p33").addClass("goldShadow");}}, function() {if (!p33Selected) {$("#p33").removeClass("goldShadow");}});});
+    $(function() {$('#p34').hover(function() {if (!p34Selected) {$("#p34").addClass("goldShadow");}}, function() {if (!p34Selected) {$("#p34").removeClass("goldShadow");}});});
+    $(function() {$('#p35').hover(function() {if (!p35Selected) {$("#p35").addClass("goldShadow");}}, function() {if (!p35Selected) {$("#p35").removeClass("goldShadow");}});});
+    $(function() {$('#p36').hover(function() {if (!p36Selected) {$("#p36").addClass("goldShadow");}}, function() {if (!p36Selected) {$("#p36").removeClass("goldShadow");}});});
+    $(function() {$('#p37').hover(function() {if (!p37Selected) {$("#p37").addClass("goldShadow");}}, function() {if (!p37Selected) {$("#p37").removeClass("goldShadow");}});});
+    $(function() {$('#p38').hover(function() {if (!p38Selected) {$("#p38").addClass("goldShadow");}}, function() {if (!p38Selected) {$("#p38").removeClass("goldShadow");}});});
+    $(function() {$('#p39').hover(function() {if (!p39Selected) {$("#p39").addClass("goldShadow");}}, function() {if (!p39Selected) {$("#p39").removeClass("goldShadow");}});});
+    $(function() {$('#p40').hover(function() {if (!p40Selected) {$("#p40").addClass("goldShadow");}}, function() {if (!p40Selected) {$("#p40").removeClass("goldShadow");}});});
+    $(function() {$('#p41').hover(function() {if (!p41Selected) {$("#p41").addClass("goldShadow");}}, function() {if (!p41Selected) {$("#p41").removeClass("goldShadow");}});});
+    $(function() {$('#p42').hover(function() {if (!p42Selected) {$("#p42").addClass("goldShadow");}}, function() {if (!p42Selected) {$("#p42").removeClass("goldShadow");}});});
+    $(function() {$('#p43').hover(function() {if (!p43Selected) {$("#p43").addClass("goldShadow");}}, function() {if (!p43Selected) {$("#p43").removeClass("goldShadow");}});});
+    $(function() {$('#p44').hover(function() {if (!p44Selected) {$("#p44").addClass("goldShadow");}}, function() {if (!p44Selected) {$("#p44").removeClass("goldShadow");}});});
+    $(function() {$('#p45').hover(function() {if (!p45Selected) {$("#p45").addClass("goldShadow");}}, function() {if (!p45Selected) {$("#p45").removeClass("goldShadow");}});});
+    $(function() {$('#p46').hover(function() {if (!p46Selected) {$("#p46").addClass("goldShadow");}}, function() {if (!p46Selected) {$("#p46").removeClass("goldShadow");}});});
+    $(function() {$('#p47').hover(function() {if (!p47Selected) {$("#p47").addClass("goldShadow");}}, function() {if (!p47Selected) {$("#p47").removeClass("goldShadow");}});});
+    $(function() {$('#p48').hover(function() {if (!p48Selected) {$("#p48").addClass("goldShadow");}}, function() {if (!p48Selected) {$("#p48").removeClass("goldShadow");}});});
+    $(function() {$('#p49').hover(function() {if (!p49Selected) {$("#p49").addClass("goldShadow");}}, function() {if (!p49Selected) {$("#p49").removeClass("goldShadow");}});});
 
-    $(function() {$('#p0').click(function() {resetAllSelectedPlayers();if (p0Selected) {p0Selected = false;selectedPlayer = null;$("#p0").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p0Selected = true;selectedPlayer = parsePlayerFromRow('p0');$("#p0").addClass("goldShadow");}});});
-    $(function() {$('#p1').click(function() {resetAllSelectedPlayers();if (p1Selected) {p1Selected = false;selectedPlayer = null;$("#p1").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p1Selected = true;selectedPlayer = parsePlayerFromRow('p1');$("#p1").addClass("goldShadow");}});});
-    $(function() {$('#p2').click(function() {resetAllSelectedPlayers();if (p2Selected) {p2Selected = false;selectedPlayer = null;$("#p2").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p2Selected = true;selectedPlayer = parsePlayerFromRow('p2');$("#p2").addClass("goldShadow");}});});
-    $(function() {$('#p3').click(function() {resetAllSelectedPlayers();if (p3Selected) {p3Selected = false;selectedPlayer = null;$("#p3").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p3Selected = true;selectedPlayer = parsePlayerFromRow('p3');$("#p3").addClass("goldShadow");}});});
-    $(function() {$('#p4').click(function() {resetAllSelectedPlayers();if (p4Selected) {p4Selected = false;selectedPlayer = null;$("#p4").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p4Selected = true;selectedPlayer = parsePlayerFromRow('p4');$("#p4").addClass("goldShadow");}});});
-    $(function() {$('#p5').click(function() {resetAllSelectedPlayers();if (p5Selected) {p5Selected = false;selectedPlayer = null;$("#p5").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p5Selected = true;selectedPlayer = parsePlayerFromRow('p5');$("#p5").addClass("goldShadow");}});});
-    $(function() {$('#p6').click(function() {resetAllSelectedPlayers();if (p6Selected) {p6Selected = false;selectedPlayer = null;$("#p6").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p6Selected = true;selectedPlayer = parsePlayerFromRow('p6');$("#p6").addClass("goldShadow");}});});
-    $(function() {$('#p7').click(function() {resetAllSelectedPlayers();if (p7Selected) {p7Selected = false;selectedPlayer = null;$("#p7").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p7Selected = true;selectedPlayer = parsePlayerFromRow('p7');$("#p7").addClass("goldShadow");}});});
-    $(function() {$('#p8').click(function() {resetAllSelectedPlayers();if (p8Selected) {p8Selected = false;selectedPlayer = null;$("#p8").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p8Selected = true;selectedPlayer = parsePlayerFromRow('p8');$("#p8").addClass("goldShadow");}});});
-    $(function() {$('#p9').click(function() {resetAllSelectedPlayers();if (p9Selected) {p9Selected = false;selectedPlayer = null;$("#p9").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p9Selected = true;selectedPlayer = parsePlayerFromRow('p9');$("#p9").addClass("goldShadow");}});});
-    $(function() {$('#p10').click(function() {resetAllSelectedPlayers();if (p10Selected) {p10Selected = false;selectedPlayer = null;$("#p10").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p10Selected = true;selectedPlayer = parsePlayerFromRow('p10');$("#p10").addClass("goldShadow");}});});
-    $(function() {$('#p11').click(function() {resetAllSelectedPlayers();if (p11Selected) {p11Selected = false;selectedPlayer = null;$("#p11").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p11Selected = true;selectedPlayer = parsePlayerFromRow('p11');$("#p11").addClass("goldShadow");}});});
-    $(function() {$('#p12').click(function() {resetAllSelectedPlayers();if (p12Selected) {p12Selected = false;selectedPlayer = null;$("#p12").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p12Selected = true;selectedPlayer = parsePlayerFromRow('p12');$("#p12").addClass("goldShadow");}});});
-    $(function() {$('#p13').click(function() {resetAllSelectedPlayers();if (p13Selected) {p13Selected = false;selectedPlayer = null;$("#p13").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p13Selected = true;selectedPlayer = parsePlayerFromRow('p13');$("#p13").addClass("goldShadow");}});});
-    $(function() {$('#p14').click(function() {resetAllSelectedPlayers();if (p14Selected) {p14Selected = false;selectedPlayer = null;$("#p14").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p14Selected = true;selectedPlayer = parsePlayerFromRow('p14');$("#p14").addClass("goldShadow");}});});
-    $(function() {$('#p15').click(function() {resetAllSelectedPlayers();if (p15Selected) {p15Selected = false;selectedPlayer = null;$("#p15").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p15Selected = true;selectedPlayer = parsePlayerFromRow('p15');$("#p15").addClass("goldShadow");}});});
-    $(function() {$('#p16').click(function() {resetAllSelectedPlayers();if (p16Selected) {p16Selected = false;selectedPlayer = null;$("#p16").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p16Selected = true;selectedPlayer = parsePlayerFromRow('p16');$("#p16").addClass("goldShadow");}});});
-    $(function() {$('#p17').click(function() {resetAllSelectedPlayers();if (p17Selected) {p17Selected = false;selectedPlayer = null;$("#p17").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p17Selected = true;selectedPlayer = parsePlayerFromRow('p17');$("#p17").addClass("goldShadow");}});});
-    $(function() {$('#p18').click(function() {resetAllSelectedPlayers();if (p18Selected) {p18Selected = false;selectedPlayer = null;$("#p18").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p18Selected = true;selectedPlayer = parsePlayerFromRow('p18');$("#p18").addClass("goldShadow");}});});
-    $(function() {$('#p19').click(function() {resetAllSelectedPlayers();if (p19Selected) {p19Selected = false;selectedPlayer = null;$("#p19").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p19Selected = true;selectedPlayer = parsePlayerFromRow('p19');$("#p19").addClass("goldShadow");}});});
-    $(function() {$('#p20').click(function() {resetAllSelectedPlayers();if (p20Selected) {p20Selected = false;selectedPlayer = null;$("#p20").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p20Selected = true;selectedPlayer = parsePlayerFromRow('p20');$("#p20").addClass("goldShadow");}});});
-    $(function() {$('#p21').click(function() {resetAllSelectedPlayers();if (p21Selected) {p21Selected = false;selectedPlayer = null;$("#p21").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p21Selected = true;selectedPlayer = parsePlayerFromRow('p21');$("#p21").addClass("goldShadow");}});});
-    $(function() {$('#p22').click(function() {resetAllSelectedPlayers();if (p22Selected) {p22Selected = false;selectedPlayer = null;$("#p22").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p22Selected = true;selectedPlayer = parsePlayerFromRow('p22');$("#p22").addClass("goldShadow");}});});
-    $(function() {$('#p23').click(function() {resetAllSelectedPlayers();if (p23Selected) {p23Selected = false;selectedPlayer = null;$("#p23").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p23Selected = true;selectedPlayer = parsePlayerFromRow('p23');$("#p23").addClass("goldShadow");}});});
-    $(function() {$('#p24').click(function() {resetAllSelectedPlayers();if (p24Selected) {p24Selected = false;selectedPlayer = null;$("#p24").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p24Selected = true;selectedPlayer = parsePlayerFromRow('p24');$("#p24").addClass("goldShadow");}});});
-    $(function() {$('#p25').click(function() {resetAllSelectedPlayers();if (p25Selected) {p25Selected = false;selectedPlayer = null;$("#p25").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p25Selected = true;selectedPlayer = parsePlayerFromRow('p25');$("#p25").addClass("goldShadow");}});});
-    $(function() {$('#p26').click(function() {resetAllSelectedPlayers();if (p26Selected) {p26Selected = false;selectedPlayer = null;$("#p26").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p26Selected = true;selectedPlayer = parsePlayerFromRow('p26');$("#p26").addClass("goldShadow");}});});
-    $(function() {$('#p27').click(function() {resetAllSelectedPlayers();if (p27Selected) {p27Selected = false;selectedPlayer = null;$("#p27").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p27Selected = true;selectedPlayer = parsePlayerFromRow('p27');$("#p27").addClass("goldShadow");}});});
-    $(function() {$('#p28').click(function() {resetAllSelectedPlayers();if (p28Selected) {p28Selected = false;selectedPlayer = null;$("#p28").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p28Selected = true;selectedPlayer = parsePlayerFromRow('p28');$("#p28").addClass("goldShadow");}});});
-    $(function() {$('#p29').click(function() {resetAllSelectedPlayers();if (p29Selected) {p29Selected = false;selectedPlayer = null;$("#p29").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p29Selected = true;selectedPlayer = parsePlayerFromRow('p29');$("#p29").addClass("goldShadow");}});});
-    $(function() {$('#p30').click(function() {resetAllSelectedPlayers();if (p30Selected) {p30Selected = false;selectedPlayer = null;$("#p30").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p30Selected = true;selectedPlayer = parsePlayerFromRow('p30');$("#p30").addClass("goldShadow");}});});
-    $(function() {$('#p31').click(function() {resetAllSelectedPlayers();if (p31Selected) {p31Selected = false;selectedPlayer = null;$("#p31").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p31Selected = true;selectedPlayer = parsePlayerFromRow('p31');$("#p31").addClass("goldShadow");}});});
-    $(function() {$('#p32').click(function() {resetAllSelectedPlayers();if (p32Selected) {p32Selected = false;selectedPlayer = null;$("#p32").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p32Selected = true;selectedPlayer = parsePlayerFromRow('p32');$("#p32").addClass("goldShadow");}});});
-    $(function() {$('#p33').click(function() {resetAllSelectedPlayers();if (p33Selected) {p33Selected = false;selectedPlayer = null;$("#p33").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p33Selected = true;selectedPlayer = parsePlayerFromRow('p33');$("#p33").addClass("goldShadow");}});});
-    $(function() {$('#p34').click(function() {resetAllSelectedPlayers();if (p34Selected) {p34Selected = false;selectedPlayer = null;$("#p34").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p34Selected = true;selectedPlayer = parsePlayerFromRow('p34');$("#p34").addClass("goldShadow");}});});
-    $(function() {$('#p35').click(function() {resetAllSelectedPlayers();if (p35Selected) {p35Selected = false;selectedPlayer = null;$("#p35").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p35Selected = true;selectedPlayer = parsePlayerFromRow('p35');$("#p35").addClass("goldShadow");}});});
-    $(function() {$('#p36').click(function() {resetAllSelectedPlayers();if (p36Selected) {p36Selected = false;selectedPlayer = null;$("#p36").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p36Selected = true;selectedPlayer = parsePlayerFromRow('p36');$("#p36").addClass("goldShadow");}});});
-    $(function() {$('#p37').click(function() {resetAllSelectedPlayers();if (p37Selected) {p37Selected = false;selectedPlayer = null;$("#p37").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p37Selected = true;selectedPlayer = parsePlayerFromRow('p37');$("#p37").addClass("goldShadow");}});});
-    $(function() {$('#p38').click(function() {resetAllSelectedPlayers();if (p38Selected) {p38Selected = false;selectedPlayer = null;$("#p38").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p38Selected = true;selectedPlayer = parsePlayerFromRow('p38');$("#p38").addClass("goldShadow");}});});
-    $(function() {$('#p39').click(function() {resetAllSelectedPlayers();if (p39Selected) {p39Selected = false;selectedPlayer = null;$("#p39").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p39Selected = true;selectedPlayer = parsePlayerFromRow('p39');$("#p39").addClass("goldShadow");}});});
-    $(function() {$('#p40').click(function() {resetAllSelectedPlayers();if (p40Selected) {p40Selected = false;selectedPlayer = null;$("#p40").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p40Selected = true;selectedPlayer = parsePlayerFromRow('p40');$("#p40").addClass("goldShadow");}});});
-    $(function() {$('#p41').click(function() {resetAllSelectedPlayers();if (p41Selected) {p41Selected = false;selectedPlayer = null;$("#p41").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p41Selected = true;selectedPlayer = parsePlayerFromRow('p41');$("#p41").addClass("goldShadow");}});});
-    $(function() {$('#p42').click(function() {resetAllSelectedPlayers();if (p42Selected) {p42Selected = false;selectedPlayer = null;$("#p42").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p42Selected = true;selectedPlayer = parsePlayerFromRow('p42');$("#p42").addClass("goldShadow");}});});
-    $(function() {$('#p43').click(function() {resetAllSelectedPlayers();if (p43Selected) {p43Selected = false;selectedPlayer = null;$("#p43").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p43Selected = true;selectedPlayer = parsePlayerFromRow('p43');$("#p43").addClass("goldShadow");}});});
-    $(function() {$('#p44').click(function() {resetAllSelectedPlayers();if (p44Selected) {p44Selected = false;selectedPlayer = null;$("#p44").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p44Selected = true;selectedPlayer = parsePlayerFromRow('p44');$("#p44").addClass("goldShadow");}});});
-    $(function() {$('#p45').click(function() {resetAllSelectedPlayers();if (p45Selected) {p45Selected = false;selectedPlayer = null;$("#p45").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p45Selected = true;selectedPlayer = parsePlayerFromRow('p45');$("#p45").addClass("goldShadow");}});});
-    $(function() {$('#p46').click(function() {resetAllSelectedPlayers();if (p46Selected) {p46Selected = false;selectedPlayer = null;$("#p46").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p46Selected = true;selectedPlayer = parsePlayerFromRow('p46');$("#p46").addClass("goldShadow");}});});
-    $(function() {$('#p47').click(function() {resetAllSelectedPlayers();if (p47Selected) {p47Selected = false;selectedPlayer = null;$("#p47").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p47Selected = true;selectedPlayer = parsePlayerFromRow('p47');$("#p47").addClass("goldShadow");}});});
-    $(function() {$('#p48').click(function() {resetAllSelectedPlayers();if (p48Selected) {p48Selected = false;selectedPlayer = null;$("#p48").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p48Selected = true;selectedPlayer = parsePlayerFromRow('p48');$("#p48").addClass("goldShadow");}});});
-    $(function() {$('#p49').click(function() {resetAllSelectedPlayers();if (p49Selected) {p49Selected = false;selectedPlayer = null;$("#p49").addClass("selectedGoldShadow");} else {resetAllSelectedStatus();p49Selected = true;selectedPlayer = parsePlayerFromRow('p49');$("#p49").addClass("goldShadow");}});});
+    $(function() {$('#p0').click(function() {resetAllSelectedPlayers();if (p0Selected) {p0Selected = false;selectedPlayer = null;$("#p0").addClass("goldShadow");} else {resetAllSelectedStatus();p0Selected = true;parsePlayerFromRow('p0');$("#p0").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p1').click(function() {resetAllSelectedPlayers();if (p1Selected) {p1Selected = false;selectedPlayer = null;$("#p1").addClass("goldShadow");} else {resetAllSelectedStatus();p1Selected = true;parsePlayerFromRow('p1');$("#p1").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p2').click(function() {resetAllSelectedPlayers();if (p2Selected) {p2Selected = false;selectedPlayer = null;$("#p2").addClass("goldShadow");} else {resetAllSelectedStatus();p2Selected = true;parsePlayerFromRow('p2');$("#p2").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p3').click(function() {resetAllSelectedPlayers();if (p3Selected) {p3Selected = false;selectedPlayer = null;$("#p3").addClass("goldShadow");} else {resetAllSelectedStatus();p3Selected = true;parsePlayerFromRow('p3');$("#p3").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p4').click(function() {resetAllSelectedPlayers();if (p4Selected) {p4Selected = false;selectedPlayer = null;$("#p4").addClass("goldShadow");} else {resetAllSelectedStatus();p4Selected = true;parsePlayerFromRow('p4');$("#p4").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p5').click(function() {resetAllSelectedPlayers();if (p5Selected) {p5Selected = false;selectedPlayer = null;$("#p5").addClass("goldShadow");} else {resetAllSelectedStatus();p5Selected = true;parsePlayerFromRow('p5');$("#p5").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p6').click(function() {resetAllSelectedPlayers();if (p6Selected) {p6Selected = false;selectedPlayer = null;$("#p6").addClass("goldShadow");} else {resetAllSelectedStatus();p6Selected = true;parsePlayerFromRow('p6');$("#p6").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p7').click(function() {resetAllSelectedPlayers();if (p7Selected) {p7Selected = false;selectedPlayer = null;$("#p7").addClass("goldShadow");} else {resetAllSelectedStatus();p7Selected = true;parsePlayerFromRow('p7');$("#p7").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p8').click(function() {resetAllSelectedPlayers();if (p8Selected) {p8Selected = false;selectedPlayer = null;$("#p8").addClass("goldShadow");} else {resetAllSelectedStatus();p8Selected = true;parsePlayerFromRow('p8');$("#p8").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p9').click(function() {resetAllSelectedPlayers();if (p9Selected) {p9Selected = false;selectedPlayer = null;$("#p9").addClass("goldShadow");} else {resetAllSelectedStatus();p9Selected = true;parsePlayerFromRow('p9');$("#p9").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p10').click(function() {resetAllSelectedPlayers();if (p10Selected) {p10Selected = false;selectedPlayer = null;$("#p10").addClass("goldShadow");} else {resetAllSelectedStatus();p10Selected = true;parsePlayerFromRow('p10');$("#p10").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p11').click(function() {resetAllSelectedPlayers();if (p11Selected) {p11Selected = false;selectedPlayer = null;$("#p11").addClass("goldShadow");} else {resetAllSelectedStatus();p11Selected = true;parsePlayerFromRow('p11');$("#p11").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p12').click(function() {resetAllSelectedPlayers();if (p12Selected) {p12Selected = false;selectedPlayer = null;$("#p12").addClass("goldShadow");} else {resetAllSelectedStatus();p12Selected = true;parsePlayerFromRow('p12');$("#p12").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p13').click(function() {resetAllSelectedPlayers();if (p13Selected) {p13Selected = false;selectedPlayer = null;$("#p13").addClass("goldShadow");} else {resetAllSelectedStatus();p13Selected = true;parsePlayerFromRow('p13');$("#p13").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p14').click(function() {resetAllSelectedPlayers();if (p14Selected) {p14Selected = false;selectedPlayer = null;$("#p14").addClass("goldShadow");} else {resetAllSelectedStatus();p14Selected = true;parsePlayerFromRow('p14');$("#p14").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p15').click(function() {resetAllSelectedPlayers();if (p15Selected) {p15Selected = false;selectedPlayer = null;$("#p15").addClass("goldShadow");} else {resetAllSelectedStatus();p15Selected = true;parsePlayerFromRow('p15');$("#p15").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p16').click(function() {resetAllSelectedPlayers();if (p16Selected) {p16Selected = false;selectedPlayer = null;$("#p16").addClass("goldShadow");} else {resetAllSelectedStatus();p16Selected = true;parsePlayerFromRow('p16');$("#p16").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p17').click(function() {resetAllSelectedPlayers();if (p17Selected) {p17Selected = false;selectedPlayer = null;$("#p17").addClass("goldShadow");} else {resetAllSelectedStatus();p17Selected = true;parsePlayerFromRow('p17');$("#p17").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p18').click(function() {resetAllSelectedPlayers();if (p18Selected) {p18Selected = false;selectedPlayer = null;$("#p18").addClass("goldShadow");} else {resetAllSelectedStatus();p18Selected = true;parsePlayerFromRow('p18');$("#p18").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p19').click(function() {resetAllSelectedPlayers();if (p19Selected) {p19Selected = false;selectedPlayer = null;$("#p19").addClass("goldShadow");} else {resetAllSelectedStatus();p19Selected = true;parsePlayerFromRow('p19');$("#p19").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p20').click(function() {resetAllSelectedPlayers();if (p20Selected) {p20Selected = false;selectedPlayer = null;$("#p20").addClass("goldShadow");} else {resetAllSelectedStatus();p20Selected = true;parsePlayerFromRow('p20');$("#p20").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p21').click(function() {resetAllSelectedPlayers();if (p21Selected) {p21Selected = false;selectedPlayer = null;$("#p21").addClass("goldShadow");} else {resetAllSelectedStatus();p21Selected = true;parsePlayerFromRow('p21');$("#p21").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p22').click(function() {resetAllSelectedPlayers();if (p22Selected) {p22Selected = false;selectedPlayer = null;$("#p22").addClass("goldShadow");} else {resetAllSelectedStatus();p22Selected = true;parsePlayerFromRow('p22');$("#p22").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p23').click(function() {resetAllSelectedPlayers();if (p23Selected) {p23Selected = false;selectedPlayer = null;$("#p23").addClass("goldShadow");} else {resetAllSelectedStatus();p23Selected = true;parsePlayerFromRow('p23');$("#p23").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p24').click(function() {resetAllSelectedPlayers();if (p24Selected) {p24Selected = false;selectedPlayer = null;$("#p24").addClass("goldShadow");} else {resetAllSelectedStatus();p24Selected = true;parsePlayerFromRow('p24');$("#p24").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p25').click(function() {resetAllSelectedPlayers();if (p25Selected) {p25Selected = false;selectedPlayer = null;$("#p25").addClass("goldShadow");} else {resetAllSelectedStatus();p25Selected = true;parsePlayerFromRow('p25');$("#p25").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p26').click(function() {resetAllSelectedPlayers();if (p26Selected) {p26Selected = false;selectedPlayer = null;$("#p26").addClass("goldShadow");} else {resetAllSelectedStatus();p26Selected = true;parsePlayerFromRow('p26');$("#p26").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p27').click(function() {resetAllSelectedPlayers();if (p27Selected) {p27Selected = false;selectedPlayer = null;$("#p27").addClass("goldShadow");} else {resetAllSelectedStatus();p27Selected = true;parsePlayerFromRow('p27');$("#p27").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p28').click(function() {resetAllSelectedPlayers();if (p28Selected) {p28Selected = false;selectedPlayer = null;$("#p28").addClass("goldShadow");} else {resetAllSelectedStatus();p28Selected = true;parsePlayerFromRow('p28');$("#p28").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p29').click(function() {resetAllSelectedPlayers();if (p29Selected) {p29Selected = false;selectedPlayer = null;$("#p29").addClass("goldShadow");} else {resetAllSelectedStatus();p29Selected = true;parsePlayerFromRow('p29');$("#p29").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p30').click(function() {resetAllSelectedPlayers();if (p30Selected) {p30Selected = false;selectedPlayer = null;$("#p30").addClass("goldShadow");} else {resetAllSelectedStatus();p30Selected = true;parsePlayerFromRow('p30');$("#p30").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p31').click(function() {resetAllSelectedPlayers();if (p31Selected) {p31Selected = false;selectedPlayer = null;$("#p31").addClass("goldShadow");} else {resetAllSelectedStatus();p31Selected = true;parsePlayerFromRow('p31');$("#p31").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p32').click(function() {resetAllSelectedPlayers();if (p32Selected) {p32Selected = false;selectedPlayer = null;$("#p32").addClass("goldShadow");} else {resetAllSelectedStatus();p32Selected = true;parsePlayerFromRow('p32');$("#p32").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p33').click(function() {resetAllSelectedPlayers();if (p33Selected) {p33Selected = false;selectedPlayer = null;$("#p33").addClass("goldShadow");} else {resetAllSelectedStatus();p33Selected = true;parsePlayerFromRow('p33');$("#p33").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p34').click(function() {resetAllSelectedPlayers();if (p34Selected) {p34Selected = false;selectedPlayer = null;$("#p34").addClass("goldShadow");} else {resetAllSelectedStatus();p34Selected = true;parsePlayerFromRow('p34');$("#p34").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p35').click(function() {resetAllSelectedPlayers();if (p35Selected) {p35Selected = false;selectedPlayer = null;$("#p35").addClass("goldShadow");} else {resetAllSelectedStatus();p35Selected = true;parsePlayerFromRow('p35');$("#p35").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p36').click(function() {resetAllSelectedPlayers();if (p36Selected) {p36Selected = false;selectedPlayer = null;$("#p36").addClass("goldShadow");} else {resetAllSelectedStatus();p36Selected = true;parsePlayerFromRow('p36');$("#p36").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p37').click(function() {resetAllSelectedPlayers();if (p37Selected) {p37Selected = false;selectedPlayer = null;$("#p37").addClass("goldShadow");} else {resetAllSelectedStatus();p37Selected = true;parsePlayerFromRow('p37');$("#p37").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p38').click(function() {resetAllSelectedPlayers();if (p38Selected) {p38Selected = false;selectedPlayer = null;$("#p38").addClass("goldShadow");} else {resetAllSelectedStatus();p38Selected = true;parsePlayerFromRow('p38');$("#p38").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p39').click(function() {resetAllSelectedPlayers();if (p39Selected) {p39Selected = false;selectedPlayer = null;$("#p39").addClass("goldShadow");} else {resetAllSelectedStatus();p39Selected = true;parsePlayerFromRow('p39');$("#p39").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p40').click(function() {resetAllSelectedPlayers();if (p40Selected) {p40Selected = false;selectedPlayer = null;$("#p40").addClass("goldShadow");} else {resetAllSelectedStatus();p40Selected = true;parsePlayerFromRow('p40');$("#p40").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p41').click(function() {resetAllSelectedPlayers();if (p41Selected) {p41Selected = false;selectedPlayer = null;$("#p41").addClass("goldShadow");} else {resetAllSelectedStatus();p41Selected = true;parsePlayerFromRow('p41');$("#p41").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p42').click(function() {resetAllSelectedPlayers();if (p42Selected) {p42Selected = false;selectedPlayer = null;$("#p42").addClass("goldShadow");} else {resetAllSelectedStatus();p42Selected = true;parsePlayerFromRow('p42');$("#p42").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p43').click(function() {resetAllSelectedPlayers();if (p43Selected) {p43Selected = false;selectedPlayer = null;$("#p43").addClass("goldShadow");} else {resetAllSelectedStatus();p43Selected = true;parsePlayerFromRow('p43');$("#p43").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p44').click(function() {resetAllSelectedPlayers();if (p44Selected) {p44Selected = false;selectedPlayer = null;$("#p44").addClass("goldShadow");} else {resetAllSelectedStatus();p44Selected = true;parsePlayerFromRow('p44');$("#p44").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p45').click(function() {resetAllSelectedPlayers();if (p45Selected) {p45Selected = false;selectedPlayer = null;$("#p45").addClass("goldShadow");} else {resetAllSelectedStatus();p45Selected = true;parsePlayerFromRow('p45');$("#p45").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p46').click(function() {resetAllSelectedPlayers();if (p46Selected) {p46Selected = false;selectedPlayer = null;$("#p46").addClass("goldShadow");} else {resetAllSelectedStatus();p46Selected = true;parsePlayerFromRow('p46');$("#p46").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p47').click(function() {resetAllSelectedPlayers();if (p47Selected) {p47Selected = false;selectedPlayer = null;$("#p47").addClass("goldShadow");} else {resetAllSelectedStatus();p47Selected = true;parsePlayerFromRow('p47');$("#p47").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p48').click(function() {resetAllSelectedPlayers();if (p48Selected) {p48Selected = false;selectedPlayer = null;$("#p48").addClass("goldShadow");} else {resetAllSelectedStatus();p48Selected = true;parsePlayerFromRow('p48');$("#p48").addClass("selectedGoldShadow");tryInsertPlayer();}});});
+    $(function() {$('#p49').click(function() {resetAllSelectedPlayers();if (p49Selected) {p49Selected = false;selectedPlayer = null;$("#p49").addClass("goldShadow");} else {resetAllSelectedStatus();p49Selected = true;parsePlayerFromRow('p49');$("#p49").addClass("selectedGoldShadow");tryInsertPlayer();}});});
 
     $(function() {
       $('#captainButton').hover(function() {
@@ -399,6 +455,7 @@ function afterPlayerRowsLoaded() {
           $('#headAssists').addClass("fire");
           $('#statAssists').addClass("fire");
           $('#statAssists').html('+20 per');
+          tryInsertPlayer();
         }
       });
     });
@@ -451,6 +508,7 @@ function afterPlayerRowsLoaded() {
           $('#headGoals').addClass("fire");
           $('#statGoals').addClass("fire");
           $('#statGoals').html('+30 per');
+          tryInsertPlayer();
         }
       });
     });
@@ -501,6 +559,7 @@ function afterPlayerRowsLoaded() {
           $('#headAssists').addClass("fire");
           $('#statAssists').addClass("fire");
           $('#statAssists').html('+20 per');
+          tryInsertPlayer();
         }
       });
     });
@@ -548,6 +607,7 @@ function afterPlayerRowsLoaded() {
           $('#headShots').addClass("fire");
           $('#statShots').addClass("fire");
           $('#statShots').html('+3 per');
+          tryInsertPlayer();
         }
       });
     });
@@ -595,6 +655,7 @@ function afterPlayerRowsLoaded() {
           $('#headBlocked').addClass("fire");
           $('#statBlocked').addClass("fire");
           $('#statBlocked').html('+4 per');
+          tryInsertPlayer();
         }
       });
     });
@@ -642,6 +703,7 @@ function afterPlayerRowsLoaded() {
           $('#headHits').addClass("fire");
           $('#statHits').addClass("fire");
           $('#statHits').html('+3 per');
+          tryInsertPlayer();
         }
       });
     });
@@ -689,6 +751,7 @@ function afterPlayerRowsLoaded() {
           $('#headFaceOffs').addClass("fire");
           $('#statFaceOffs').addClass("fire");
           $('#statFaceOffs').html('+2 per win<br>-1 per loss');
+          tryInsertPlayer();
         }
       });
     });
@@ -710,17 +773,6 @@ function afterPlayerRowsLoaded() {
 function resetAllSelectedPlayers() {
     selectedPlayer = null;
 
-    $('#p0').removeClass("selectedGoldShadow");$('#p1').removeClass("selectedGoldShadow");$('#p2').removeClass("selectedGoldShadow");$('#p3').removeClass("selectedGoldShadow");$('#p4').removeClass("selectedGoldShadow");
-    $('#p5').removeClass("selectedGoldShadow");$('#p6').removeClass("selectedGoldShadow");$('#p7').removeClass("selectedGoldShadow");$('#p8').removeClass("selectedGoldShadow");$('#p9').removeClass("selectedGoldShadow");
-    $('#p10').removeClass("selectedGoldShadow");$('#p11').removeClass("selectedGoldShadow");$('#p12').removeClass("selectedGoldShadow");$('#p13').removeClass("selectedGoldShadow");$('#p14').removeClass("selectedGoldShadow");
-    $('#p15').removeClass("selectedGoldShadow");$('#p16').removeClass("selectedGoldShadow");$('#p17').removeClass("selectedGoldShadow");$('#p18').removeClass("selectedGoldShadow");$('#p19').removeClass("selectedGoldShadow");
-    $('#p20').removeClass("selectedGoldShadow");$('#p21').removeClass("selectedGoldShadow");$('#p22').removeClass("selectedGoldShadow");$('#p23').removeClass("selectedGoldShadow");$('#p24').removeClass("selectedGoldShadow");
-    $('#p25').removeClass("selectedGoldShadow");$('#p26').removeClass("selectedGoldShadow");$('#p27').removeClass("selectedGoldShadow");$('#p28').removeClass("selectedGoldShadow");$('#p29').removeClass("selectedGoldShadow");
-    $('#p30').removeClass("selectedGoldShadow");$('#p31').removeClass("selectedGoldShadow");$('#p32').removeClass("selectedGoldShadow");$('#p33').removeClass("selectedGoldShadow");$('#p34').removeClass("selectedGoldShadow");
-    $('#p35').removeClass("selectedGoldShadow");$('#p36').removeClass("selectedGoldShadow");$('#p37').removeClass("selectedGoldShadow");$('#p38').removeClass("selectedGoldShadow");$('#p39').removeClass("selectedGoldShadow");
-    $('#p40').removeClass("selectedGoldShadow");$('#p41').removeClass("selectedGoldShadow");$('#p42').removeClass("selectedGoldShadow");$('#p43').removeClass("selectedGoldShadow");$('#p44').removeClass("selectedGoldShadow");
-    $('#p45').removeClass("selectedGoldShadow");$('#p46').removeClass("selectedGoldShadow");$('#p47').removeClass("selectedGoldShadow");$('#p48').removeClass("selectedGoldShadow");$('#p49').removeClass("selectedGoldShadow");
-
     $('#p0').removeClass("goldShadow");$('#p1').removeClass("goldShadow");$('#p2').removeClass("goldShadow");$('#p3').removeClass("goldShadow");$('#p4').removeClass("goldShadow");
     $('#p5').removeClass("goldShadow");$('#p6').removeClass("goldShadow");$('#p7').removeClass("goldShadow");$('#p8').removeClass("goldShadow");$('#p9').removeClass("goldShadow");
     $('#p10').removeClass("goldShadow");$('#p11').removeClass("goldShadow");$('#p12').removeClass("goldShadow");$('#p13').removeClass("goldShadow");$('#p14').removeClass("goldShadow");
@@ -731,6 +783,17 @@ function resetAllSelectedPlayers() {
     $('#p35').removeClass("goldShadow");$('#p36').removeClass("goldShadow");$('#p37').removeClass("goldShadow");$('#p38').removeClass("goldShadow");$('#p39').removeClass("goldShadow");
     $('#p40').removeClass("goldShadow");$('#p41').removeClass("goldShadow");$('#p42').removeClass("goldShadow");$('#p43').removeClass("goldShadow");$('#p44').removeClass("goldShadow");
     $('#p45').removeClass("goldShadow");$('#p46').removeClass("goldShadow");$('#p47').removeClass("goldShadow");$('#p48').removeClass("goldShadow");$('#p49').removeClass("goldShadow");
+
+    $('#p0').removeClass("selectedGoldShadow");$('#p1').removeClass("selectedGoldShadow");$('#p2').removeClass("selectedGoldShadow");$('#p3').removeClass("selectedGoldShadow");$('#p4').removeClass("selectedGoldShadow");
+    $('#p5').removeClass("selectedGoldShadow");$('#p6').removeClass("selectedGoldShadow");$('#p7').removeClass("selectedGoldShadow");$('#p8').removeClass("selectedGoldShadow");$('#p9').removeClass("selectedGoldShadow");
+    $('#p10').removeClass("selectedGoldShadow");$('#p11').removeClass("selectedGoldShadow");$('#p12').removeClass("selectedGoldShadow");$('#p13').removeClass("selectedGoldShadow");$('#p14').removeClass("selectedGoldShadow");
+    $('#p15').removeClass("selectedGoldShadow");$('#p16').removeClass("selectedGoldShadow");$('#p17').removeClass("selectedGoldShadow");$('#p18').removeClass("selectedGoldShadow");$('#p19').removeClass("selectedGoldShadow");
+    $('#p20').removeClass("selectedGoldShadow");$('#p21').removeClass("selectedGoldShadow");$('#p22').removeClass("selectedGoldShadow");$('#p23').removeClass("selectedGoldShadow");$('#p24').removeClass("selectedGoldShadow");
+    $('#p25').removeClass("selectedGoldShadow");$('#p26').removeClass("selectedGoldShadow");$('#p27').removeClass("selectedGoldShadow");$('#p28').removeClass("selectedGoldShadow");$('#p29').removeClass("selectedGoldShadow");
+    $('#p30').removeClass("selectedGoldShadow");$('#p31').removeClass("selectedGoldShadow");$('#p32').removeClass("selectedGoldShadow");$('#p33').removeClass("selectedGoldShadow");$('#p34').removeClass("selectedGoldShadow");
+    $('#p35').removeClass("selectedGoldShadow");$('#p36').removeClass("selectedGoldShadow");$('#p37').removeClass("selectedGoldShadow");$('#p38').removeClass("selectedGoldShadow");$('#p39').removeClass("selectedGoldShadow");
+    $('#p40').removeClass("selectedGoldShadow");$('#p41').removeClass("selectedGoldShadow");$('#p42').removeClass("selectedGoldShadow");$('#p43').removeClass("selectedGoldShadow");$('#p44').removeClass("selectedGoldShadow");
+    $('#p45').removeClass("selectedGoldShadow");$('#p46').removeClass("selectedGoldShadow");$('#p47').removeClass("selectedGoldShadow");$('#p48').removeClass("selectedGoldShadow");$('#p49').removeClass("selectedGoldShadow");
 }
 
 function resetAllSelectedRoles() {

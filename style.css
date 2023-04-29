@@ -78,18 +78,23 @@ table, th, td {
 	background: var(--primary);
 }
 
-#playerTableDiv {
+#playerTableDiv, #curLineupDiv {
 	background-color: var(--primary);
 	margin: var(--tableSpacing);
 	box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) var(--secondaryDark);
 }
+
+#curLineupDiv {
+	margin-left: var(--halfTableSpacing);
+}
+
 
 #playerTable {
 	border-color: var(--primaryLight);
 	border-style: solid;
 	border-left-width: var(--tableSpacing);
 	border-right-width: var(--tableSpacing);
-	border-bottom-width: var(--tableSpacing);
+	border-bottom-width: var(--halfTableSpacing);
 	text-align: center;
 }
 
@@ -127,11 +132,11 @@ table, th, td {
 	width: 200px;
 }
 
-.name-td {
+.name-td, .leftGlow {
 	box-shadow: var(--tableSpacing) 0 6px -6px var(--secondaryDark);
 }
 
-.gamesPlayed-td {
+.gamesPlayed-td, .rightGlow {
 	box-shadow: var(--negTableSpacing) 0 6px -6px var(--secondaryDark);
 }
 
@@ -200,11 +205,11 @@ table, th, td {
 	to   { text-shadow: -.1em -.2em .6em #34140a, -.15em 0 .6em #712910, .1em -.25em .6em #9a3404, -.15em -.45em .5em #b15809, .1em -.5em .6em #bf8227, 0 -.8em .6em #beb164, -.2em -1em .8em #bebd97; }
 }
 
-.goldShadow {
+.selectedGoldShadow {
 	box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) var(--gold) inset;
 }
 
-.selectedGoldShadow {
+.goldShadow {
 	box-shadow: 0px 0px var(--quarterTableSpacing) var(--quarterTableSpacing) var(--gold) inset;
 }
 
@@ -366,5 +371,42 @@ table, th, td {
 #Wild {
 	background-color: #154734;
 	color: #e44e64;
+}
+
+
+
+
+
+#curLineupTable {
+	border-color: var(--primaryLight);
+	border-style: solid;
+	border-left-width: var(--tableSpacing);
+	border-right-width: var(--tableSpacing);
+	border-bottom-width: var(--halfTableSpacing);
+	text-align: center;
+	width: 100%;
+}
+
+#curLineupCaption {
+	font-size: 48px;
+	padding: 5px;
+}
+
+#curLineupThead {
+	background-color: var(--primaryLight);
+}
+
+#curLineupTbody {
+	background-color: var(--primary);
+}
+
+#curLineupFinalRow td {
+	font-size: 18px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.tableEnd {
+	background-color: var(--primaryLight);
 }
   
