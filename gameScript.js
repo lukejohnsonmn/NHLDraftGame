@@ -48,9 +48,15 @@ function calcAndFormat(stat, gp) {
   if (stat.length == 1) {
     return (Math.round(parseInt(stat[0]) / gp) / 100).toString();
   } else {
-    const secondsPerGame = Math.round((parseInt(stat[0]) * 60 + parseInt(stat[1]))  / (gp * 100))
-    const minsPerGame = Math.floor(secondsPerGame / 60);
-    return minsPerGame.toString() + ':' + (secondsPerGame % 60).toString();
+    const totalSecondsPerGame = Math.round((parseInt(stat[0]) * 60 + parseInt(stat[1]))  / (gp * 100))
+    const minsPerGame = Math.floor(totalSecondsPerGame / 60).toString();
+    var secsPerGame = totalSecondsPerGame % 60;
+    if (secsPerGame < 10) {
+      secsPerGame = '0' + secsPerGame.toString();
+    } else {
+      secsPerGame = secsPerGame.toString();
+    }
+    return minsPerGame + ':' + secsPerGame;
   }
 }
 
@@ -68,8 +74,8 @@ class SalaryPlayer {
 }
 
 var roster = null;
-const salaryCap = 75000;
-var remainingSalary = 50000;
+const salaryCap = 100000;
+var remainingSalary = 100000;
 var curLineup = [];
 var selectedPlayer = null;
 
