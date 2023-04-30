@@ -16,21 +16,59 @@ class Player {
         this.faceOffPct = infoArr[13];
         this.penaltyMinutes = infoArr[14];
         this.plusMinus = infoArr[15];
+        this.available = true;
+        this.perGameStats = new PerGameStats(this);
     }
 }
 
+class PerGameStats {
+  constructor(player) {
+    this.id = player.id;
+    this.fullName = player.fullName;
+    this.jerseyNumber = player.jerseyNumber;
+    this.positionCode = player.positionCode;
+    this.startedLastGame = player.startedLastGame;
+    this.salary = player.salary;
+    this.games = player.games;
+    const gp = parseFloat(this.games) / 100;
+    this.timeOnIce = player.timeOnIce;
+    this.goals = calcAndFormat(player.goals, gp);
+    this.assists = calcAndFormat(player.assists, gp);
+    this.shots = calcAndFormat(player.shots, gp);
+    this.blocked = calcAndFormat(player.blocked, gp);
+    this.hits = calcAndFormat(player.hits, gp);
+    this.faceOffPct = player.faceOffPct;
+    this.penaltyMinutes = calcAndFormat(player.penaltyMinutes, gp);
+    this.plusMinus = calcAndFormat(player.plusMinus, gp);
+  }
+}
+
+function calcAndFormat(stat, gp) {
+  stat = stat.split(":");
+  if (stat.length == 1) {
+    return (Math.round(parseInt(stat[0]) / gp) / 100).toString();
+  } else {
+    const secondsPerGame = Math.round((parseInt(stat[0]) * 60 + parseInt(stat[1]))  / (gp * 100))
+    const minsPerGame = Math.floor(secondsPerGame / 60);
+    return minsPerGame.toString() + ':' + (secondsPerGame % 60).toString();
+  }
+}
+
 class SalaryPlayer {
-    constructor(infoArr) {
-        this.id = infoArr[0];
-        this.positionCode = infoArr[1];
-        this.jerseyNumber = infoArr[2];
-        this.fullName = infoArr[3];
-        this.salary = infoArr[4];
-        this.role = infoArr[5];
+    constructor(player, roleId) {
+        this.id = player.id;
+        this.positionCode = player.positionCode;
+        this.jerseyNumber = player.jerseyNumber;
+        this.fullName = player.fullName;
+        this.salary = player.salary;
+        this.roleId = roleId;
+        this.role = getRoleStr(roleId);
+
     }
 }
 
 var roster = null;
+var curLineup = [];
 var selectedPlayer = null;
 
 var selectedTeamId = "Select";
@@ -42,24 +80,28 @@ var blockerIsSelected = false;
 var enforcerIsSelected = false;
 var centerIsSelected = false;
 
+var displayPerGameStats = false;
 
+function togglePerGameStats() {
+    displayPerGameStats = !displayPerGameStats;
 
-var playerButtonsHTML = '<button type="button" class="roleButton" id="captainButton">Captain<div class="subButton">Goals x2 & Assists x2</div></button>';
-playerButtonsHTML += '<button type="button" class="roleButton" id="scorerButton">Scorer<div class="subButton">Goals x2</div></button>';
-playerButtonsHTML += '<button type="button" class="roleButton" id="playmakerButton">Playmaker<div class="subButton">Assists x2</div></button>';
-playerButtonsHTML += '<button type="button" class="roleButton" id="shooterButton">Shooter<div class="subButton">Shots x3</div></button>';
-playerButtonsHTML += '<button type="button" class="roleButton" id="blockerButton">Blocker<div class="subButton">Blocked Shots x4</div></button>';
-playerButtonsHTML += '<button type="button" class="roleButton" id="enforcerButton">Enforcer<div class="subButton">Hits x3</div></button>';
-playerButtonsHTML += '<button type="button" class="roleButton" id="centerButton">Center<div class="subButton">Face Off Wins x2</div></button>';
-
-function comparePlayerSalary(a, b) {
-    if (a.salary < b.salary) {
-        return -1;
+    const starters = [];
+    const nonStarters = [];
+    for (var i=0; i < roster.length; i++) {
+        if (roster[i].startedLastGame == "True") {
+            starters.push(roster[i]);
+        } else {
+            nonStarters.push(roster[i]);
+        }
     }
-    if (a.salary > b.salary) {
-        return 1;
+
+    for (var i=0; i < nonStarters.length; i++) {
+        starters.push(nonStarters[i]);
     }
-    return 0;
+    populateTable(starters);
+    resetAllSelectedPlayers();
+    resetAllSelectedRoles();
+    afterLoadingPlayers();
 }
 
 function getSeasonStats() {
@@ -96,19 +138,24 @@ function createRoster(responseCsv) {
 function populateTable(playerArr) {
     var tableStr = '';
     for (var i=0; i < playerArr.length; i++) {
+        var playerInfo = playerArr[i];
+        if (displayPerGameStats) {
+          playerInfo = playerInfo.perGameStats;
+        }
+
         if (i % 2 == 0) {
             if (playerArr[i].startedLastGame == "True") {
-                tableStr += '<tr id="p'+i+'" class="player-row even-row">' + getHTMLForPlayer(playerArr[i]) + '</tr>';
+                tableStr += '<tr id="p'+i+'" class="player-row even-row">' + getHTMLForPlayer(playerInfo) + '</tr>';
             } else {
-                tableStr += '<tr id="p'+i+'" class="player-row even-row non-starter">' + getHTMLForPlayer(playerArr[i]) + '</tr>';
+                tableStr += '<tr id="p'+i+'" class="player-row even-row non-starter">' + getHTMLForPlayer(playerInfo) + '</tr>';
             }
             
         } else {
             
             if (playerArr[i].startedLastGame == "True") {
-                tableStr += '<tr id="p'+i+'" class="player-row">' + getHTMLForPlayer(playerArr[i]) + '</tr>';
+                tableStr += '<tr id="p'+i+'" class="player-row">' + getHTMLForPlayer(playerInfo) + '</tr>';
             } else {
-                tableStr += '<tr id="p'+i+'" class="player-row non-starter">' + getHTMLForPlayer(playerArr[i]) + '</tr>';
+                tableStr += '<tr id="p'+i+'" class="player-row non-starter">' + getHTMLForPlayer(playerInfo) + '</tr>';
             }
         }
     }
@@ -154,9 +201,46 @@ function beforeLoadingPlayers() {
 }
 
 function afterLoadingPlayers() {
-  document.getElementById('roleButtons').innerHTML = playerButtonsHTML;
+  document.getElementById('roleButtons').innerHTML = generateRoleButtonsHTML();
   afterPlayerRowsLoaded();
   $("#playerTable").show();
+}
+
+function generateRoleButtonsHTML() {
+  var roleButtonsHTML = '';
+  if (curLineup.length < 5) {
+    if (roleIsStillAvailable(1)) {
+      roleButtonsHTML += '<button type="button" class="roleButton" id="captainButton">Captain<div class="subButton">Goals x2 & Assists x2</div></button>';
+    }
+    if (roleIsStillAvailable(2)) {
+      roleButtonsHTML += '<button type="button" class="roleButton" id="scorerButton">Scorer<div class="subButton">Goals x2</div></button>';
+    }
+    if (roleIsStillAvailable(3)) {
+      roleButtonsHTML += '<button type="button" class="roleButton" id="playmakerButton">Playmaker<div class="subButton">Assists x2</div></button>';
+    }
+    if (roleIsStillAvailable(4)) {
+      roleButtonsHTML += '<button type="button" class="roleButton" id="shooterButton">Shooter<div class="subButton">Shots x3</div></button>';
+    }
+    if (roleIsStillAvailable(5)) {
+      roleButtonsHTML += '<button type="button" class="roleButton" id="blockerButton">Blocker<div class="subButton">Blocked Shots x4</div></button>';
+    }
+    if (roleIsStillAvailable(6)) {
+      roleButtonsHTML += '<button type="button" class="roleButton" id="enforcerButton">Enforcer<div class="subButton">Hits x3</div></button>';
+    }
+    if (roleIsStillAvailable(7)) {
+      roleButtonsHTML += '<button type="button" class="roleButton" id="centerButton">Center<div class="subButton">Face Off Wins x2</div></button>';
+    }
+  }
+  return roleButtonsHTML;
+}
+
+function roleIsStillAvailable(roleId) {
+  for (salaryPlayer of curLineup) {
+    if (salaryPlayer.roleId == roleId) {
+      return false;
+    }
+  }
+  return true;
 }
 
 function parsePlayerFromRow(id) {
@@ -214,7 +298,7 @@ function selectColorScheme() {
   }
 }
 
-function getSelectedRole() {
+function getSelectedRoleId() {
   if (captainIsSelected)
     return 1;
   if (scorerIsSelected)
@@ -232,27 +316,42 @@ function getSelectedRole() {
   return 0;
 }
 
-function tryInsertPlayer() {
-  const selectedRole = getSelectedRole();
-  if (selectedPlayer != null && selectedRole > 0) {
-    const curLineup = getCurLineup();
-    console.log("selected stuff: " + selectedRole + ", " + selectedPlayer.fullName);
-  }
+function getRoleStr(roleId) {
+if (roleId == 1)
+  return 'Captain';
+if (roleId == 2)
+  return 'Scorer';
+if (roleId == 3)
+  return 'Playmaker';
+if (roleId == 4)
+  return 'Shooter';
+if (roleId == 5)
+  return 'Blocker';
+if (roleId == 6)
+  return 'Enforcer';
+if (roleId == 7)
+  return 'Center';
+return 'No role assigned';
 }
 
-function getCurLineup() {
-  var lineupList = [];
-  for (var i = 0; i < 5; i++) {
-    const player = parsePlayerFromLineup('pl' + i);
-    if (player != null) {
-      lineupList.push(player);
+function tryInsertPlayer() {
+  const selectedRoleId = getSelectedRoleId();
+  if (selectedPlayer != null && selectedRoleId > 0 && curLineup.length < 5) {
+    if (playerIsAlreadyInLineup(selectedPlayer.id)) {
+    } else {
+      const newPlayer = new SalaryPlayer(selectedPlayer, selectedRoleId);
+      curLineup.push(newPlayer);
     }
+    rewriteLineupHTML();
+    resetAllSelectedPlayers();
+    resetAllSelectedRoles();
+    afterLoadingPlayers();
+    console.log('selectedPlayer: ' + selectedPlayer);
   }
-  return lineupList;
 }
 
 function playerIsAlreadyInLineup(playerId) {
-  for (const player of roster) {
+  for (const player of curLineup) {
     if (player.id == playerId) {
         return true;
     }
@@ -262,15 +361,41 @@ function playerIsAlreadyInLineup(playerId) {
 
 function parsePlayerFromLineup(id) {
   const playerId = document.getElementById(id).innerHTML.split('<div hidden="">')[1].split('</div>')[0];
+  const role = document.getElementById(id).innerHTML.split('<td class="rightGlow">')[1].split('</div>')[0];
   for (const player of roster) {
       if (player.id == playerId) {
-          return player;
+          return new SalaryPlayer(player, role);
       }
   }
   return null;
 }
 
+function rewriteLineupHTML() {
+  curLineup.sort((a, b) => {
+    return b.salary - a.salary;
+  });
+  for (var i = 0; i < curLineup.length; i++) {
+    var playerHTML = '<td>' + curLineup[i].positionCode + '</td>';
+    playerHTML += '<td>' + curLineup[i].jerseyNumber + '</td>';
+    playerHTML += '<td class="leftGlow">' + curLineup[i].fullName + '</td>';
+    playerHTML += '<td>' + curLineup[i].salary + '</td>';
+    playerHTML += '<td class="rightGlow  selectedFire">' + curLineup[i].role + '</td>';
+    $('#pl' + i).html(playerHTML);
+  }
+}
+
 function afterPlayerRowsLoaded() {
+
+    for (var i = 0; i < 40; i++) {
+      $('#p' + i).unbind();
+    }
+    $('#captainButton').unbind();
+    $('#scorerButton').unbind();
+    $('#playmakerButton').unbind();
+    $('#shooterButton').unbind();
+    $('#blockerButton').unbind();
+    $('#enforcerButton').unbind();
+    $('#centerButton').unbind();
 
     var p0Selected = false;var p1Selected = false;var p2Selected = false;var p3Selected = false;var p4Selected = false;
     var p5Selected = false;var p6Selected = false;var p7Selected = false;var p8Selected = false;var p9Selected = false;

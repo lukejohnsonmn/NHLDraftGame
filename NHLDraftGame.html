@@ -74,7 +74,7 @@
                         <tr>
                             <th></th>
                             <th></th>
-                            <th id="statName"></th>
+                            <th id="statName"><div id="toggleStats" onclick="togglePerGameStats()">Toggle Per Game Statistics</div></th>
                             <th class="salary-td"></th>
                             <th id="statGamesPlayed"></th>
                             <th class="statPoints" id="statGoals">+15 per</div></th>
@@ -102,17 +102,17 @@
                         <tr>
                             <th>Pos.</th>
                             <th>#</th>
-                            <th class="leftGlow">Name</th>
-                            <th>Salary</th>
-                            <th class="rightGlow">Role</th>
+                            <th>Name</th>
+                            <th class="lineupTh">Salary</th>
+                            <th class="lineupTh selectedFire">Role</th>
                         </tr>
                     </thead>
                     <tbody id="curLineupTbody">
-                        <tr id="pl0" class="even-row"><td>C</td><td>89</td><td class="leftGlow">Frederick Gaudreau</td><td>10962</td><td class="rightGlow">Playmaker</td></tr>
-                        <tr id="pl1"><td>R</td><td>23</td><td class="leftGlow">Luke</td><td>22222</td><td class="rightGlow"></td></tr>
-                        <tr id="pl2" class="even-row"><td>R</td><td>23</td><td class="leftGlow">Luke</td><td>22222</td><td class="rightGlow"></td></tr>
-                        <tr id="pl3"><td>R</td><td>23</td><td class="leftGlow">Luke</td><td>22222</td><td class="rightGlow"></td></tr>
-                        <tr id="pl4" class="even-row"><td>R</td><td>23</td><td class="leftGlow">Luke</td><td>22222</td><td class="rightGlow"></td></tr>
+                        <tr id="pl0" class="even-row"><td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow selectedFire"></td></tr>
+                        <tr id="pl1"><td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow selectedFire"></td></tr>
+                        <tr id="pl2" class="even-row"><td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow selectedFire"></td></tr>
+                        <tr id="pl3"><td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow selectedFire"></td></tr>
+                        <tr id="pl4" class="even-row"><td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow selectedFire"></td></tr>
                         <tr id="curLineupFinalRow"><td></td><td></td><td class="leftGlow">Remaining Salary</td><td>22222</td><td class="rightGlow"></td></tr>
                         <tr class="tableEnd"><td></td><td></td><td></td><td></td><td></td></tr>
                     </tbody>

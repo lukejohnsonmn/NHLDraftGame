@@ -1,6 +1,6 @@
 # Python 3 server example cd OneDrive/Desktop/"HTML NHL GAME"/pythonServer
 from http.server import BaseHTTPRequestHandler, HTTPServer
-import time
+from datetime import datetime
 import json
 import math
 import urllib.request
@@ -28,8 +28,8 @@ class MyServer(BaseHTTPRequestHandler):
 
         if path[0] == "/get-season-stats":
             paramName = path[1]
-            paramSeason = '20222023'
-            paramTodaysDate = '2023-04-28'
+            paramTodaysDate = datetime.today().strftime('%Y-%m-%d')
+            paramSeason = getSeasonGivenTodaysDate(paramTodaysDate)
             print('ENDPOINT: /get-season-stats: ' + paramName + ', ' + paramSeason + ', ' + paramTodaysDate)
             myResponse = writeToFile(paramName, paramSeason, paramTodaysDate)
             self.wfile.write(bytes(myResponse, encoding='utf8'))
@@ -174,7 +174,17 @@ class Roster:
             player.calcRemainingStats()
 
         self.roster.sort(key=lambda x: x.salary, reverse=True)
-    
+
+# in: 2023-04-29     out: 20222023
+def getSeasonGivenTodaysDate(todaysDate):
+    dateArr = todaysDate.split('-')
+    year = int(dateArr[0])
+    month = int(dateArr[1])
+    if month <= 8:
+        return str(year-1) + str(year)
+    else:
+        return str(year) + str(year+1)
+
 def getRosterForTeam(teamId, teamName, season):
     teamRosterUrl = 'https://statsapi.web.nhl.com/api/v1/teams/' + str(teamId) + '?expand=team.roster&season=' + season
     response = httpGet(teamRosterUrl)
