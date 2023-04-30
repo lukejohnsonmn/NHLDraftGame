@@ -68,6 +68,8 @@ class SalaryPlayer {
 }
 
 var roster = null;
+const salaryCap = 75000;
+var remainingSalary = 50000;
 var curLineup = [];
 var selectedPlayer = null;
 
@@ -81,6 +83,14 @@ var enforcerIsSelected = false;
 var centerIsSelected = false;
 
 var displayPerGameStats = false;
+
+function calcSalaryCap() {
+  remainingSalary = salaryCap;
+  for (const player of curLineup) {
+    remainingSalary -= parseInt(player.salary);
+  }
+  $("#salaryCap").html(remainingSalary);
+}
 
 function togglePerGameStats() {
     displayPerGameStats = !displayPerGameStats;
@@ -175,7 +185,12 @@ function getHTMLForPlayer(player) {
     htmlStr += '<td class="blocked-td">' + player.blocked + '</td>';
     htmlStr += '<td class="hits-td">' + player.hits + '</td>';
     htmlStr += '<td class="faceOffPct-td">' + player.faceOffPct + '</td>';
-    htmlStr += '<td>' + player.plusMinus + '</td>';
+    if (parseFloat(player.plusMinus) > 0) {
+        htmlStr += '<td>+' + player.plusMinus + '</td>';
+    } else {
+        htmlStr += '<td>' + player.plusMinus + '</td>';
+    }
+    
     htmlStr += '<td>' + player.penaltyMinutes + '</td>';
     htmlStr += '<td>' + player.timeOnIce + '</td>';
     return htmlStr
@@ -197,13 +212,16 @@ function beforeLoadingPlayers() {
   resetAllSelectedPlayers();
   resetAllSelectedRoles();
   $("#playerTable").hide();
+  $("#curLineupDiv").hide();
   document.getElementById('roleButtons').innerHTML = '<div>Loading Season Stats...</div>';
 }
 
 function afterLoadingPlayers() {
   document.getElementById('roleButtons').innerHTML = generateRoleButtonsHTML();
   afterPlayerRowsLoaded();
+  calcSalaryCap();
   $("#playerTable").show();
+  $("#curLineupDiv").show();
 }
 
 function generateRoleButtonsHTML() {
