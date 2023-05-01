@@ -119,7 +119,7 @@ function setDisplayForUnavailablePlayers() {
       break;
     }
     
-    if (roster[i].available) {
+    if (roster[i].available && roster[i].startedLastGame == "True") {
       availableSalary -= roster[i].salary;
       playersLeft--;
     }

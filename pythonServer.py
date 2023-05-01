@@ -175,6 +175,36 @@ class Roster:
 
         self.roster.sort(key=lambda x: x.salary, reverse=True)
 
+def decrementDate(date):
+    year = int(date.split('-')[0])
+    monthOfYear = int(date.split('-')[1])
+    dayOfMonth = int(date.split('-')[2])
+    dayOfMonth -= 1
+    if dayOfMonth == 0:
+
+        monthOfYear -= 1
+        if monthOfYear == 0:
+            year -= 1
+            monthOfYear = 12
+
+        if monthOfYear in [1,3,5,7,8,10,12]:
+            dayOfMonth = '31'
+        elif monthOfYear == 2:
+            dayOfMonth = '28'
+        else:
+            dayOfMonth = '30'
+    else:
+        if dayOfMonth < 10:
+            dayOfMonth = '0' + str(dayOfMonth)
+        else:
+            dayOfMonth = str(dayOfMonth)
+
+    if monthOfYear < 10:
+        monthOfYear = '0' + str(monthOfYear)
+    else:
+        monthOfYear = str(monthOfYear)
+    return str(year) + '-' + monthOfYear + '-' + dayOfMonth
+
 # in: 2023-04-29     out: 20222023
 def getSeasonGivenTodaysDate(todaysDate):
     dateArr = todaysDate.split('-')
@@ -202,34 +232,15 @@ def getRosterForTeam(teamId, teamName, season):
         playerList.append(Player(pId, pFullName, pJerseyNumber, pPosition, teamId, teamName, season))
     return playerList
 
+
 def getStartingLineupForLastGame(roster, todaysDate):
     count = 100 #Stop unexpected infinite loops
     date = todaysDate
-    year = date.split('-')[0]
     gamePk = 0
     teamObj = roster.team
     while gamePk == 0 and count > 0:
         count -= 1
-        monthOfYear = int(date.split('-')[1])
-        dayOfMonth = int(date.split('-')[2])
-        dayOfMonth -= 1
-        if dayOfMonth == 0:
-            dayOfMonth = '31'
-            monthOfYear -= 1
-            if monthOfYear == 0:
-                year = str(int(year) - 1)
-                monthOfYear = 12
-            monthOfYear = str(monthOfYear)
-        else:
-            if dayOfMonth < 10:
-                dayOfMonth = '0' + str(dayOfMonth)
-            else:
-                dayOfMonth = str(dayOfMonth)
-            if monthOfYear < 10:
-                monthOfYear = '0' + str(monthOfYear)
-            else:
-                monthOfYear = str(monthOfYear)
-        date = year + '-' + monthOfYear + '-' + dayOfMonth
+        date = decrementDate(date)
         gamePk = getGamePkGivenTeamAndDate(teamObj, date)
 
     playersJson = getAllPlayerJsonsForGamePk(teamObj, gamePk)
@@ -273,23 +284,7 @@ def getAllPostSeasonGamePks(teamObj, todaysDate):
     gamePkList = []
     while date != year + endOfRegSeason and count > 0:
         count -= 1
-        monthOfYear = int(date.split('-')[1])
-        dayOfMonth = int(date.split('-')[2])
-        dayOfMonth -= 1
-        if dayOfMonth == 0:
-            dayOfMonth = '31'
-            monthOfYear -= 1
-            monthOfYear = str(monthOfYear)
-        else:
-            if dayOfMonth < 10:
-                dayOfMonth = '0' + str(dayOfMonth)
-            else:
-                dayOfMonth = str(dayOfMonth)
-            if monthOfYear < 10:
-                monthOfYear = '0' + str(monthOfYear)
-            else:
-                monthOfYear = str(monthOfYear)
-        date = year + '-' + monthOfYear + '-' + dayOfMonth
+        date = decrementDate(date)
         gamePk = getGamePkGivenTeamAndDate(teamObj, date)
         if gamePk > 0:
             gamePkList.append(gamePk)
@@ -589,7 +584,7 @@ def formatRosterInfo(roster):
             line += str(player.jerseyNumber) + ','
             line += str(player.positionCode) + ','
             line += str(player.startedLastGame) + ','
-            line += str(math.floor(10 *player.salary / 7)) + ','
+            line += str(math.floor(20 *player.salary / 13)) + ','
             line += str(player.perGameStats.games) + ','
             line += str(player.perGameStats.timeOnIce) + ','
             line += str(player.seasonStats.goals) + ','
