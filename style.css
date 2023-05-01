@@ -181,6 +181,7 @@ table, th, td {
 
 .unavailable {
 	color: gray;
+	cursor: default;
 }
 
 
