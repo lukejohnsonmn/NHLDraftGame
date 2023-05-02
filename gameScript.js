@@ -446,7 +446,12 @@ function rewriteLineupHTML() {
       playerHTML += '<td id="pltd'+i+'2" class="inLineup">' + curLineup[i].jerseyNumber + '</td>';
       playerHTML += '<td id="pltd'+i+'3" class="leftGlow inLineup">' + curLineup[i].fullName + '</td>';
       playerHTML += '<td id="pltd'+i+'4" class="inLineup">' + curLineup[i].salary + '</td>';
-      playerHTML += '<td id="pltd'+i+'5" class="selectedFire inLineup rightGlow">' + curLineup[i].role + '</td>';
+      playerHTML += '<td id="pltd'+i+'5" class="selectedFire inLineup rightGlow">' + getAvailableRolesDropdownHTML(curLineup[i].id, curLineup[i].roleId) + '</td>';
+
+      
+
+      
+
     } else {
       playerHTML = '<td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow  selectedFire"></td>';
     }
@@ -457,6 +462,21 @@ function rewriteLineupHTML() {
     }
     $('#pl' + i).html(playerHTML);
   }
+}
+
+function getAvailableRolesDropdownHTML(id, roleId) {
+  var dropdownHTML = '<option value="' + roleId + '">' + getRoleStr(roleId) + '</option>';
+  for (var i = 1; i <= 7; i++) {
+    if (i != roleId && roleIsStillAvailable(i)) {
+      dropdownHTML += '<option value="' + i + '">' + getRoleStr(i) + '</option>';
+    }
+  }
+  playerHTML = '<select id="plDropdown'+ id + '" onchange="selectTeam()">' + dropdownHTML + '</select>';
+  return dropdownHTML;
+}
+
+function reArrangeRoles() {
+  
 }
 
 function clearCurLineup() {
