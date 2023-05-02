@@ -586,7 +586,6 @@ def formatRosterInfo(roster):
             line += str(player.startedLastGame) + ','
             line += str(math.floor(20 *player.salary / 13)) + ','
             line += str(player.perGameStats.games) + ','
-            line += str(player.perGameStats.timeOnIce) + ','
             line += str(player.seasonStats.goals) + ','
             line += str(player.seasonStats.assists) + ','
             line += str(player.seasonStats.shots) + ','

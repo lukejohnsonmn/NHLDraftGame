@@ -7,15 +7,14 @@ class Player {
         this.startedLastGame = infoArr[4];
         this.salary = infoArr[5];
         this.games = infoArr[6];
-        this.timeOnIce = infoArr[7];
-        this.goals = infoArr[8];
-        this.assists = infoArr[9];
-        this.shots = infoArr[10];
-        this.blocked = infoArr[11];
-        this.hits = infoArr[12];
-        this.faceOffPct = infoArr[13];
-        this.penaltyMinutes = infoArr[14];
-        this.plusMinus = infoArr[15];
+        this.goals = infoArr[7];
+        this.assists = infoArr[8];
+        this.shots = infoArr[9];
+        this.blocked = infoArr[10];
+        this.hits = infoArr[11];
+        this.faceOffPct = infoArr[12];
+        this.penaltyMinutes = infoArr[13];
+        this.plusMinus = infoArr[14];
         this.available = true;
         this.perGameStats = new PerGameStats(this);
     }
@@ -31,7 +30,6 @@ class PerGameStats {
     this.salary = player.salary;
     this.games = player.games;
     const gp = parseFloat(this.games) / 100;
-    this.timeOnIce = player.timeOnIce;
     this.goals = calcAndFormat(player.goals, gp);
     this.assists = calcAndFormat(player.assists, gp);
     this.shots = calcAndFormat(player.shots, gp);
@@ -218,7 +216,7 @@ function populateTable(playerArr) {
             }
         }
     }
-    tableStr += '<tr class="tableEnd"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>'
+    tableStr += '<tr class="tableEnd"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>'
     document.getElementById('playerTableBody').innerHTML = tableStr;
 }
 
@@ -241,7 +239,6 @@ function getHTMLForPlayer(player) {
     }
     
     htmlStr += '<td>' + player.penaltyMinutes + '</td>';
-    htmlStr += '<td>' + player.timeOnIce + '</td>';
     return htmlStr
 }
 
@@ -453,7 +450,11 @@ function rewriteLineupHTML() {
     } else {
       playerHTML = '<td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow  selectedFire"></td>';
     }
-    
+    if (curLineup.length == 5) {
+      $('#submitLineup').show();
+    } else {
+      $('#submitLineup').hide();
+    }
     $('#pl' + i).html(playerHTML);
   }
 }

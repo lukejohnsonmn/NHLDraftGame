@@ -53,28 +53,27 @@
                 <div>Select a team to load season stats.</div>
             </div>
             <div id="playerTableDiv">
-                <table id="playerTable" hidden>
+                <table id="playerTable">
                     <thead id="player-thead">
                         <tr>
-                            <th>Pos.</th>
-                            <th>#</th>
+                            <th class="infoCols">Pos.</th>
+                            <th class="infoCols">#</th>
                             <th id="headName">Name</th>
                             <th class="salary-th">Salary</th>
-                            <th id="headGamesPlayed">Games Played</th>
-                            <th id="headGoals">Goals</th>
-                            <th id="headAssists">Assists</th>
-                            <th id="headShots">Shots</th>
-                            <th id="headBlocked">Blocked Shots</th>
-                            <th id="headHits">Hits</th>
-                            <th id="headFaceOffs">Face Off %</th>
-                            <th>Plus Minus</th>
-                            <th>Penalty Minutes</th>
-                            <th>Ice Time / Game</th>
+                            <th id="headGamesPlayed" class="statCols">Games<br>Played</th>
+                            <th id="headGoals" class="statCols">Goals</th>
+                            <th id="headAssists" class="statCols">Assists</th>
+                            <th id="headShots" class="statCols">Shots</th>
+                            <th id="headBlocked" class="statCols">Blocked<br>Shots</th>
+                            <th id="headHits" class="statCols">Hits</th>
+                            <th id="headFaceOffs" class="statCols">Face Off<br>%</th>
+                            <th class="statCols">Plus<br>Minus</th>
+                            <th class="statCols">Penalty<br>Minutes</th>
                         </tr>
                         <tr>
                             <th></th>
                             <th></th>
-                            <th id="statName"><div id="toggleStats" onclick="togglePerGameStats()">Toggle Per Game Statistics</div></th>
+                            <th id="statName"><div id="toggleStats" class="whiteButton" onclick="togglePerGameStats()">Toggle Per Game Statistics</div></th>
                             <th class="salary-td"></th>
                             <th id="statGamesPlayed"></th>
                             <th class="statPoints" id="statGoals">+15 per</div></th>
@@ -85,7 +84,6 @@
                             <th class="statPoints" id="statFaceOffs">+1 per win<br>-1 per loss</div></th>
                             <th class="statPoints">+/- 5 per</div></th>
                             <th class="statPoints">-5 per min</div></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="playerTableBody">
@@ -113,7 +111,14 @@
                         <tr id="pl2" class="even-row"><td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow selectedFire"></td></tr>
                         <tr id="pl3"><td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow selectedFire"></td></tr>
                         <tr id="pl4" class="even-row"><td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow selectedFire"></td></tr>
-                        <tr id="curLineupFinalRow"><td></td><td></td><td class="leftGlow">Remaining Salary</td><td id="salaryCap">22222</td><td class="rightGlow"></td></tr>
+                        <tr id="curLineupFinalRow">
+                            <td></td>
+                            <td></td>
+                            <td class="leftGlow">Remaining Salary</td>
+                            <td id="salaryCap">22222</td>
+                            <td class="rightGlow">
+                                <div id="submitLineup" class="whiteButton" hidden>Submit</div>
+                            </td></tr>
                         <tr class="tableEnd"><td></td><td></td><td></td><td></td><td></td></tr>
                     </tbody>
                 </table>
