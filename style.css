@@ -173,12 +173,12 @@ table, th, td {
 }
 
 .whiteButton:hover {
-	background: #e6e6e6;
+	background: #cccccc;
 	box-shadow: 0px 0px 5px 5px white;
 }
 
 .whiteButton:active {
-	background: #cccccc;
+	background: #999999;
 	box-shadow: 0px 0px 5px 5px #cccccc;
 }
 
@@ -190,6 +190,9 @@ table, th, td {
 	color: #ff8080;/*#bf0000;*/
 }
 
+.inLineup {
+	cursor: pointer;
+}
 
 
 .player-row {
@@ -206,7 +209,27 @@ table, th, td {
 	box-shadow: var(--negTableSpacing) 0 6px -6px var(--secondaryDark);
 }
 
+#clearLineup {
+	padding: 5px;
+	border: 2px solid black;
+	border-radius: 5px;
+	background: red;
+	color: white;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 12px;
+	width: min-content;
+}
 
+#clearLineup:hover {
+	background: #990000;
+	box-shadow: 0px 0px 5px 5px red;
+}
+
+#clearLineup:active {
+	background: #330000;
+	box-shadow: 0px 0px 5px 5px #990000;
+}
 
 .unavailable {
 	color: gray;
@@ -277,6 +300,16 @@ table, th, td {
 .goldShadow {
 	box-shadow: 0px 0px var(--quarterTableSpacing) var(--quarterTableSpacing) var(--gold) inset;
 }
+
+.selectedRedShadow {
+	box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) red inset;
+}
+
+.redShadow {
+	box-shadow: 0px 0px var(--quarterTableSpacing) var(--quarterTableSpacing) red inset;
+}
+
+
 
 #Avalanche {
 	background-color: #6F263D;

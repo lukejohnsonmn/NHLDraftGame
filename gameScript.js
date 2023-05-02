@@ -426,7 +426,7 @@ function playerIsAlreadyInLineup(playerId) {
 
 function parsePlayerFromLineup(id) {
   const playerId = document.getElementById(id).innerHTML.split('<div hidden="">')[1].split('</div>')[0];
-  const role = document.getElementById(id).innerHTML.split('<td class="rightGlow">')[1].split('</div>')[0];
+  const role = document.getElementById(id).innerHTML.split('rightGlow">')[1].split('</div>')[0];
   for (const player of roster) {
       if (player.id == playerId) {
           return new SalaryPlayer(player, role);
@@ -442,11 +442,11 @@ function rewriteLineupHTML() {
   for (var i = 0; i < 5; i++) {
     var playerHTML = '';
     if (i < curLineup.length) {
-      playerHTML = '<td>' + curLineup[i].positionCode + '</td>';
-      playerHTML += '<td>' + curLineup[i].jerseyNumber + '</td>';
-      playerHTML += '<td class="leftGlow">' + curLineup[i].fullName + '</td>';
-      playerHTML += '<td>' + curLineup[i].salary + '</td>';
-      playerHTML += '<td class="rightGlow  selectedFire">' + curLineup[i].role + '</td>';
+      playerHTML = '<td id="pltd'+i+'1" class="inLineup"><div hidden>' + curLineup[i].id + '</div>' + curLineup[i].positionCode + '</td>';
+      playerHTML += '<td id="pltd'+i+'2" class="inLineup">' + curLineup[i].jerseyNumber + '</td>';
+      playerHTML += '<td id="pltd'+i+'3" class="leftGlow inLineup">' + curLineup[i].fullName + '</td>';
+      playerHTML += '<td id="pltd'+i+'4" class="inLineup">' + curLineup[i].salary + '</td>';
+      playerHTML += '<td id="pltd'+i+'5" class="selectedFire inLineup rightGlow">' + curLineup[i].role + '</td>';
     } else {
       playerHTML = '<td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow  selectedFire"></td>';
     }
@@ -459,8 +459,53 @@ function rewriteLineupHTML() {
   }
 }
 
+function clearCurLineup() {
+  for (var i = 0; i < curLineup.length; i++) {
+    for (var j = 0; j < roster.length; j++) {
+      if (roster[j].id == curLineup[i].id) {
+        roster[j].available = true;
+      }
+    }
+  }
+  curLineup.length = 0;
+  rewriteLineupHTML();
+  resetAllSelectedPlayers();
+  resetAllSelectedRoles();
+  afterLoadingPlayers();
+}
+
+function removePlayerFromLineup(id) {
+  const salaryPlayer = parsePlayerFromLineup(id);
+  const tempLineup = [];
+  for (var i = 0; i < curLineup.length; i++) {
+    if (curLineup[i].id != salaryPlayer.id) {
+      tempLineup.push(curLineup[i]);
+    }
+  }
+  curLineup.length = 0;
+  for (var i = 0; i < tempLineup.length; i++) {
+    curLineup.push(tempLineup[i]);
+  }
+
+  for (var i = 0; i < roster.length; i++) {
+    if (roster[i].id == salaryPlayer.id) {
+      roster[i].available = true;
+    }
+  }
+  rewriteLineupHTML();
+  resetAllSelectedPlayers();
+  resetAllSelectedRoles();
+  afterLoadingPlayers();
+
+}
+
 function afterPlayerRowsLoaded() {
 
+    for (var i = 0; i < 5; i++) {
+      for (var j = 1; j < 5; j++) {
+        $('#pltd' + i + j).unbind();
+      }
+    }
     for (var i = 0; i < 40; i++) {
       $('#p' + i).unbind();
     }
@@ -478,56 +523,101 @@ function afterPlayerRowsLoaded() {
       pAvailable.push(true);
     }
 
-    $(function() {if (!pAvailable[0]) {$("#p0").addClass("unavailable")} else {$('#p0').hover(function() {if (!pSelected[0]) {$("#p0").addClass("goldShadow");}}, function() {if (!pSelected[0]) {$("#p0").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[1]) {$("#p1").addClass("unavailable")} else {$('#p1').hover(function() {if (!pSelected[1]) {$("#p1").addClass("goldShadow");}}, function() {if (!pSelected[1]) {$("#p1").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[2]) {$("#p2").addClass("unavailable")} else {$('#p2').hover(function() {if (!pSelected[2]) {$("#p2").addClass("goldShadow");}}, function() {if (!pSelected[2]) {$("#p2").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[3]) {$("#p3").addClass("unavailable")} else {$('#p3').hover(function() {if (!pSelected[3]) {$("#p3").addClass("goldShadow");}}, function() {if (!pSelected[3]) {$("#p3").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[4]) {$("#p4").addClass("unavailable")} else {$('#p4').hover(function() {if (!pSelected[4]) {$("#p4").addClass("goldShadow");}}, function() {if (!pSelected[4]) {$("#p4").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[5]) {$("#p5").addClass("unavailable")} else {$('#p5').hover(function() {if (!pSelected[5]) {$("#p5").addClass("goldShadow");}}, function() {if (!pSelected[5]) {$("#p5").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[6]) {$("#p6").addClass("unavailable")} else {$('#p6').hover(function() {if (!pSelected[6]) {$("#p6").addClass("goldShadow");}}, function() {if (!pSelected[6]) {$("#p6").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[7]) {$("#p7").addClass("unavailable")} else {$('#p7').hover(function() {if (!pSelected[7]) {$("#p7").addClass("goldShadow");}}, function() {if (!pSelected[7]) {$("#p7").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[8]) {$("#p8").addClass("unavailable")} else {$('#p8').hover(function() {if (!pSelected[8]) {$("#p8").addClass("goldShadow");}}, function() {if (!pSelected[8]) {$("#p8").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[9]) {$("#p9").addClass("unavailable")} else {$('#p9').hover(function() {if (!pSelected[9]) {$("#p9").addClass("goldShadow");}}, function() {if (!pSelected[9]) {$("#p9").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[10]) {$("#p10").addClass("unavailable")} else {$('#p10').hover(function() {if (!pSelected[10]) {$("#p10").addClass("goldShadow");}}, function() {if (!pSelected[10]) {$("#p10").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[11]) {$("#p11").addClass("unavailable")} else {$('#p11').hover(function() {if (!pSelected[11]) {$("#p11").addClass("goldShadow");}}, function() {if (!pSelected[11]) {$("#p11").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[12]) {$("#p12").addClass("unavailable")} else {$('#p12').hover(function() {if (!pSelected[12]) {$("#p12").addClass("goldShadow");}}, function() {if (!pSelected[12]) {$("#p12").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[13]) {$("#p13").addClass("unavailable")} else {$('#p13').hover(function() {if (!pSelected[13]) {$("#p13").addClass("goldShadow");}}, function() {if (!pSelected[13]) {$("#p13").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[14]) {$("#p14").addClass("unavailable")} else {$('#p14').hover(function() {if (!pSelected[14]) {$("#p14").addClass("goldShadow");}}, function() {if (!pSelected[14]) {$("#p14").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[15]) {$("#p15").addClass("unavailable")} else {$('#p15').hover(function() {if (!pSelected[15]) {$("#p15").addClass("goldShadow");}}, function() {if (!pSelected[15]) {$("#p15").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[16]) {$("#p16").addClass("unavailable")} else {$('#p16').hover(function() {if (!pSelected[16]) {$("#p16").addClass("goldShadow");}}, function() {if (!pSelected[16]) {$("#p16").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[17]) {$("#p17").addClass("unavailable")} else {$('#p17').hover(function() {if (!pSelected[17]) {$("#p17").addClass("goldShadow");}}, function() {if (!pSelected[17]) {$("#p17").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[18]) {$("#p18").addClass("unavailable")} else {$('#p18').hover(function() {if (!pSelected[18]) {$("#p18").addClass("goldShadow");}}, function() {if (!pSelected[18]) {$("#p18").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[19]) {$("#p19").addClass("unavailable")} else {$('#p19').hover(function() {if (!pSelected[19]) {$("#p19").addClass("goldShadow");}}, function() {if (!pSelected[19]) {$("#p19").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[20]) {$("#p20").addClass("unavailable")} else {$('#p20').hover(function() {if (!pSelected[20]) {$("#p20").addClass("goldShadow");}}, function() {if (!pSelected[20]) {$("#p20").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[21]) {$("#p21").addClass("unavailable")} else {$('#p21').hover(function() {if (!pSelected[21]) {$("#p21").addClass("goldShadow");}}, function() {if (!pSelected[21]) {$("#p21").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[22]) {$("#p22").addClass("unavailable")} else {$('#p22').hover(function() {if (!pSelected[22]) {$("#p22").addClass("goldShadow");}}, function() {if (!pSelected[22]) {$("#p22").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[23]) {$("#p23").addClass("unavailable")} else {$('#p23').hover(function() {if (!pSelected[23]) {$("#p23").addClass("goldShadow");}}, function() {if (!pSelected[23]) {$("#p23").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[24]) {$("#p24").addClass("unavailable")} else {$('#p24').hover(function() {if (!pSelected[24]) {$("#p24").addClass("goldShadow");}}, function() {if (!pSelected[24]) {$("#p24").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[25]) {$("#p25").addClass("unavailable")} else {$('#p25').hover(function() {if (!pSelected[25]) {$("#p25").addClass("goldShadow");}}, function() {if (!pSelected[25]) {$("#p25").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[26]) {$("#p26").addClass("unavailable")} else {$('#p26').hover(function() {if (!pSelected[26]) {$("#p26").addClass("goldShadow");}}, function() {if (!pSelected[26]) {$("#p26").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[27]) {$("#p27").addClass("unavailable")} else {$('#p27').hover(function() {if (!pSelected[27]) {$("#p27").addClass("goldShadow");}}, function() {if (!pSelected[27]) {$("#p27").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[28]) {$("#p28").addClass("unavailable")} else {$('#p28').hover(function() {if (!pSelected[28]) {$("#p28").addClass("goldShadow");}}, function() {if (!pSelected[28]) {$("#p28").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[29]) {$("#p29").addClass("unavailable")} else {$('#p29').hover(function() {if (!pSelected[29]) {$("#p29").addClass("goldShadow");}}, function() {if (!pSelected[29]) {$("#p29").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[30]) {$("#p30").addClass("unavailable")} else {$('#p30').hover(function() {if (!pSelected[30]) {$("#p30").addClass("goldShadow");}}, function() {if (!pSelected[30]) {$("#p30").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[31]) {$("#p31").addClass("unavailable")} else {$('#p31').hover(function() {if (!pSelected[31]) {$("#p31").addClass("goldShadow");}}, function() {if (!pSelected[31]) {$("#p31").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[32]) {$("#p32").addClass("unavailable")} else {$('#p32').hover(function() {if (!pSelected[32]) {$("#p32").addClass("goldShadow");}}, function() {if (!pSelected[32]) {$("#p32").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[33]) {$("#p33").addClass("unavailable")} else {$('#p33').hover(function() {if (!pSelected[33]) {$("#p33").addClass("goldShadow");}}, function() {if (!pSelected[33]) {$("#p33").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[34]) {$("#p34").addClass("unavailable")} else {$('#p34').hover(function() {if (!pSelected[34]) {$("#p34").addClass("goldShadow");}}, function() {if (!pSelected[34]) {$("#p34").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[35]) {$("#p35").addClass("unavailable")} else {$('#p35').hover(function() {if (!pSelected[35]) {$("#p35").addClass("goldShadow");}}, function() {if (!pSelected[35]) {$("#p35").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[36]) {$("#p36").addClass("unavailable")} else {$('#p36').hover(function() {if (!pSelected[36]) {$("#p36").addClass("goldShadow");}}, function() {if (!pSelected[36]) {$("#p36").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[37]) {$("#p37").addClass("unavailable")} else {$('#p37').hover(function() {if (!pSelected[37]) {$("#p37").addClass("goldShadow");}}, function() {if (!pSelected[37]) {$("#p37").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[38]) {$("#p38").addClass("unavailable")} else {$('#p38').hover(function() {if (!pSelected[38]) {$("#p38").addClass("goldShadow");}}, function() {if (!pSelected[38]) {$("#p38").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[39]) {$("#p39").addClass("unavailable")} else {$('#p39').hover(function() {if (!pSelected[39]) {$("#p39").addClass("goldShadow");}}, function() {if (!pSelected[39]) {$("#p39").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[40]) {$("#p40").addClass("unavailable")} else {$('#p40').hover(function() {if (!pSelected[40]) {$("#p40").addClass("goldShadow");}}, function() {if (!pSelected[40]) {$("#p40").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[41]) {$("#p41").addClass("unavailable")} else {$('#p41').hover(function() {if (!pSelected[41]) {$("#p41").addClass("goldShadow");}}, function() {if (!pSelected[41]) {$("#p41").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[42]) {$("#p42").addClass("unavailable")} else {$('#p42').hover(function() {if (!pSelected[42]) {$("#p42").addClass("goldShadow");}}, function() {if (!pSelected[42]) {$("#p42").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[43]) {$("#p43").addClass("unavailable")} else {$('#p43').hover(function() {if (!pSelected[43]) {$("#p43").addClass("goldShadow");}}, function() {if (!pSelected[43]) {$("#p43").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[44]) {$("#p44").addClass("unavailable")} else {$('#p44').hover(function() {if (!pSelected[44]) {$("#p44").addClass("goldShadow");}}, function() {if (!pSelected[44]) {$("#p44").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[45]) {$("#p45").addClass("unavailable")} else {$('#p45').hover(function() {if (!pSelected[45]) {$("#p45").addClass("goldShadow");}}, function() {if (!pSelected[45]) {$("#p45").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[46]) {$("#p46").addClass("unavailable")} else {$('#p46').hover(function() {if (!pSelected[46]) {$("#p46").addClass("goldShadow");}}, function() {if (!pSelected[46]) {$("#p46").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[47]) {$("#p47").addClass("unavailable")} else {$('#p47').hover(function() {if (!pSelected[47]) {$("#p47").addClass("goldShadow");}}, function() {if (!pSelected[47]) {$("#p47").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[48]) {$("#p48").addClass("unavailable")} else {$('#p48').hover(function() {if (!pSelected[48]) {$("#p48").addClass("goldShadow");}}, function() {if (!pSelected[48]) {$("#p48").removeClass("goldShadow");}});}});
-    $(function() {if (!pAvailable[49]) {$("#p49").addClass("unavailable")} else {$('#p49').hover(function() {if (!pSelected[49]) {$("#p49").addClass("goldShadow");}}, function() {if (!pSelected[49]) {$("#p49").removeClass("goldShadow");}});}});
+
+
+    $('#pltd01').hover(function() {$("#pl0").addClass("redShadow");}, function() {$("#pl0").removeClass("redShadow");});
+    $('#pltd02').hover(function() {$("#pl0").addClass("redShadow");}, function() {$("#pl0").removeClass("redShadow");});
+    $('#pltd03').hover(function() {$("#pl0").addClass("redShadow");}, function() {$("#pl0").removeClass("redShadow");});
+    $('#pltd04').hover(function() {$("#pl0").addClass("redShadow");}, function() {$("#pl0").removeClass("redShadow");});
+    $('#pltd11').hover(function() {$("#pl1").addClass("redShadow");}, function() {$("#pl1").removeClass("redShadow");});
+    $('#pltd12').hover(function() {$("#pl1").addClass("redShadow");}, function() {$("#pl1").removeClass("redShadow");});
+    $('#pltd13').hover(function() {$("#pl1").addClass("redShadow");}, function() {$("#pl1").removeClass("redShadow");});
+    $('#pltd14').hover(function() {$("#pl1").addClass("redShadow");}, function() {$("#pl1").removeClass("redShadow");});
+    $('#pltd21').hover(function() {$("#pl2").addClass("redShadow");}, function() {$("#pl2").removeClass("redShadow");});
+    $('#pltd22').hover(function() {$("#pl2").addClass("redShadow");}, function() {$("#pl2").removeClass("redShadow");});
+    $('#pltd23').hover(function() {$("#pl2").addClass("redShadow");}, function() {$("#pl2").removeClass("redShadow");});
+    $('#pltd24').hover(function() {$("#pl2").addClass("redShadow");}, function() {$("#pl2").removeClass("redShadow");});
+    $('#pltd31').hover(function() {$("#pl3").addClass("redShadow");}, function() {$("#pl3").removeClass("redShadow");});
+    $('#pltd32').hover(function() {$("#pl3").addClass("redShadow");}, function() {$("#pl3").removeClass("redShadow");});
+    $('#pltd33').hover(function() {$("#pl3").addClass("redShadow");}, function() {$("#pl3").removeClass("redShadow");});
+    $('#pltd34').hover(function() {$("#pl3").addClass("redShadow");}, function() {$("#pl3").removeClass("redShadow");});
+    $('#pltd41').hover(function() {$("#pl4").addClass("redShadow");}, function() {$("#pl4").removeClass("redShadow");});
+    $('#pltd42').hover(function() {$("#pl4").addClass("redShadow");}, function() {$("#pl4").removeClass("redShadow");});
+    $('#pltd43').hover(function() {$("#pl4").addClass("redShadow");}, function() {$("#pl4").removeClass("redShadow");});
+    $('#pltd44').hover(function() {$("#pl4").addClass("redShadow");}, function() {$("#pl4").removeClass("redShadow");});
+
+    $('#pltd01').click(function() {removePlayerFromLineup('pl0');$("#pl0").removeClass("redShadow");});
+    $('#pltd02').click(function() {removePlayerFromLineup('pl0');$("#pl0").removeClass("redShadow");});
+    $('#pltd03').click(function() {removePlayerFromLineup('pl0');$("#pl0").removeClass("redShadow");});
+    $('#pltd04').click(function() {removePlayerFromLineup('pl0');$("#pl0").removeClass("redShadow");});
+    $('#pltd11').click(function() {removePlayerFromLineup('pl1');$("#pl1").removeClass("redShadow");});
+    $('#pltd12').click(function() {removePlayerFromLineup('pl1');$("#pl1").removeClass("redShadow");});
+    $('#pltd13').click(function() {removePlayerFromLineup('pl1');$("#pl1").removeClass("redShadow");});
+    $('#pltd14').click(function() {removePlayerFromLineup('pl1');$("#pl1").removeClass("redShadow");});
+    $('#pltd21').click(function() {removePlayerFromLineup('pl2');$("#pl2").removeClass("redShadow");});
+    $('#pltd22').click(function() {removePlayerFromLineup('pl2');$("#pl2").removeClass("redShadow");});
+    $('#pltd23').click(function() {removePlayerFromLineup('pl2');$("#pl2").removeClass("redShadow");});
+    $('#pltd24').click(function() {removePlayerFromLineup('pl2');$("#pl2").removeClass("redShadow");});
+    $('#pltd31').click(function() {removePlayerFromLineup('pl3');$("#pl3").removeClass("redShadow");});
+    $('#pltd32').click(function() {removePlayerFromLineup('pl3');$("#pl3").removeClass("redShadow");});
+    $('#pltd33').click(function() {removePlayerFromLineup('pl3');$("#pl3").removeClass("redShadow");});
+    $('#pltd34').click(function() {removePlayerFromLineup('pl3');$("#pl3").removeClass("redShadow");});
+    $('#pltd41').click(function() {removePlayerFromLineup('pl4');$("#pl4").removeClass("redShadow");});
+    $('#pltd42').click(function() {removePlayerFromLineup('pl4');$("#pl4").removeClass("redShadow");});
+    $('#pltd43').click(function() {removePlayerFromLineup('pl4');$("#pl4").removeClass("redShadow");});
+    $('#pltd44').click(function() {removePlayerFromLineup('pl4');$("#pl4").removeClass("redShadow");});
+    
+
+    $(function() {if (!pAvailable[0]) {$("#p0").addClass("unavailable")} else {$("#p0").removeClass("unavailable");$('#p0').hover(function() {if (!pSelected[0]) {$("#p0").addClass("goldShadow");}}, function() {if (!pSelected[0]) {$("#p0").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[1]) {$("#p1").addClass("unavailable")} else {$("#p1").removeClass("unavailable");$('#p1').hover(function() {if (!pSelected[1]) {$("#p1").addClass("goldShadow");}}, function() {if (!pSelected[1]) {$("#p1").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[2]) {$("#p2").addClass("unavailable")} else {$("#p2").removeClass("unavailable");$('#p2').hover(function() {if (!pSelected[2]) {$("#p2").addClass("goldShadow");}}, function() {if (!pSelected[2]) {$("#p2").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[3]) {$("#p3").addClass("unavailable")} else {$("#p3").removeClass("unavailable");$('#p3').hover(function() {if (!pSelected[3]) {$("#p3").addClass("goldShadow");}}, function() {if (!pSelected[3]) {$("#p3").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[4]) {$("#p4").addClass("unavailable")} else {$("#p4").removeClass("unavailable");$('#p4').hover(function() {if (!pSelected[4]) {$("#p4").addClass("goldShadow");}}, function() {if (!pSelected[4]) {$("#p4").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[5]) {$("#p5").addClass("unavailable")} else {$("#p5").removeClass("unavailable");$('#p5').hover(function() {if (!pSelected[5]) {$("#p5").addClass("goldShadow");}}, function() {if (!pSelected[5]) {$("#p5").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[6]) {$("#p6").addClass("unavailable")} else {$("#p6").removeClass("unavailable");$('#p6').hover(function() {if (!pSelected[6]) {$("#p6").addClass("goldShadow");}}, function() {if (!pSelected[6]) {$("#p6").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[7]) {$("#p7").addClass("unavailable")} else {$("#p7").removeClass("unavailable");$('#p7').hover(function() {if (!pSelected[7]) {$("#p7").addClass("goldShadow");}}, function() {if (!pSelected[7]) {$("#p7").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[8]) {$("#p8").addClass("unavailable")} else {$("#p8").removeClass("unavailable");$('#p8').hover(function() {if (!pSelected[8]) {$("#p8").addClass("goldShadow");}}, function() {if (!pSelected[8]) {$("#p8").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[9]) {$("#p9").addClass("unavailable")} else {$("#p9").removeClass("unavailable");$('#p9').hover(function() {if (!pSelected[9]) {$("#p9").addClass("goldShadow");}}, function() {if (!pSelected[9]) {$("#p9").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[10]) {$("#p10").addClass("unavailable")} else {$("#p10").removeClass("unavailable");$('#p10').hover(function() {if (!pSelected[10]) {$("#p10").addClass("goldShadow");}}, function() {if (!pSelected[10]) {$("#p10").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[11]) {$("#p11").addClass("unavailable")} else {$("#p11").removeClass("unavailable");$('#p11').hover(function() {if (!pSelected[11]) {$("#p11").addClass("goldShadow");}}, function() {if (!pSelected[11]) {$("#p11").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[12]) {$("#p12").addClass("unavailable")} else {$("#p12").removeClass("unavailable");$('#p12').hover(function() {if (!pSelected[12]) {$("#p12").addClass("goldShadow");}}, function() {if (!pSelected[12]) {$("#p12").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[13]) {$("#p13").addClass("unavailable")} else {$("#p13").removeClass("unavailable");$('#p13').hover(function() {if (!pSelected[13]) {$("#p13").addClass("goldShadow");}}, function() {if (!pSelected[13]) {$("#p13").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[14]) {$("#p14").addClass("unavailable")} else {$("#p14").removeClass("unavailable");$('#p14').hover(function() {if (!pSelected[14]) {$("#p14").addClass("goldShadow");}}, function() {if (!pSelected[14]) {$("#p14").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[15]) {$("#p15").addClass("unavailable")} else {$("#p15").removeClass("unavailable");$('#p15').hover(function() {if (!pSelected[15]) {$("#p15").addClass("goldShadow");}}, function() {if (!pSelected[15]) {$("#p15").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[16]) {$("#p16").addClass("unavailable")} else {$("#p16").removeClass("unavailable");$('#p16').hover(function() {if (!pSelected[16]) {$("#p16").addClass("goldShadow");}}, function() {if (!pSelected[16]) {$("#p16").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[17]) {$("#p17").addClass("unavailable")} else {$("#p17").removeClass("unavailable");$('#p17').hover(function() {if (!pSelected[17]) {$("#p17").addClass("goldShadow");}}, function() {if (!pSelected[17]) {$("#p17").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[18]) {$("#p18").addClass("unavailable")} else {$("#p18").removeClass("unavailable");$('#p18').hover(function() {if (!pSelected[18]) {$("#p18").addClass("goldShadow");}}, function() {if (!pSelected[18]) {$("#p18").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[19]) {$("#p19").addClass("unavailable")} else {$("#p19").removeClass("unavailable");$('#p19').hover(function() {if (!pSelected[19]) {$("#p19").addClass("goldShadow");}}, function() {if (!pSelected[19]) {$("#p19").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[20]) {$("#p20").addClass("unavailable")} else {$("#p20").removeClass("unavailable");$('#p20').hover(function() {if (!pSelected[20]) {$("#p20").addClass("goldShadow");}}, function() {if (!pSelected[20]) {$("#p20").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[21]) {$("#p21").addClass("unavailable")} else {$("#p21").removeClass("unavailable");$('#p21').hover(function() {if (!pSelected[21]) {$("#p21").addClass("goldShadow");}}, function() {if (!pSelected[21]) {$("#p21").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[22]) {$("#p22").addClass("unavailable")} else {$("#p22").removeClass("unavailable");$('#p22').hover(function() {if (!pSelected[22]) {$("#p22").addClass("goldShadow");}}, function() {if (!pSelected[22]) {$("#p22").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[23]) {$("#p23").addClass("unavailable")} else {$("#p23").removeClass("unavailable");$('#p23').hover(function() {if (!pSelected[23]) {$("#p23").addClass("goldShadow");}}, function() {if (!pSelected[23]) {$("#p23").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[24]) {$("#p24").addClass("unavailable")} else {$("#p24").removeClass("unavailable");$('#p24').hover(function() {if (!pSelected[24]) {$("#p24").addClass("goldShadow");}}, function() {if (!pSelected[24]) {$("#p24").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[25]) {$("#p25").addClass("unavailable")} else {$("#p25").removeClass("unavailable");$('#p25').hover(function() {if (!pSelected[25]) {$("#p25").addClass("goldShadow");}}, function() {if (!pSelected[25]) {$("#p25").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[26]) {$("#p26").addClass("unavailable")} else {$("#p26").removeClass("unavailable");$('#p26').hover(function() {if (!pSelected[26]) {$("#p26").addClass("goldShadow");}}, function() {if (!pSelected[26]) {$("#p26").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[27]) {$("#p27").addClass("unavailable")} else {$("#p27").removeClass("unavailable");$('#p27').hover(function() {if (!pSelected[27]) {$("#p27").addClass("goldShadow");}}, function() {if (!pSelected[27]) {$("#p27").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[28]) {$("#p28").addClass("unavailable")} else {$("#p28").removeClass("unavailable");$('#p28').hover(function() {if (!pSelected[28]) {$("#p28").addClass("goldShadow");}}, function() {if (!pSelected[28]) {$("#p28").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[29]) {$("#p29").addClass("unavailable")} else {$("#p29").removeClass("unavailable");$('#p29').hover(function() {if (!pSelected[29]) {$("#p29").addClass("goldShadow");}}, function() {if (!pSelected[29]) {$("#p29").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[30]) {$("#p30").addClass("unavailable")} else {$("#p30").removeClass("unavailable");$('#p30').hover(function() {if (!pSelected[30]) {$("#p30").addClass("goldShadow");}}, function() {if (!pSelected[30]) {$("#p30").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[31]) {$("#p31").addClass("unavailable")} else {$("#p31").removeClass("unavailable");$('#p31').hover(function() {if (!pSelected[31]) {$("#p31").addClass("goldShadow");}}, function() {if (!pSelected[31]) {$("#p31").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[32]) {$("#p32").addClass("unavailable")} else {$("#p32").removeClass("unavailable");$('#p32').hover(function() {if (!pSelected[32]) {$("#p32").addClass("goldShadow");}}, function() {if (!pSelected[32]) {$("#p32").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[33]) {$("#p33").addClass("unavailable")} else {$("#p33").removeClass("unavailable");$('#p33').hover(function() {if (!pSelected[33]) {$("#p33").addClass("goldShadow");}}, function() {if (!pSelected[33]) {$("#p33").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[34]) {$("#p34").addClass("unavailable")} else {$("#p34").removeClass("unavailable");$('#p34').hover(function() {if (!pSelected[34]) {$("#p34").addClass("goldShadow");}}, function() {if (!pSelected[34]) {$("#p34").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[35]) {$("#p35").addClass("unavailable")} else {$("#p35").removeClass("unavailable");$('#p35').hover(function() {if (!pSelected[35]) {$("#p35").addClass("goldShadow");}}, function() {if (!pSelected[35]) {$("#p35").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[36]) {$("#p36").addClass("unavailable")} else {$("#p36").removeClass("unavailable");$('#p36').hover(function() {if (!pSelected[36]) {$("#p36").addClass("goldShadow");}}, function() {if (!pSelected[36]) {$("#p36").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[37]) {$("#p37").addClass("unavailable")} else {$("#p37").removeClass("unavailable");$('#p37').hover(function() {if (!pSelected[37]) {$("#p37").addClass("goldShadow");}}, function() {if (!pSelected[37]) {$("#p37").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[38]) {$("#p38").addClass("unavailable")} else {$("#p38").removeClass("unavailable");$('#p38').hover(function() {if (!pSelected[38]) {$("#p38").addClass("goldShadow");}}, function() {if (!pSelected[38]) {$("#p38").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[39]) {$("#p39").addClass("unavailable")} else {$("#p39").removeClass("unavailable");$('#p39').hover(function() {if (!pSelected[39]) {$("#p39").addClass("goldShadow");}}, function() {if (!pSelected[39]) {$("#p39").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[40]) {$("#p40").addClass("unavailable")} else {$("#p40").removeClass("unavailable");$('#p40').hover(function() {if (!pSelected[40]) {$("#p40").addClass("goldShadow");}}, function() {if (!pSelected[40]) {$("#p40").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[41]) {$("#p41").addClass("unavailable")} else {$("#p41").removeClass("unavailable");$('#p41').hover(function() {if (!pSelected[41]) {$("#p41").addClass("goldShadow");}}, function() {if (!pSelected[41]) {$("#p41").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[42]) {$("#p42").addClass("unavailable")} else {$("#p42").removeClass("unavailable");$('#p42').hover(function() {if (!pSelected[42]) {$("#p42").addClass("goldShadow");}}, function() {if (!pSelected[42]) {$("#p42").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[43]) {$("#p43").addClass("unavailable")} else {$("#p43").removeClass("unavailable");$('#p43').hover(function() {if (!pSelected[43]) {$("#p43").addClass("goldShadow");}}, function() {if (!pSelected[43]) {$("#p43").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[44]) {$("#p44").addClass("unavailable")} else {$("#p44").removeClass("unavailable");$('#p44').hover(function() {if (!pSelected[44]) {$("#p44").addClass("goldShadow");}}, function() {if (!pSelected[44]) {$("#p44").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[45]) {$("#p45").addClass("unavailable")} else {$("#p45").removeClass("unavailable");$('#p45').hover(function() {if (!pSelected[45]) {$("#p45").addClass("goldShadow");}}, function() {if (!pSelected[45]) {$("#p45").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[46]) {$("#p46").addClass("unavailable")} else {$("#p46").removeClass("unavailable");$('#p46').hover(function() {if (!pSelected[46]) {$("#p46").addClass("goldShadow");}}, function() {if (!pSelected[46]) {$("#p46").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[47]) {$("#p47").addClass("unavailable")} else {$("#p47").removeClass("unavailable");$('#p47').hover(function() {if (!pSelected[47]) {$("#p47").addClass("goldShadow");}}, function() {if (!pSelected[47]) {$("#p47").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[48]) {$("#p48").addClass("unavailable")} else {$("#p48").removeClass("unavailable");$('#p48').hover(function() {if (!pSelected[48]) {$("#p48").addClass("goldShadow");}}, function() {if (!pSelected[48]) {$("#p48").removeClass("goldShadow");}});}});
+    $(function() {if (!pAvailable[49]) {$("#p49").addClass("unavailable")} else {$("#p49").removeClass("unavailable");$('#p49').hover(function() {if (!pSelected[49]) {$("#p49").addClass("goldShadow");}}, function() {if (!pSelected[49]) {$("#p49").removeClass("goldShadow");}});}});
 
     $(function() {if (pAvailable[0]) {$('#p0').click(function() {resetAllSelectedPlayers();if (pSelected[0]) {pSelected[0] = false;selectedPlayer = null;$("#p0").addClass("goldShadow");} else {resetAllSelectedStatus();pSelected[0] = true;parsePlayerFromRow('p0');$("#p0").addClass("selectedGoldShadow");tryInsertPlayer();}});}});
     $(function() {if (pAvailable[1]) {$('#p1').click(function() {resetAllSelectedPlayers();if (pSelected[1]) {pSelected[1] = false;selectedPlayer = null;$("#p1").addClass("goldShadow");} else {resetAllSelectedStatus();pSelected[1] = true;parsePlayerFromRow('p1');$("#p1").addClass("selectedGoldShadow");tryInsertPlayer();}});}});

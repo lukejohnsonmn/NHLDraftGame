@@ -53,7 +53,7 @@
                 <div>Select a team to load season stats.</div>
             </div>
             <div id="playerTableDiv">
-                <table id="playerTable">
+                <table id="playerTable" hidden>
                     <thead id="player-thead">
                         <tr>
                             <th class="infoCols">Pos.</th>
@@ -112,7 +112,7 @@
                         <tr id="pl3"><td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow selectedFire"></td></tr>
                         <tr id="pl4" class="even-row"><td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow selectedFire"></td></tr>
                         <tr id="curLineupFinalRow">
-                            <td></td>
+                            <td><div id="clearLineup" class="whiteButton" onclick="clearCurLineup()">X</div></td>
                             <td></td>
                             <td class="leftGlow">Remaining Salary</td>
                             <td id="salaryCap">22222</td>
