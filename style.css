@@ -66,7 +66,6 @@ body {
 	cursor: pointer;
 }
 
-
 #teamDropdown option {
 	font-size: 24px;
 }
@@ -77,6 +76,25 @@ body {
 
 
 
+.plDropdown {
+	vertical-align: middle;
+	text-align: center;
+	color: var(--text);
+	background: transparent;
+	border-width: 0px;
+	width: 100%;
+	padding: 0px;
+	margin:0px;
+	cursor: pointer;
+}
+
+.plDropdown:hover {
+	background: var(--primaryLight);
+}
+
+#curLineupTbody tr td {
+	height: 17px;
+}
 
 table, th, td {
 	border-collapse: collapse;

@@ -67,7 +67,11 @@ class SalaryPlayer {
         this.salary = player.salary;
         this.roleId = roleId;
         this.role = getRoleStr(roleId);
+    }
 
+    changeRole(roleId) {
+      this.roleId = roleId;
+      this.role = getRoleStr(roleId);
     }
 }
 
@@ -464,19 +468,28 @@ function rewriteLineupHTML() {
   }
 }
 
-function getAvailableRolesDropdownHTML(id, roleId) {
+function getAvailableRolesDropdownHTML(salaryPlayerId, roleId) {
   var dropdownHTML = '<option value="' + roleId + '">' + getRoleStr(roleId) + '</option>';
   for (var i = 1; i <= 7; i++) {
     if (i != roleId && roleIsStillAvailable(i)) {
       dropdownHTML += '<option value="' + i + '">' + getRoleStr(i) + '</option>';
     }
   }
-  playerHTML = '<select id="plDropdown'+ id + '" onchange="selectTeam()">' + dropdownHTML + '</select>';
-  return dropdownHTML;
+  playerHTML = '<select class="plDropdown" id="plDropdown'+ salaryPlayerId + '" onchange="reArrangeRoles(' + salaryPlayerId + ');">' + dropdownHTML + '</select>';
+  return playerHTML;
 }
 
-function reArrangeRoles() {
-  
+function reArrangeRoles(salaryPlayerId) {
+  const newRoleId = document.getElementById('plDropdown' + salaryPlayerId).value;
+  for (var i = 0; i < curLineup.length; i++) {
+    if (curLineup[i].id == salaryPlayerId) {
+      curLineup[i].changeRole(newRoleId);
+    }
+  }
+  rewriteLineupHTML();
+  resetAllSelectedPlayers();
+  resetAllSelectedRoles();
+  afterLoadingPlayers();
 }
 
 function clearCurLineup() {
