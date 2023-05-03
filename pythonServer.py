@@ -45,8 +45,30 @@ class MyServer(BaseHTTPRequestHandler):
 
             print('ENDPOINT: /submit-lineup: ' + csvString)
 
+class Lineup:
+    def __init__(self, id, name, season):
+        self.id = id
+        self.name = name
+        self.season = season
+        self.stats = getSeasonStatsForTeam(self)
+        self.estFaceOffsPerSecond = estimateFaceOffsPerSecond(self.stats)
+
 def getNextLineupId():
     return 1
+
+def readAllLineups(newLineupPlayerCsv):
+    teamId = mapTeamNameToId(paramName)
+    fileName = 'lineups/lineup.csv'
+    if not os.path.isfile(fileName):
+        f = open(fileName, "a")
+        f.write(newLineupPlayerCsv)
+        f.close()
+        print(fileName + ' created')
+        return outputStr
+    else:
+        print(fileName + ' already exists')
+        f = open(fileName, "r")
+        return f.read()
 
 class SalaryStats:
     def __init__(self, player):
@@ -598,7 +620,7 @@ def formatRosterInfo(roster):
             line += str(player.jerseyNumber) + ','
             line += str(player.positionCode) + ','
             line += str(player.startedLastGame) + ','
-            line += str(math.floor(8 * player.salary / 5)) + ','
+            line += str(math.floor(1.5 * player.salary)) + ','
             line += str(player.perGameStats.games) + ','
             line += str(player.seasonStats.goals) + ','
             line += str(player.seasonStats.assists) + ','
