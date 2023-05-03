@@ -439,6 +439,17 @@ function parsePlayerFromLineup(id) {
   return null;
 }
 
+function submitCurLineup() {
+  const team = document.getElementById('teamDropdown').value;
+  const lineupName = document.getElementById('lineupName').value;
+  var urlParam = team + '_' + lineupName;
+  for (var i = 0; i < curLineup.length; i++) {
+    urlParam += '_' + curLineup[i].id + '-' + curLineup[i].roleId;
+  }
+  const myUrl = "http://localhost:8080/submit-lineup?" + urlParam;
+  httpGet(myUrl);
+}
+
 function rewriteLineupHTML() {
   curLineup.sort((a, b) => {
     return b.salary - a.salary;
@@ -451,15 +462,10 @@ function rewriteLineupHTML() {
       playerHTML += '<td id="pltd'+i+'3" class="leftGlow inLineup">' + curLineup[i].fullName + '</td>';
       playerHTML += '<td id="pltd'+i+'4" class="inLineup">' + curLineup[i].salary + '</td>';
       playerHTML += '<td id="pltd'+i+'5" class="selectedFire inLineup rightGlow">' + getAvailableRolesDropdownHTML(curLineup[i].id, curLineup[i].roleId) + '</td>';
-
-      
-
-      
-
     } else {
       playerHTML = '<td>_</td><td></td><td class="leftGlow"></td><td></td><td class="rightGlow  selectedFire"></td>';
     }
-    if (curLineup.length == 5) {
+    if (curLineup.length == 5 && document.getElementById('lineupName').value != "") {
       $('#submitLineup').show();
     } else {
       $('#submitLineup').hide();

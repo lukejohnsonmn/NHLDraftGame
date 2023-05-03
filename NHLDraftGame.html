@@ -95,7 +95,7 @@
         <div id="rightDiv">
             <div id="curLineupDiv" hidden>
                 <table id="curLineupTable">
-                    <caption id="curLineupCaption">Create Your Lineup!</caption>
+                    <caption id="curLineupCaption"><input type="text" id="lineupName" onchange="rewriteLineupHTML()" onclick="this.value=''" placeholder="Enter Name"></caption>
                     <thead id="curLineupThead">
                         <tr>
                             <th>Pos.</th>
@@ -117,7 +117,7 @@
                             <td class="leftGlow">Remaining Salary</td>
                             <td id="salaryCap">100000</td>
                             <td class="rightGlow">
-                                <div id="submitLineup" class="whiteButton" hidden>Submit</div>
+                                <div id="submitLineup" class="whiteButton" onclick="submitCurLineup()" hidden>Submit</div>
                             </td></tr>
                         <tr class="tableEnd"><td></td><td></td><td></td><td></td><td></td></tr>
                     </tbody>

@@ -33,6 +33,20 @@ class MyServer(BaseHTTPRequestHandler):
             print('ENDPOINT: /get-season-stats: ' + paramName + ', ' + paramSeason + ', ' + paramTodaysDate)
             myResponse = writeToFile(paramName, paramSeason, paramTodaysDate)
             self.wfile.write(bytes(myResponse, encoding='utf8'))
+        
+        elif path[0] == "/submit-lineup":
+            paramArr = path[1].split("_")
+            teamNameId = mapTeamNameToId(paramArr[0])
+            lineupName = paramArr[1]
+            csvString = str(getNextLineupId()) + '|' + str(teamNameId) + '|' + lineupName
+            for i in range(2,7):
+                playerInfo = paramArr[i].split('-')
+                csvString += '|' + playerInfo[0] + ',' + playerInfo[1]
+
+            print('ENDPOINT: /submit-lineup: ' + csvString)
+
+def getNextLineupId():
+    return 1
 
 class SalaryStats:
     def __init__(self, player):
@@ -584,7 +598,7 @@ def formatRosterInfo(roster):
             line += str(player.jerseyNumber) + ','
             line += str(player.positionCode) + ','
             line += str(player.startedLastGame) + ','
-            line += str(math.floor(20 *player.salary / 13)) + ','
+            line += str(math.floor(8 * player.salary / 5)) + ','
             line += str(player.perGameStats.games) + ','
             line += str(player.seasonStats.goals) + ','
             line += str(player.seasonStats.assists) + ','

@@ -503,9 +503,17 @@ table, th, td {
 	width: 100%;
 }
 
-#curLineupCaption {
-	font-size: 48px;
+#curLineupCaption, #lineupName {
+	color: var(--text);
+	background: transparent;
+	text-align: center;
+	font-size: 36px;
 	padding: 5px;
+	border: 0px;
+}
+
+#lineupName:hover {
+	background-color: var(--primaryLight);
 }
 
 #curLineupThead {
