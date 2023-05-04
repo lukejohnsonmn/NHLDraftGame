@@ -447,8 +447,13 @@ function submitCurLineup() {
     urlParam += '_' + curLineup[i].id + '-' + curLineup[i].roleId;
   }
   const myUrl = "http://localhost:8080/submit-lineup?" + urlParam;
-  httpGet(myUrl);
+  const response = httpGet(myUrl);
+  console.log(response)
   clearCurLineup()
+}
+
+function writeLineupResponse(response) {
+  
 }
 
 function rewriteLineupHTML() {

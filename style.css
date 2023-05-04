@@ -6,6 +6,7 @@
 	--primaryDark: #1a1a1a;	/* 10% */
 	--secondaryLight: #ffffff;
 	--secondaryDark: #e6e6e6;
+	--doubleTableSpacing: 40px;
 	--tableSpacing: 20px;
 	--negTableSpacing: -20px;
 	--halfTableSpacing: 10px;
@@ -92,25 +93,13 @@ body {
 	background: var(--primaryLight);
 }
 
-#curLineupTbody tr td {
-	height: 17px;
-}
-
 table, th, td {
 	border-collapse: collapse;
 	padding: 5px;
 	font-size: 12px;
 }
 
-#playerTableDiv, #curLineupDiv {
-	background-color: var(--primary);
-	margin: var(--tableSpacing);
-	box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) var(--secondaryDark);
-}
 
-#curLineupDiv {
-	margin-left: var(--halfTableSpacing);
-}
 
 
 
@@ -491,9 +480,22 @@ table, th, td {
 
 
 
+#playerTableDiv, #curLineupDiv, #allLineupsDiv {
+	background-color: var(--primary);
+	margin: var(--tableSpacing);
+	box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) var(--secondaryDark);
+}
 
+#curLineupDiv {
+	margin-left: var(--halfTableSpacing);
+}
 
-#curLineupTable {
+#allLineupsDiv {
+	margin-top: var(--doubleTableSpacing);
+	margin-left: var(--halfTableSpacing);
+}
+
+#curLineupTable, #allLineupsTable {
 	border-color: var(--primaryLight);
 	border-style: solid;
 	border-left-width: var(--tableSpacing);
@@ -503,7 +505,7 @@ table, th, td {
 	width: 100%;
 }
 
-#curLineupCaption, #lineupName {
+#curLineupCaption, #lineupName, #allLineupsCaption {
 	color: var(--text);
 	background: transparent;
 	text-align: center;
@@ -512,20 +514,12 @@ table, th, td {
 	border: 0px;
 }
 
-#lineupName:hover {
+#curLineupThead, #allLineupsThead {
 	background-color: var(--primaryLight);
 }
 
-#curLineupThead {
-	background-color: var(--primaryLight);
-}
-
-#curLineupTbody {
+#curLineupTbody, #allLineupsTbody {
 	background-color: var(--primary);
-}
-
-.lineupTh {
-	width: 120px;
 }
 
 #curLineupFinalRow td {
@@ -533,6 +527,24 @@ table, th, td {
 	padding-top: 15px;
 	padding-bottom: 15px;
 }
+
+#curLineupTbody tr td {
+	height: 17px;
+}
+
+#lineupName:hover {
+	background-color: var(--primaryLight);
+}
+
+
+
+
+
+.lineupTh {
+	width: 120px;
+}
+
+
 
 .tableEnd {
 	background-color: var(--primaryLight);

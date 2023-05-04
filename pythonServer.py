@@ -36,9 +36,9 @@ class MyServer(BaseHTTPRequestHandler):
         
         elif path[0] == "/submit-lineup":
             paramArr = path[1].split("_")
-            teamNameId = mapTeamNameToId(paramArr[0])
+            teamName = paramArr[0]
             lineupName = paramArr[1]
-            csvString = str(teamNameId) + '|' + lineupName
+            csvString = teamName + '|' + lineupName
             for i in range(2,7):
                 playerInfo = paramArr[i].split('-')
                 csvString += '|' + playerInfo[0] + ',' + playerInfo[1]
@@ -69,8 +69,7 @@ def writeNewLineup(newLineupPlayerCsv):
         return '0|' + newLineupPlayerCsv
     else:
         f = open(fileName, "r")
-        lineupCsvArr = f.read().split('\n')[:-1]
-        print('lineupCsvArr: ' + str(lineupCsvArr))
+        lineupCsvArr = f.read().split('\n')
         f.close()
         lineupObjectArr = []
         idArr = []
@@ -89,7 +88,10 @@ def writeNewLineup(newLineupPlayerCsv):
         lineupObjectArr.sort(key=lambda x: x.id)
         newOutputCsv = ''
         for i in range(len(lineupObjectArr)):
-            newOutputCsv += lineupObjectArr[i].csv + '\n'
+            if (i == len(lineupObjectArr)-1):
+                newOutputCsv += lineupObjectArr[i].csv
+            else:
+                newOutputCsv += lineupObjectArr[i].csv + '\n'
         f = open(fileName, "w")
         f.write(newOutputCsv)
         f.close()
@@ -253,12 +255,14 @@ class Roster:
 
         self.roster.sort(key=lambda x: x.salary, reverse=True)
 
-def decrementDate(date):
+def decrementDate(date, skipDay):
     year = int(date.split('-')[0])
     monthOfYear = int(date.split('-')[1])
     dayOfMonth = int(date.split('-')[2])
     dayOfMonth -= 1
-    if dayOfMonth == 0:
+    if skipDay:
+        dayOfMonth -= 1
+    if dayOfMonth <= 0:
 
         monthOfYear -= 1
         if monthOfYear == 0:
@@ -318,7 +322,7 @@ def getStartingLineupForLastGame(roster, todaysDate):
     teamObj = roster.team
     while gamePk == 0 and count > 0:
         count -= 1
-        date = decrementDate(date)
+        date = decrementDate(date, False)
         gamePk = getGamePkGivenTeamAndDate(teamObj, date)
 
     playersJson = getAllPlayerJsonsForGamePk(teamObj, gamePk)
@@ -360,12 +364,16 @@ def getAllPostSeasonGamePks(teamObj, todaysDate):
     year = date.split('-')[0]
     endOfRegSeason = '-04-14'
     gamePkList = []
+    skipDay = False
     while date != year + endOfRegSeason and count > 0:
         count -= 1
-        date = decrementDate(date)
+        date = decrementDate(date, skipDay)
         gamePk = getGamePkGivenTeamAndDate(teamObj, date)
         if gamePk > 0:
+            skipDay = True
             gamePkList.append(gamePk)
+        else:
+            skipDay = False
     return gamePkList
         
 
