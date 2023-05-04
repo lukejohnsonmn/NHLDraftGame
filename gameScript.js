@@ -448,6 +448,7 @@ function submitCurLineup() {
   }
   const myUrl = "http://localhost:8080/submit-lineup?" + urlParam;
   httpGet(myUrl);
+  clearCurLineup()
 }
 
 function rewriteLineupHTML() {

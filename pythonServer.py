@@ -38,12 +38,14 @@ class MyServer(BaseHTTPRequestHandler):
             paramArr = path[1].split("_")
             teamNameId = mapTeamNameToId(paramArr[0])
             lineupName = paramArr[1]
-            csvString = str(getNextLineupId()) + '|' + str(teamNameId) + '|' + lineupName
+            csvString = str(teamNameId) + '|' + lineupName
             for i in range(2,7):
                 playerInfo = paramArr[i].split('-')
                 csvString += '|' + playerInfo[0] + ',' + playerInfo[1]
-
             print('ENDPOINT: /submit-lineup: ' + csvString)
+            myResponse = writeNewLineup(csvString)
+            self.wfile.write(bytes(myResponse, encoding='utf8'))
+           
 
 class Lineup:
     def __init__(self, id, name, season):
@@ -53,8 +55,48 @@ class Lineup:
         self.stats = getSeasonStatsForTeam(self)
         self.estFaceOffsPerSecond = estimateFaceOffsPerSecond(self.stats)
 
-def getNextLineupId():
-    return 1
+class LineupObject:
+    def __init__(self, csvString):
+        self.id = int(csvString.split('|')[0])
+        self.csv = csvString
+
+def writeNewLineup(newLineupPlayerCsv):
+    fileName = 'lineups/lineup.csv'
+    if not os.path.isfile(fileName):
+        f = open(fileName, "a")
+        f.write('0|' + newLineupPlayerCsv)
+        f.close()
+        return '0|' + newLineupPlayerCsv
+    else:
+        f = open(fileName, "r")
+        lineupCsvArr = f.read().split('\n')[:-1]
+        print('lineupCsvArr: ' + str(lineupCsvArr))
+        f.close()
+        lineupObjectArr = []
+        idArr = []
+        for i in range(len(lineupCsvArr)):
+            lineupObject = LineupObject(lineupCsvArr[i])
+            lineupObjectArr.append(lineupObject)
+            idArr.append(lineupObject.id)
+        id = -1
+        for i in range(len(idArr)):
+            if not (i in idArr):
+                id = i
+        if id == -1:
+            id = len(idArr)
+        
+        lineupObjectArr.append(LineupObject(str(id) + '|' + newLineupPlayerCsv))
+        lineupObjectArr.sort(key=lambda x: x.id)
+        newOutputCsv = ''
+        for i in range(len(lineupObjectArr)):
+            newOutputCsv += lineupObjectArr[i].csv + '\n'
+        f = open(fileName, "w")
+        f.write(newOutputCsv)
+        f.close()
+        return newOutputCsv
+        
+
+
 
 def readAllLineups(newLineupPlayerCsv):
     teamId = mapTeamNameToId(paramName)
