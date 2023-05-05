@@ -63,7 +63,7 @@ class SalaryPlayer {
         this.id = player.id;
         this.positionCode = player.positionCode;
         this.jerseyNumber = player.jerseyNumber;
-        this.fullName = player.fullName;
+        this.formatName(player.fullName);
         this.salary = player.salary;
         this.roleId = roleId;
         this.role = getRoleStr(roleId);
@@ -72,6 +72,16 @@ class SalaryPlayer {
     changeRole(roleId) {
       this.roleId = roleId;
       this.role = getRoleStr(roleId);
+    }
+
+    formatName(fullName) {
+      fullName = fullName.replaceAll('ä', 'a');
+      fullName = fullName.replaceAll('ö', 'o');
+      fullName = fullName.replaceAll('ü', 'u');
+      fullName = fullName.replaceAll('Ä', 'a');
+      fullName = fullName.replaceAll('Ö', 'o');
+      fullName = fullName.replaceAll('Ü', 'u');
+      this.fullName = fullName;
     }
 }
 
@@ -444,16 +454,55 @@ function submitCurLineup() {
   const lineupName = document.getElementById('lineupName').value;
   var urlParam = team + '_' + lineupName;
   for (var i = 0; i < curLineup.length; i++) {
-    urlParam += '_' + curLineup[i].id + '-' + curLineup[i].roleId;
+    urlParam += '_' + curLineup[i].id + '-' + curLineup[i].positionCode + '-' + curLineup[i].jerseyNumber + '-' + curLineup[i].fullName + '-' + curLineup[i].salary + '-' + curLineup[i].role;
   }
   const myUrl = "http://localhost:8080/submit-lineup?" + urlParam;
   const response = httpGet(myUrl);
-  console.log(response)
-  clearCurLineup()
+  writeLineupResponse(response);
+  clearCurLineup();
 }
 
 function writeLineupResponse(response) {
-  
+  const allLineups = response.split('\n');
+  var lineupHTML =  '';
+  for (var i = 0; i < allLineups.length; i++) {
+    const lineupData = allLineups[i].split('|');
+    const lineupId = lineupData[0];
+    const lineupTeam = lineupData[1];
+    const lineupName = lineupData[2];
+    const lineupPlayer1 = lineupData[3].split(',');
+    const lineupPlayer2 = lineupData[4].split(',');
+    const lineupPlayer3 = lineupData[5].split(',');
+    const lineupPlayer4 = lineupData[6].split(',');
+    const lineupPlayer5 = lineupData[7].split(',');
+
+    var i;
+    var tableStr = '';
+    tableStr += '<table id="lineupsTable'+lineupId+'" class="allLineupsTable">';
+    tableStr += '<caption id="lineupsCaption'+lineupId+'" class="allLineupsCaption">'+lineupName+'</caption>';
+    tableStr += '<thead id="lineupsThead'+lineupId+'" class="allLineupsThead">';
+    tableStr += '<tr>';
+    tableStr += '<th>Pos.</th>';
+    tableStr += '<th>#</th>';
+    tableStr += '<th>Name</th>';
+    tableStr += '<th class="lineupTh">Salary</th>';
+    tableStr += '<th class="lineupTh">Role</th>';
+    tableStr += '</tr>';
+    tableStr += '</thead>';
+    tableStr += '<tbody id="lineupsTbody'+lineupId+'" class="allLineupsTbody">';
+    tableStr += '<tr class="even-row"><td><div hidden>'+lineupPlayer1[0]+'</div>'+lineupPlayer1[1]+'</td><td>'+lineupPlayer1[2]+'</td><td class="leftGlow">'+lineupPlayer1[3].replaceAll('%20',' ')+'</td><td>'+lineupPlayer1[4]+'</td><td class="rightGlow selectedFire">'+lineupPlayer1[5]+'</td></tr>';
+    tableStr += '<tr><td><div hidden>'+lineupPlayer2[0]+'</div>'+lineupPlayer2[1]+'</td><td>'+lineupPlayer2[2]+'</td><td class="leftGlow">'+lineupPlayer2[3].replaceAll('%20',' ')+'</td><td>'+lineupPlayer2[4]+'</td><td class="rightGlow selectedFire">'+lineupPlayer2[5]+'</td></tr>';
+    tableStr += '<tr class="even-row"><td><div hidden>'+lineupPlayer3[0]+'</div>'+lineupPlayer3[1]+'</td><td>'+lineupPlayer3[2]+'</td><td class="leftGlow">'+lineupPlayer3[3].replaceAll('%20',' ')+'</td><td>'+lineupPlayer3[4]+'</td><td class="rightGlow selectedFire">'+lineupPlayer3[5]+'</td></tr>';
+    tableStr += '<tr><td><div hidden>'+lineupPlayer4[0]+'</div>'+lineupPlayer4[1]+'</td><td>'+lineupPlayer4[2]+'</td><td class="leftGlow">'+lineupPlayer4[3].replaceAll('%20',' ')+'</td><td>'+lineupPlayer4[4]+'</td><td class="rightGlow selectedFire">'+lineupPlayer4[5]+'</td></tr>';
+    tableStr += '<tr class="even-row"><td><div hidden>'+lineupPlayer5[0]+'</div>'+lineupPlayer5[1]+'</td><td>'+lineupPlayer5[2]+'</td><td class="leftGlow">'+lineupPlayer5[3].replaceAll('%20',' ')+'</td><td>'+lineupPlayer5[4]+'</td><td class="rightGlow selectedFire">'+lineupPlayer5[5]+'</td></tr>';
+    tableStr += '<tr class="tableEnd"><td></td><td></td><td></td><td></td><td></td></tr>';
+    tableStr += '</tbody>';
+    tableStr += '</table>';
+    lineupHTML += tableStr;
+  }
+
+  document.getElementById('allLineupsDiv').innerHTML = lineupHTML;
+  $('#allLineupsDiv').show();
 }
 
 function rewriteLineupHTML() {

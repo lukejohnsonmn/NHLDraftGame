@@ -41,7 +41,7 @@ class MyServer(BaseHTTPRequestHandler):
             csvString = teamName + '|' + lineupName
             for i in range(2,7):
                 playerInfo = paramArr[i].split('-')
-                csvString += '|' + playerInfo[0] + ',' + playerInfo[1]
+                csvString += '|' + playerInfo[0] + ',' + playerInfo[1] + ',' + playerInfo[2] + ',' + playerInfo[3] + ',' + playerInfo[4] + ',' + playerInfo[5]
             print('ENDPOINT: /submit-lineup: ' + csvString)
             myResponse = writeNewLineup(csvString)
             self.wfile.write(bytes(myResponse, encoding='utf8'))
@@ -96,23 +96,6 @@ def writeNewLineup(newLineupPlayerCsv):
         f.write(newOutputCsv)
         f.close()
         return newOutputCsv
-        
-
-
-
-def readAllLineups(newLineupPlayerCsv):
-    teamId = mapTeamNameToId(paramName)
-    fileName = 'lineups/lineup.csv'
-    if not os.path.isfile(fileName):
-        f = open(fileName, "a")
-        f.write(newLineupPlayerCsv)
-        f.close()
-        print(fileName + ' created')
-        return outputStr
-    else:
-        print(fileName + ' already exists')
-        f = open(fileName, "r")
-        return f.read()
 
 class SalaryStats:
     def __init__(self, player):

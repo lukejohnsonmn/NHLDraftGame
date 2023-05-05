@@ -495,7 +495,7 @@ table, th, td {
 	margin-left: var(--halfTableSpacing);
 }
 
-#curLineupTable, #allLineupsTable {
+#curLineupTable, .allLineupsTable {
 	border-color: var(--primaryLight);
 	border-style: solid;
 	border-left-width: var(--tableSpacing);
@@ -505,7 +505,7 @@ table, th, td {
 	width: 100%;
 }
 
-#curLineupCaption, #lineupName, #allLineupsCaption {
+#curLineupCaption, #lineupName, .allLineupsCaption {
 	color: var(--text);
 	background: transparent;
 	text-align: center;
@@ -514,11 +514,11 @@ table, th, td {
 	border: 0px;
 }
 
-#curLineupThead, #allLineupsThead {
+#curLineupThead, .allLineupsThead {
 	background-color: var(--primaryLight);
 }
 
-#curLineupTbody, #allLineupsTbody {
+#curLineupTbody, .allLineupsTbody {
 	background-color: var(--primary);
 }
 
