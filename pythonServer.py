@@ -25,6 +25,7 @@ class MyServer(BaseHTTPRequestHandler):
         #self.wfile.write(bytes("</body></html>", "utf-8"))
 
         path = self.path.split("?")
+        myResponse = 'Unknown Path'
 
         if path[0] == "/get-season-stats":
             paramName = path[1]
@@ -32,7 +33,6 @@ class MyServer(BaseHTTPRequestHandler):
             paramSeason = getSeasonGivenTodaysDate(paramTodaysDate)
             print('ENDPOINT: /get-season-stats: ' + paramName + ', ' + paramSeason + ', ' + paramTodaysDate)
             myResponse = writeToFile(paramName, paramSeason, paramTodaysDate)
-            self.wfile.write(bytes(myResponse, encoding='utf8'))
         
         elif path[0] == "/submit-lineup":
             paramArr = path[1].split("_")
@@ -44,7 +44,13 @@ class MyServer(BaseHTTPRequestHandler):
                 csvString += '|' + playerInfo[0] + ',' + playerInfo[1] + ',' + playerInfo[2] + ',' + playerInfo[3] + ',' + playerInfo[4] + ',' + playerInfo[5]
             print('ENDPOINT: /submit-lineup: ' + csvString)
             myResponse = writeNewLineup(csvString)
-            self.wfile.write(bytes(myResponse, encoding='utf8'))
+
+        elif path[0] == "/get-lineups":
+            print('ENDPOINT: /get-lineups')
+            myResponse = getLineups()
+        
+        self.wfile.write(bytes(myResponse, encoding='utf8'))
+
            
 
 class Lineup:
@@ -96,6 +102,14 @@ def writeNewLineup(newLineupPlayerCsv):
         f.write(newOutputCsv)
         f.close()
         return newOutputCsv
+
+def getLineups():
+    fileName = 'lineups/lineup.csv'
+    f = open(fileName, "r")
+    lineupsCsv = f.read()
+    f.close()
+    return lineupsCsv
+
 
 class SalaryStats:
     def __init__(self, player):

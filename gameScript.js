@@ -263,7 +263,8 @@ function selectTeam() {
   beforeLoadingPlayers();
   setTimeout(function() {
     getSeasonStats();
-    afterLoadingPlayers();
+    refreshPage();
+    getLineups()
   }, 250);
 }
 
@@ -422,10 +423,7 @@ function tryInsertPlayer() {
       const newPlayer = new SalaryPlayer(selectedPlayer, selectedRoleId);
       curLineup.push(newPlayer);
     }
-    rewriteLineupHTML();
-    resetAllSelectedPlayers();
-    resetAllSelectedRoles();
-    afterLoadingPlayers();
+    refreshPage();
   }
 }
 
@@ -460,6 +458,17 @@ function submitCurLineup() {
   const response = httpGet(myUrl);
   writeLineupResponse(response);
   clearCurLineup();
+}
+
+function getLineups() {
+  const myUrl = "http://localhost:8080/get-lineups";
+  const response = httpGet(myUrl);
+  writeLineupResponse(response);
+}
+
+
+function editLineupButton(lineupId) {
+
 }
 
 function writeLineupResponse(response) {
@@ -547,10 +556,7 @@ function reArrangeRoles(salaryPlayerId) {
       curLineup[i].changeRole(newRoleId);
     }
   }
-  rewriteLineupHTML();
-  resetAllSelectedPlayers();
-  resetAllSelectedRoles();
-  afterLoadingPlayers();
+  refreshPage();
 }
 
 function clearCurLineup() {
@@ -562,6 +568,10 @@ function clearCurLineup() {
     }
   }
   curLineup.length = 0;
+  refreshPage();
+}
+
+function refreshPage() {
   rewriteLineupHTML();
   resetAllSelectedPlayers();
   resetAllSelectedRoles();
@@ -586,11 +596,7 @@ function removePlayerFromLineup(id) {
       roster[i].available = true;
     }
   }
-  rewriteLineupHTML();
-  resetAllSelectedPlayers();
-  resetAllSelectedRoles();
-  afterLoadingPlayers();
-
+  refreshPage();
 }
 
 function afterPlayerRowsLoaded() {
