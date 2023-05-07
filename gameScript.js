@@ -511,8 +511,6 @@ function editLineupButton(lineupId) {
   if (lineupToEdit.team != document.getElementById('teamDropdown').value) {
     document.getElementById('teamDropdown').value = lineupToEdit.team;
     selectedTeamId = document.getElementById("teamDropdown").value;
-    //$('#curLineupDiv').hide();
-    //$('#allLineupsDiv').hide();
     beforeLoadingPlayers();
     setTimeout(function() {
       getSeasonStats();
@@ -520,8 +518,6 @@ function editLineupButton(lineupId) {
       lineupToCurLineup(lineupToEdit);
       writeLineupResponse(otherLineupsCsv);
       refreshPage();
-      //$('#curLineupDiv').show();
-      //$('#allLineupsDiv').show();
     }, 250);
   } else {
     lineupToCurLineup(lineupToEdit);
@@ -1323,7 +1319,6 @@ function Avalanche() {
   r.style.setProperty('--primaryLight', '#4c1a2a');
   r.style.setProperty('--primary', '#39141f');
   r.style.setProperty('--primaryDark', '#260d15');
-  //r.style.setProperty('--secondary', '#236192');
   r.style.setProperty('--secondaryLight', '#5ba1d7');
   r.style.setProperty('--secondaryDark', '#286ea4');
 }
@@ -1332,7 +1327,6 @@ function Blackhawks() {
   r.style.setProperty('--primaryLight', '#610514');
   r.style.setProperty('--primary', '#49030f');
   r.style.setProperty('--primaryDark', '#31020a');
-  //r.style.setProperty('--secondary', '#FFD100');
   r.style.setProperty('--secondaryLight', '#ffda33');
   r.style.setProperty('--secondaryDark', '#cca700');
 }
@@ -1341,7 +1335,6 @@ function BlueJackets() {
   r.style.setProperty('--primaryLight', '#002e66');
   r.style.setProperty('--primary', '#00224d');
   r.style.setProperty('--primaryDark', '#001733');
-  //r.style.setProperty('--secondary', '#CE1126');
   r.style.setProperty('--secondaryLight', '#f04257');
   r.style.setProperty('--secondaryDark', '#bd0f24');
 }
@@ -1350,7 +1343,6 @@ function Blues() {
   r.style.setProperty('--primaryLight', '#002466');
   r.style.setProperty('--primary', '#001b4d');
   r.style.setProperty('--primaryDark', '#001233');
-  //r.style.setProperty('--secondary', '#FCB514');
   r.style.setProperty('--secondaryLight', '#fcc136');
   r.style.setProperty('--secondaryDark', '#c98e03');
 }
@@ -1359,7 +1351,6 @@ function Bruins() {
   r.style.setProperty('--primaryLight', '#333333');
   r.style.setProperty('--primary', '#262626');
   r.style.setProperty('--primaryDark', '#1a1a1a');
-  //r.style.setProperty('--secondary', '#FFB81C');
   r.style.setProperty('--secondaryLight', '#ffbe33');
   r.style.setProperty('--secondaryDark', '#cc8b00');
 }
@@ -1368,7 +1359,6 @@ function Canadiens() {
   r.style.setProperty('--primaryLight', '#570f16');
   r.style.setProperty('--primary', '#410b11');
   r.style.setProperty('--primaryDark', '#2c070b');
-  //r.style.setProperty('--secondary', '#192168');
   r.style.setProperty('--secondaryLight', '#5b67d7');
   r.style.setProperty('--secondaryDark', '#2834a4');
 }
@@ -1377,7 +1367,6 @@ function Canucks() {
   r.style.setProperty('--primaryLight', '#002466');
   r.style.setProperty('--primary', '#001b4d');
   r.style.setProperty('--primaryDark', '#001233');
-  //r.style.setProperty('--secondary', '#192168');
   r.style.setProperty('--secondaryLight', '#33ff92');
   r.style.setProperty('--secondaryDark', '#00cc5f');
 }
@@ -1386,7 +1375,6 @@ function Capitals() {
   r.style.setProperty('--primaryLight', '#5e0816');
   r.style.setProperty('--primary', '#470611');
   r.style.setProperty('--primaryDark', '#2f040b');
-  //r.style.setProperty('--secondary', '#041E42');
   r.style.setProperty('--secondaryLight', '#3e8af4');
   r.style.setProperty('--secondaryDark', '#267bf2');
 }
@@ -1395,7 +1383,6 @@ function Coyotes() {
   r.style.setProperty('--primaryLight', '#50161e');
   r.style.setProperty('--primary', '#3c1016');
   r.style.setProperty('--primaryDark', '#280b0f');
-  //r.style.setProperty('--secondary', '#E2D6B5');
   r.style.setProperty('--secondaryLight', '#c6ae6c');
   r.style.setProperty('--secondaryDark', '#937b39');
 }
@@ -1404,7 +1391,6 @@ function Devils() {
   r.style.setProperty('--primaryLight', '#333333');
   r.style.setProperty('--primary', '#262626');
   r.style.setProperty('--primaryDark', '#1a1a1a');
-  //r.style.setProperty('--secondary', '#CE1126');
   r.style.setProperty('--secondaryLight', '#f04257');
   r.style.setProperty('--secondaryDark', '#bd0f24');
 }
@@ -1413,7 +1399,6 @@ function Ducks() {
   r.style.setProperty('--primaryLight', '#612505');
   r.style.setProperty('--primary', '#491c04');
   r.style.setProperty('--primaryDark', '#301303');
-  //r.style.setProperty('--secondary', '#B9975B');
   r.style.setProperty('--secondaryLight', '#c2a470');
   r.style.setProperty('--secondaryDark', '#8f713d');
 }
@@ -1422,7 +1407,6 @@ function Flames() {
   r.style.setProperty('--primaryLight', '#66000e');
   r.style.setProperty('--primary', '#4d000a');
   r.style.setProperty('--primaryDark', '#330007');
-  //r.style.setProperty('--secondary', '#FFB81C');
   r.style.setProperty('--secondaryLight', '#ffbe33');
   r.style.setProperty('--secondaryDark', '#cc8b00');
 }
@@ -1431,7 +1415,6 @@ function Flyers() {
   r.style.setProperty('--primaryLight', '#333333');
   r.style.setProperty('--primary', '#262626');
   r.style.setProperty('--primaryDark', '#1a1a1a');
-  //r.style.setProperty('--secondary', '#F74902');
   r.style.setProperty('--secondaryLight', '#fd6e35');
   r.style.setProperty('--secondaryDark', '#ca3b02');
 }
@@ -1440,7 +1423,6 @@ function GoldenKnights() {
   r.style.setProperty('--primaryLight', '#2c373a');
   r.style.setProperty('--primary', '#21292b');
   r.style.setProperty('--primaryDark', '#161b1d');
-  //r.style.setProperty('--secondary', '#B4975A');
   r.style.setProperty('--secondaryLight', '#c0a772');
   r.style.setProperty('--secondaryDark', '#8d743f');
 }
@@ -1449,7 +1431,6 @@ function Hurricanes() {
   r.style.setProperty('--primaryLight', '#5e0812');
   r.style.setProperty('--primary', '#47060d');
   r.style.setProperty('--primaryDark', '#2f0409');
-  //r.style.setProperty('--secondary', '#A4A9AD');
   r.style.setProperty('--secondaryLight', '#949a9e');
   r.style.setProperty('--secondaryDark', '#61676b');
 }
@@ -1458,7 +1439,6 @@ function Islanders() {
   r.style.setProperty('--primaryLight', '#003666');
   r.style.setProperty('--primary', '#00294d');
   r.style.setProperty('--primaryDark', '#001b33');
-  //r.style.setProperty('--secondary', '#F47D30');
   r.style.setProperty('--secondaryLight', '#f5873d');
   r.style.setProperty('--secondaryDark', '#c2540a');
 }
@@ -1467,7 +1447,6 @@ function Jets() {
   r.style.setProperty('--primaryLight', '#062b60');
   r.style.setProperty('--primary', '#042148');
   r.style.setProperty('--primaryDark', '#031630');
-  //r.style.setProperty('--secondary', '#7B303E');
   r.style.setProperty('--secondaryLight', '#c66c7d');
   r.style.setProperty('--secondaryDark', '#93394a');
 }
@@ -1476,7 +1455,6 @@ function Kings() {
   r.style.setProperty('--primaryLight', '#333333');
   r.style.setProperty('--primary', '#262626');
   r.style.setProperty('--primaryDark', '#1a1a1a');
-  //r.style.setProperty('--secondary', '#A2AAAD');
   r.style.setProperty('--secondaryLight', '#ffffff');
   r.style.setProperty('--secondaryDark', '#aeb5b7');
 }
@@ -1485,7 +1463,6 @@ function Kraken() {
   r.style.setProperty('--primaryLight', '#003866');
   r.style.setProperty('--primary', '#002a4d');
   r.style.setProperty('--primaryDark', '#001c33');
-  //r.style.setProperty('--secondary', '#99D9D9');
   r.style.setProperty('--secondaryLight', '#e4e6e7');
   r.style.setProperty('--secondaryDark', '#379595');
 }
@@ -1494,7 +1471,6 @@ function Lightning() {
   r.style.setProperty('--primaryLight', '#002868');
   r.style.setProperty('--primary', '#001d4d');
   r.style.setProperty('--primaryDark', '#001433');
-  //r.style.setProperty('--secondary', '#FFFFFF');
   r.style.setProperty('--secondaryLight', '#cccccc');
   r.style.setProperty('--secondaryDark', '#999999');
 }
@@ -1503,7 +1479,6 @@ function MapleLeafs() {
   r.style.setProperty('--primaryLight', '#002466');
   r.style.setProperty('--primary', '#001b4d');
   r.style.setProperty('--primaryDark', '#001233');
-  //r.style.setProperty('--secondary', '#FFFFFF');
   r.style.setProperty('--secondaryLight', '#cccccc');
   r.style.setProperty('--secondaryDark', '#999999');
 }
@@ -1512,7 +1487,6 @@ function Oilers() {
   r.style.setProperty('--primaryLight', '#062b60');
   r.style.setProperty('--primary', '#042148');
   r.style.setProperty('--primaryDark', '#031630');
-  //r.style.setProperty('--secondary', '#FF4C00');
   r.style.setProperty('--secondaryLight', '#ff7033');
   r.style.setProperty('--secondaryDark', '#cc3d00');
 }
@@ -1521,7 +1495,6 @@ function Panthers() {
   r.style.setProperty('--primaryLight', '#5e0816');
   r.style.setProperty('--primary', '#470611');
   r.style.setProperty('--primaryDark', '#2f040b');
-  //r.style.setProperty('--secondary', '#B9975B');
   r.style.setProperty('--secondaryLight', '#c2a470');
   r.style.setProperty('--secondaryDark', '#8f713d');
 }
@@ -1530,7 +1503,6 @@ function Penguins() {
   r.style.setProperty('--primaryLight', '#333333');
   r.style.setProperty('--primary', '#262626');
   r.style.setProperty('--primaryDark', '#1a1a1a');
-  //r.style.setProperty('--secondary', '#FCB514');
   r.style.setProperty('--secondaryLight', '#fcc136');
   r.style.setProperty('--secondaryDark', '#c98e03');
 }
@@ -1539,7 +1511,6 @@ function Predators() {
   r.style.setProperty('--primaryLight', '#062b60');
   r.style.setProperty('--primary', '#042148');
   r.style.setProperty('--primaryDark', '#031630');
-  //r.style.setProperty('--secondary', '#FFB81C');
   r.style.setProperty('--secondaryLight', '#ffbe33');
   r.style.setProperty('--secondaryDark', '#cc8b00');
 }
@@ -1548,7 +1519,6 @@ function Rangers() {
   r.style.setProperty('--primaryLight', '#002266');
   r.style.setProperty('--primary', '#001a4d');
   r.style.setProperty('--primaryDark', '#001133');
-  //r.style.setProperty('--secondary', '#CE1126');
   r.style.setProperty('--secondaryLight', '#f04257');
   r.style.setProperty('--secondaryDark', '#bd0f24');
 }
@@ -1557,7 +1527,6 @@ function RedWings() {
   r.style.setProperty('--primaryLight', '#5e0812');
   r.style.setProperty('--primary', '#47060d');
   r.style.setProperty('--primaryDark', '#2f0409');
-  //r.style.setProperty('--secondary', '#FFFFFF');
   r.style.setProperty('--secondaryLight', '#cccccc');
   r.style.setProperty('--secondaryDark', '#999999');
 }
@@ -1566,7 +1535,6 @@ function Sabres() {
   r.style.setProperty('--primaryLight', '#002466');
   r.style.setProperty('--primary', '#001b4d');
   r.style.setProperty('--primaryDark', '#001233');
-  //r.style.setProperty('--secondary', '#FFB81C');
   r.style.setProperty('--secondaryLight', '#ffbe33');
   r.style.setProperty('--secondaryDark', '#cc8b00');
 }
@@ -1575,7 +1543,6 @@ function Senators() {
   r.style.setProperty('--primaryLight', '#5b0b14');
   r.style.setProperty('--primary', '#44080f');
   r.style.setProperty('--primaryDark', '#2e050a');
-  //r.style.setProperty('--secondary', '#B79257');
   r.style.setProperty('--secondaryLight', '#c2a370');
   r.style.setProperty('--secondaryDark', '#8f703d');
 }
@@ -1584,7 +1551,6 @@ function Sharks() {
   r.style.setProperty('--primaryLight', '#005f66');
   r.style.setProperty('--primary', '#00474d');
   r.style.setProperty('--primaryDark', '#003033');
-  //r.style.setProperty('--secondary', '#EA7200');
   r.style.setProperty('--secondaryLight', '#ff9633');
   r.style.setProperty('--secondaryDark', '#cc6300');
 }
@@ -1593,7 +1559,6 @@ function Stars() {
   r.style.setProperty('--primaryLight', '#006847');
   r.style.setProperty('--primary', '#004d34');
   r.style.setProperty('--primaryDark', '#003323');
-  //r.style.setProperty('--secondary', '#8F8F8C');
   r.style.setProperty('--secondaryLight', '#9a9a98');
   r.style.setProperty('--secondaryDark', '#676765');
 }
