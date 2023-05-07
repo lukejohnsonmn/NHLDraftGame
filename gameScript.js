@@ -87,6 +87,7 @@ class SalaryPlayer {
 
 class Lineup {
   constructor(lineupDataCsv) {
+    lineupDataCsv = lineupDataCsv.replaceAll("%27", "'")
     const lineupData = lineupDataCsv.split('|');
     this.id = lineupData[0];
     this.team = lineupData[1];
@@ -554,9 +555,9 @@ function writeLineupResponse(response) {
     for (var i = 0; i < allLineupsCsv.length; i++) {
       const lineup = new Lineup(allLineupsCsv[i]);
       var tableStr = '';
-      tableStr += '<table id="lineupsTable'+lineup.id+'" class="allLineupsTable">';
-      tableStr += '<caption id="lineupsCaption'+lineup.id+'" class="allLineupsCaption"><table class="allLineupsCaptionTable"><thead><tr><th class="lineupButtons"><div class="clearSavedLineup" onclick="deleteLineupButton('+lineup.id+')">X</div><div class="editSavedLineup" onclick="editLineupButton('+lineup.id+')">Edit</div></th><th>'+lineup.name.replaceAll('%20',' ')+'</th><th>'+lineup.team.replace(/([A-Z])/g, ' $1').trim()+'<th></thead></table></caption>';
-      tableStr += '<thead id="lineupsThead'+lineup.id+'" class="allLineupsThead">';
+      tableStr += '<table id="lineupsTable'+lineup.id+'" class="allLineupsTable '+lineup.team+'LightBorder">';
+      tableStr += '<caption id="lineupsCaption'+lineup.id+'" class="allLineupsCaption '+lineup.team+'Primary '+lineup.team+'LightBorder"><table class="allLineupsCaptionTable"><thead><tr><th class="lineupButtons"><div class="clearSavedLineup" onclick="deleteLineupButton('+lineup.id+')">X</div><div class="editSavedLineup" onclick="editLineupButton('+lineup.id+')">Edit</div></th><th>'+lineup.name.replaceAll('%20',' ')+'</th><th>'+lineup.team.replace(/([A-Z])/g, ' $1').trim()+'</th></thead></table></caption>';
+      tableStr += '<thead id="lineupsThead'+lineup.id+'" class="'+lineup.team+'Light">';
       tableStr += '<tr>';
       tableStr += '<th>Pos.</th>';
       tableStr += '<th>#</th>';
@@ -565,13 +566,13 @@ function writeLineupResponse(response) {
       tableStr += '<th class="lineupTh">Role</th>';
       tableStr += '</tr>';
       tableStr += '</thead>';
-      tableStr += '<tbody id="lineupsTbody'+lineup.id+'" class="allLineupsTbody">';
-      tableStr += '<tr class="even-row"><td><div hidden>'+lineup.players[0][0]+'</div>'+lineup.players[0][1]+'</td><td>'+lineup.players[0][2]+'</td><td class="leftGlow">'+lineup.players[0][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[0][4]+'</td><td class="rightGlow selectedFire">'+lineup.players[0][5]+'</td></tr>';
-      tableStr += '<tr><td><div hidden>'+lineup.players[1][0]+'</div>'+lineup.players[1][1]+'</td><td>'+lineup.players[1][2]+'</td><td class="leftGlow">'+lineup.players[1][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[1][4]+'</td><td class="rightGlow selectedFire">'+lineup.players[1][5]+'</td></tr>';
-      tableStr += '<tr class="even-row"><td><div hidden>'+lineup.players[2][0]+'</div>'+lineup.players[2][1]+'</td><td>'+lineup.players[2][2]+'</td><td class="leftGlow">'+lineup.players[2][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[2][4]+'</td><td class="rightGlow selectedFire">'+lineup.players[2][5]+'</td></tr>';
-      tableStr += '<tr><td><div hidden>'+lineup.players[3][0]+'</div>'+lineup.players[3][1]+'</td><td>'+lineup.players[3][2]+'</td><td class="leftGlow">'+lineup.players[3][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[3][4]+'</td><td class="rightGlow selectedFire">'+lineup.players[3][5]+'</td></tr>';
-      tableStr += '<tr class="even-row"><td><div hidden>'+lineup.players[4][0]+'</div>'+lineup.players[4][1]+'</td><td>'+lineup.players[4][2]+'</td><td class="leftGlow">'+lineup.players[4][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[4][4]+'</td><td class="rightGlow selectedFire">'+lineup.players[4][5]+'</td></tr>';
-      tableStr += '<tr class="tableEnd"><td></td><td></td><td></td><td></td><td></td></tr>';
+      tableStr += '<tbody id="lineupsTbody'+lineup.id+'" class="'+lineup.team+'Primary">';
+      tableStr += '<tr class="'+lineup.team+'Dark"><td><div hidden>'+lineup.players[0][0]+'</div>'+lineup.players[0][1]+'</td><td>'+lineup.players[0][2]+'</td><td class="'+lineup.team+'LeftGlow">'+lineup.players[0][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[0][4]+'</td><td class="'+lineup.team+'RightGlow selectedFire">'+lineup.players[0][5]+'</td></tr>';
+      tableStr += '<tr><td><div hidden>'+lineup.players[1][0]+'</div>'+lineup.players[1][1]+'</td><td>'+lineup.players[1][2]+'</td><td class="'+lineup.team+'LeftGlow">'+lineup.players[1][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[1][4]+'</td><td class="'+lineup.team+'RightGlow selectedFire">'+lineup.players[1][5]+'</td></tr>';
+      tableStr += '<tr class="'+lineup.team+'Dark"><td><div hidden>'+lineup.players[2][0]+'</div>'+lineup.players[2][1]+'</td><td>'+lineup.players[2][2]+'</td><td class="'+lineup.team+'LeftGlow">'+lineup.players[2][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[2][4]+'</td><td class="'+lineup.team+'RightGlow selectedFire">'+lineup.players[2][5]+'</td></tr>';
+      tableStr += '<tr><td><div hidden>'+lineup.players[3][0]+'</div>'+lineup.players[3][1]+'</td><td>'+lineup.players[3][2]+'</td><td class="'+lineup.team+'LeftGlow">'+lineup.players[3][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[3][4]+'</td><td class="'+lineup.team+'RightGlow selectedFire">'+lineup.players[3][5]+'</td></tr>';
+      tableStr += '<tr class="'+lineup.team+'Dark"><td><div hidden>'+lineup.players[4][0]+'</div>'+lineup.players[4][1]+'</td><td>'+lineup.players[4][2]+'</td><td class="'+lineup.team+'LeftGlow">'+lineup.players[4][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[4][4]+'</td><td class="'+lineup.team+'RightGlow selectedFire">'+lineup.players[4][5]+'</td></tr>';
+      tableStr += '<tr class="'+lineup.team+'Light"><td></td><td></td><td></td><td></td><td></td></tr>';
       tableStr += '</tbody>';
       tableStr += '</table>';
       lineupHTML += tableStr;

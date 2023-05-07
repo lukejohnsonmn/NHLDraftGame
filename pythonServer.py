@@ -712,7 +712,7 @@ def formatRosterInfo(roster):
             line += str(player.jerseyNumber) + ','
             line += str(player.positionCode) + ','
             line += str(player.startedLastGame) + ','
-            line += str(math.floor(1.5 * player.salary)) + ','
+            line += str(math.floor(1.55 * player.salary)) + ','
             line += str(player.perGameStats.games) + ','
             line += str(player.seasonStats.goals) + ','
             line += str(player.seasonStats.assists) + ','

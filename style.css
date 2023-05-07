@@ -500,9 +500,7 @@ table, th, td {
 }
 
 #allLineupsDiv {
-	background-color: #262626;
 	margin: var(--tableSpacing);
-	box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) var(--secondaryDark);
 	margin-top: var(--doubleTableSpacing);
 	margin-left: var(--halfTableSpacing);
 }
@@ -530,7 +528,14 @@ table, th, td {
 	font-weight: normal;
 }
 
+.allLineupsCaption {
+	padding: 0px;
+}
+
+
 .allLineupsCaptionTable {
+	margin: 0px;
+	padding-top: 0px;
 	width: 100%;
 }
 
@@ -568,43 +573,233 @@ table, th, td {
 	background-color: var(--primaryLight);
 }
 
-
 .allLineupsTable {
-	border-color: #000000;
+	margin: var(--tableSpacing) 0px var(--tableSpacing);
 }
 
 
-.AvalancheTable { /*light*/
-	border-color: #4c1a2a;
-}
 
-.AvalancheThead, .AvalancheTableEnd { /*light*/
-	background-color: #4c1a2a;
-}
 
-.AvalancheTbody { /*primary*/
-	background-color: #39141f;
-}
+.AvalancheLightBorder {border-color: #4c1a2a;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #286ea4;}
+.AvalancheLight {background-color: #4c1a2a;}
+.AvalanchePrimary {background-color: #39141f;}
+.AvalancheDark {background-color: #260d15;}
+.AvalancheLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #286ea4;}
+.AvalancheRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #286ea4;}
 
-.AvalancheEvenRow { /*dark*/
-	background-color: #260d15;
-}
+.BlackhawksLightBorder {border-color: #610514;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #cca700;}
+.BlackhawksLight {background-color: #610514;}
+.BlackhawksPrimary {background-color: #49030f;}
+.BlackhawksDark {background-color: #31020a;}
+.BlackhawksLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #cca700;}
+.BlackhawksRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #cca700;}
 
-.AvalancheLeftGlow { /*secondary*/
-	box-shadow: var(--tableSpacing) 0 6px -6px #286ea4;
-}
+.BlueJacketsLightBorder {border-color: #002e66;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #bd0f24;}
+.BlueJacketsLight {background-color: #002e66;}
+.BlueJacketsPrimary {background-color: #00224d;}
+.BlueJacketsDark {background-color: #001733;}
+.BlueJacketsLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #bd0f24;}
+.BlueJacketsRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #bd0f24;}
 
-.AvalancheRightGlow { /*secondary*/
-	box-shadow: var(--negTableSpacing) 0 6px -6px #286ea4;
-}
+.BluesLightBorder {border-color: #002466;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #c98e03;}
+.BluesLight {background-color: #002466;}
+.BluesPrimary {background-color: #001b4d;}
+.BluesDark {background-color: #001233;}
+.BluesLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #c98e03;}
+.BluesRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #c98e03;}
 
-/*
-function Avalanche() {
-  r.style.setProperty('--primaryLight', '#4c1a2a');
-  r.style.setProperty('--primary', '#39141f');
-  r.style.setProperty('--primaryDark', '#260d15');
-  r.style.setProperty('--secondaryLight', '#5ba1d7');
-  r.style.setProperty('--secondaryDark', '#286ea4');
-}
-*/
-  
+.BruinsLightBorder {border-color: #333333;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #cc8b00;}
+.BruinsLight {background-color: #333333;}
+.BruinsPrimary {background-color: #262626;}
+.BruinsDark {background-color: #1a1a1a;}
+.BruinsLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #cc8b00;}
+.BruinsRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #cc8b00;}
+
+.CanadiensLightBorder {border-color: #570f16;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #2834a4;}
+.CanadiensLight {background-color: #570f16;}
+.CanadiensPrimary {background-color: #410b11;}
+.CanadiensDark {background-color: #2c070b;}
+.CanadiensLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #2834a4;}
+.CanadiensRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #2834a4;}
+
+.CanucksLightBorder {border-color: #002466;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #00cc5f;}
+.CanucksLight {background-color: #002466;}
+.CanucksPrimary {background-color: #001b4d;}
+.CanucksDark {background-color: #001233;}
+.CanucksLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #00cc5f;}
+.CanucksRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #00cc5f;}
+
+.CapitalsLightBorder {border-color: #5e0816;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #267bf2;}
+.CapitalsLight {background-color: #5e0816;}
+.CapitalsPrimary {background-color: #470611;}
+.CapitalsDark {background-color: #2f040b;}
+.CapitalsLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #267bf2;}
+.CapitalsRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #267bf2;}
+
+.CoyotesLightBorder {border-color: #50161e;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #937b39;}
+.CoyotesLight {background-color: #50161e;}
+.CoyotesPrimary {background-color: #3c1016;}
+.CoyotesDark {background-color: #280b0f;}
+.CoyotesLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #937b39;}
+.CoyotesRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #937b39;}
+
+.DevilsLightBorder {border-color: #333333;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #bd0f24;}
+.DevilsLight {background-color: #333333;}
+.DevilsPrimary {background-color: #262626;}
+.DevilsDark {background-color: #1a1a1a;}
+.DevilsLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #bd0f24;}
+.DevilsRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #bd0f24;}
+
+.DucksLightBorder {border-color: #612505;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #8f713d;}
+.DucksLight {background-color: #612505;}
+.DucksPrimary {background-color: #491c04;}
+.DucksDark {background-color: #301303;}
+.DucksLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #8f713d;}
+.DucksRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #8f713d;}
+
+.FlamesLightBorder {border-color: #66000e;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #cc8b00;}
+.FlamesLight {background-color: #66000e;}
+.FlamesPrimary {background-color: #4d000a;}
+.FlamesDark {background-color: #330007;}
+.FlamesLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #cc8b00;}
+.FlamesRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #cc8b00;}
+
+.FlyersLightBorder {border-color: #333333;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #ca3b02;}
+.FlyersLight {background-color: #333333;}
+.FlyersPrimary {background-color: #262626;}
+.FlyersDark {background-color: #1a1a1a;}
+.FlyersLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #ca3b02;}
+.FlyersRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #ca3b02;}
+
+.GoldenKnightsLightBorder {border-color: #2c373a;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #8d743f;}
+.GoldenKnightsLight {background-color: #2c373a;}
+.GoldenKnightsPrimary {background-color: #21292b;}
+.GoldenKnightsDark {background-color: #161b1d;}
+.GoldenKnightsLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #8d743f;}
+.GoldenKnightsRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #8d743f;}
+
+.HurricanesLightBorder {border-color: #5e0812;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #61676b;}
+.HurricanesLight {background-color: #5e0812;}
+.HurricanesPrimary {background-color: #47060d;}
+.HurricanesDark {background-color: #2f0409;}
+.HurricanesLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #61676b;}
+.HurricanesRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #61676b;}
+
+.IslandersLightBorder {border-color: #003666;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #c2540a;}
+.IslandersLight {background-color: #003666;}
+.IslandersPrimary {background-color: #00294d;}
+.IslandersDark {background-color: #001b33;}
+.IslandersLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #c2540a;}
+.IslandersRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #c2540a;}
+
+.JetsLightBorder {border-color: #062b60;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #93394a;}
+.JetsLight {background-color: #062b60;}
+.JetsPrimary {background-color: #042148;}
+.JetsDark {background-color: #031630;}
+.JetsLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #93394a;}
+.JetsRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #93394a;}
+
+.KingsLightBorder {border-color: #333333;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #aeb5b7;}
+.KingsLight {background-color: #333333;}
+.KingsPrimary {background-color: #262626;}
+.KingsDark {background-color: #1a1a1a;}
+.KingsLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #aeb5b7;}
+.KingsRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #aeb5b7;}
+
+.KrakenLightBorder {border-color: #003866;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #379595;}
+.KrakenLight {background-color: #003866;}
+.KrakenPrimary {background-color: #002a4d;}
+.KrakenDark {background-color: #001c33;}
+.KrakenLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #379595;}
+.KrakenRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #379595;}
+
+.LightningLightBorder {border-color: #002868;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #999999;}
+.LightningLight {background-color: #002868;}
+.LightningPrimary {background-color: #001d4d;}
+.LightningDark {background-color: #001433;}
+.LightningLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #999999;}
+.LightningRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #999999;}
+
+.MapleLeafsLightBorder {border-color: #002466;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #999999;}
+.MapleLeafsLight {background-color: #002466;}
+.MapleLeafsPrimary {background-color: #001b4d;}
+.MapleLeafsDark {background-color: #001233;}
+.MapleLeafsLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #999999;}
+.MapleLeafsRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #999999;}
+
+.OilersLightBorder {border-color: #062b60;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #cc3d00;}
+.OilersLight {background-color: #062b60;}
+.OilersPrimary {background-color: #042148;}
+.OilersDark {background-color: #031630;}
+.OilersLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #cc3d00;}
+.OilersRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #cc3d00;}
+
+.PanthersLightBorder {border-color: #5e0816;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #8f713d;}
+.PanthersLight {background-color: #5e0816;}
+.PanthersPrimary {background-color: #470611;}
+.PanthersDark {background-color: #2f040b;}
+.PanthersLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #8f713d;}
+.PanthersRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #8f713d;}
+
+.PenguinsLightBorder {border-color: #333333;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #c98e03;}
+.PenguinsLight {background-color: #333333;}
+.PenguinsPrimary {background-color: #262626;}
+.PenguinsDark {background-color: #1a1a1a;}
+.PenguinsLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #c98e03;}
+.PenguinsRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #c98e03;}
+
+.PredatorsLightBorder {border-color: #062b60;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #cc8b00;}
+.PredatorsLight {background-color: #062b60;}
+.PredatorsPrimary {background-color: #042148;}
+.PredatorsDark {background-color: #031630;}
+.PredatorsLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #cc8b00;}
+.PredatorsRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #cc8b00;}
+
+.RangersLightBorder {border-color: #002266;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #bd0f24;}
+.RangersLight {background-color: #002266;}
+.RangersPrimary {background-color: #001a4d;}
+.RangersDark {background-color: #001133;}
+.RangersLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #bd0f24;}
+.RangersRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #bd0f24;}
+
+.RedWingsLightBorder {border-color: #5e0812;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #999999;}
+.RedWingsLight {background-color: #5e0812;}
+.RedWingsPrimary {background-color: #47060d;}
+.RedWingsDark {background-color: #2f0409;}
+.RedWingsLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #999999;}
+.RedWingsRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #999999;}
+
+.SabresLightBorder {border-color: #002466;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #cc8b00;}
+.SabresLight {background-color: #002466;}
+.SabresPrimary {background-color: #001b4d;}
+.SabresDark {background-color: #001233;}
+.SabresLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #cc8b00;}
+.SabresRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #cc8b00;}
+
+.SenatorsLightBorder {border-color: #5b0b14;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #8f703d;}
+.SenatorsLight {background-color: #5b0b14;}
+.SenatorsPrimary {background-color: #44080f;}
+.SenatorsDark {background-color: #2e050a;}
+.SenatorsLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #8f703d;}
+.SenatorsRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #8f703d;}
+
+.SharksLightBorder {border-color: #005f66;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #cc6300;}
+.SharksLight {background-color: #005f66;}
+.SharksPrimary {background-color: #00474d;}
+.SharksDark {background-color: #003033;}
+.SharksLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #cc6300;}
+.SharksRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #cc6300;}
+
+.StarsLightBorder {border-color: #006847;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #676765;}
+.StarsLight {background-color: #006847;}
+.StarsPrimary {background-color: #004d34;}
+.StarsDark {background-color: #003323;}
+.StarsLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #676765;}
+.StarsRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #676765;}
+
+.WildLightBorder {border-color: #174f39;box-shadow: 0px 0px var(--halfTableSpacing) var(--halfTableSpacing) #b11b31;}
+.WildLight {background-color: #174f39;}
+.WildPrimary {background-color: #123b2b;}
+.WildDark {background-color: #0c271d;}
+.WildLeftGlow {box-shadow: var(--tableSpacing) 0 6px -6px #b11b31;}
+.WildRightGlow {box-shadow: var(--negTableSpacing) 0 6px -6px #b11b31;}
