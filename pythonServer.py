@@ -45,9 +45,19 @@ class MyServer(BaseHTTPRequestHandler):
             print('ENDPOINT: /submit-lineup: ' + csvString)
             myResponse = writeNewLineup(csvString)
 
+        elif path[0] == "/delete-lineup":
+            lineupId = path[1]
+            print('ENDPOINT: /delete-lineup: ' + lineupId)
+            myResponse = deleteLineup(lineupId)
+
         elif path[0] == "/get-lineups":
             print('ENDPOINT: /get-lineups')
             myResponse = getLineups()
+        
+        elif path[0] == "/get-lineup-by-id":
+            lineupId = path[1]
+            print('ENDPOINT: /get-lineup-by-id: ' + lineupId)
+            myResponse = getLineupById(lineupId)
         
         self.wfile.write(bytes(myResponse, encoding='utf8'))
 
@@ -66,10 +76,49 @@ class LineupObject:
         self.id = int(csvString.split('|')[0])
         self.csv = csvString
 
+def getLineups():
+    fileName = 'lineups/lineup.csv'
+    f = open(fileName, "r")
+    lineupsCsv = f.read()
+    f.close()
+    return removeTrailingNewlines(lineupsCsv)
+
+def getLineupById(lineupId):
+    lineupsArr = getLineups().split('\n')
+    lineupCsv = ''
+    targetLineupCsv = ''
+    for i in range(len(lineupsArr)):
+        if lineupsArr[i].split('|')[0] == lineupId:
+            targetLineupCsv = lineupsArr[i] + '_'
+        else:
+            lineupCsv += lineupsArr[i] + '\n'
+    deleteLineup(lineupId)
+    outputCsv = targetLineupCsv + lineupCsv
+    if (len(outputCsv) == 0):
+        return ''
+    else:
+        return removeTrailingNewlines(outputCsv)
+        
+def deleteLineup(lineupId):
+    fileName = 'lineups/lineup.csv'
+    lineupsArr = getLineups().split('\n')
+    newOutputCsv = ''
+    for i in range(len(lineupsArr)):
+        if lineupsArr[i].split('|')[0] != lineupId:
+            newOutputCsv += lineupsArr[i] + '\n'
+            
+    f = open(fileName, "w")
+    f.write(removeTrailingNewlines(newOutputCsv))
+    f.close()
+    return removeTrailingNewlines(newOutputCsv)
+
 def writeNewLineup(newLineupPlayerCsv):
     fileName = 'lineups/lineup.csv'
-    if not os.path.isfile(fileName):
-        f = open(fileName, "a")
+    f = open(fileName, "r")
+    contentLength = len(f.read())
+    
+    if (not os.path.isfile(fileName)) or (contentLength == 0):
+        f = open(fileName, "w")
         f.write('0|' + newLineupPlayerCsv)
         f.close()
         return '0|' + newLineupPlayerCsv
@@ -94,21 +143,17 @@ def writeNewLineup(newLineupPlayerCsv):
         lineupObjectArr.sort(key=lambda x: x.id)
         newOutputCsv = ''
         for i in range(len(lineupObjectArr)):
-            if (i == len(lineupObjectArr)-1):
-                newOutputCsv += lineupObjectArr[i].csv
-            else:
-                newOutputCsv += lineupObjectArr[i].csv + '\n'
+            newOutputCsv += lineupObjectArr[i].csv + '\n'
         f = open(fileName, "w")
-        f.write(newOutputCsv)
+        f.write(removeTrailingNewlines(newOutputCsv))
         f.close()
-        return newOutputCsv
+        return removeTrailingNewlines(newOutputCsv)
 
-def getLineups():
-    fileName = 'lineups/lineup.csv'
-    f = open(fileName, "r")
-    lineupsCsv = f.read()
-    f.close()
-    return lineupsCsv
+def removeTrailingNewlines(outputStr):
+    if outputStr != '':
+        while outputStr[-1] == '\n':
+            outputStr = outputStr[:-1]
+    return outputStr
 
 
 class SalaryStats:

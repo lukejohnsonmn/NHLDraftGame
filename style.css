@@ -165,30 +165,6 @@ table, th, td {
 */
 
 
-
-.whiteButton {
-	padding: 5px;
-	margin: 0px auto 5px auto;
-	border: 2px solid black;
-	border-radius: 5px;
-	background: white;
-	color: black;
-	cursor: pointer;
-	font-weight: bold;
-	font-size: 12px;
-	width: min-content;
-}
-
-.whiteButton:hover {
-	background: #cccccc;
-	box-shadow: 0px 0px 5px 5px white;
-}
-
-.whiteButton:active {
-	background: #999999;
-	box-shadow: 0px 0px 5px 5px #cccccc;
-}
-
 .even-row {
 	background: var(--primaryDark);
 }
@@ -216,7 +192,17 @@ table, th, td {
 	box-shadow: var(--negTableSpacing) 0 6px -6px var(--secondaryDark);
 }
 
-#clearLineup {
+.lineupButtons {
+	width: 100px;
+}
+
+.clearSavedLineup, .editSavedLineup {
+	display: inline-block;
+	vertical-align: center;
+	margin: 5px;
+}
+
+#clearLineup, .clearSavedLineup {
 	padding: 5px;
 	border: 2px solid black;
 	border-radius: 5px;
@@ -228,14 +214,37 @@ table, th, td {
 	width: min-content;
 }
 
-#clearLineup:hover {
+#clearLineup:hover, .clearSavedLineup:hover {
 	background: #990000;
 	box-shadow: 0px 0px 5px 5px red;
 }
 
-#clearLineup:active {
+#clearLineup:active, .clearSavedLineup:active {
 	background: #330000;
 	box-shadow: 0px 0px 5px 5px #990000;
+}
+
+.whiteButton, .editSavedLineup {
+	padding: 5px;
+	margin: 0px auto 5px auto;
+	border: 2px solid black;
+	border-radius: 5px;
+	background: white;
+	color: black;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 12px;
+	width: min-content;
+}
+
+.whiteButton:hover, .editSavedLineup:hover {
+	background: #cccccc;
+	box-shadow: 0px 0px 5px 5px white;
+}
+
+.whiteButton:active, .editSavedLineup:active {
+	background: #999999;
+	box-shadow: 0px 0px 5px 5px #cccccc;
 }
 
 .unavailable {
@@ -505,14 +514,20 @@ table, th, td {
 	width: 100%;
 }
 
-#curLineupCaption, #lineupName, .allLineupsCaption {
+#curLineupCaption, #lineupName, .allLineupsCaption, .allLineupsCaptionTable th {
 	color: var(--text);
 	background: transparent;
 	text-align: center;
 	font-size: 36px;
 	padding: 5px;
 	border: 0px;
+	font-weight: normal;
 }
+
+.allLineupsCaptionTable {
+	width: 100%;
+}
+
 
 #curLineupThead, .allLineupsThead {
 	background-color: var(--primaryLight);

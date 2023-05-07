@@ -85,6 +85,21 @@ class SalaryPlayer {
     }
 }
 
+class Lineup {
+  constructor(lineupDataCsv) {
+    const lineupData = lineupDataCsv.split('|');
+    this.id = lineupData[0];
+    this.team = lineupData[1];
+    this.name = lineupData[2];
+    this.players = []
+    this.players.push(lineupData[3].split(','));
+    this.players.push(lineupData[4].split(','));
+    this.players.push(lineupData[5].split(','));
+    this.players.push(lineupData[6].split(','));
+    this.players.push(lineupData[7].split(','));
+  }
+}
+
 var roster = null;
 const salaryCap = 100000;
 var remainingSalary = salaryCap;
@@ -397,21 +412,39 @@ function getSelectedRoleId() {
 }
 
 function getRoleStr(roleId) {
-if (roleId == 1)
-  return 'Captain';
-if (roleId == 2)
-  return 'Scorer';
-if (roleId == 3)
-  return 'Playmaker';
-if (roleId == 4)
-  return 'Shooter';
-if (roleId == 5)
-  return 'Blocker';
-if (roleId == 6)
-  return 'Enforcer';
-if (roleId == 7)
-  return 'Center';
-return 'No role assigned';
+  if (roleId == 1)
+    return 'Captain';
+  if (roleId == 2)
+    return 'Scorer';
+  if (roleId == 3)
+    return 'Playmaker';
+  if (roleId == 4)
+    return 'Shooter';
+  if (roleId == 5)
+    return 'Blocker';
+  if (roleId == 6)
+    return 'Enforcer';
+  if (roleId == 7)
+    return 'Center';
+  return 'No role assigned';
+}
+
+function getRoleId(roleStr) {
+  if (roleStr == 'Captain')
+    return 1;
+  if (roleStr == 'Scorer')
+    return 2;
+  if (roleStr == 'Playmaker')
+    return 3;
+  if (roleStr == 'Shooter')
+    return 4;
+  if (roleStr == 'Blocker')
+    return 5;
+  if (roleStr == 'Enforcer')
+    return 6;
+  if (roleStr == 'Center')
+    return 7;
+  return 'No role assigned';
 }
 
 function tryInsertPlayer() {
@@ -458,6 +491,7 @@ function submitCurLineup() {
   const response = httpGet(myUrl);
   writeLineupResponse(response);
   clearCurLineup();
+  document.getElementById('lineupName').value = '';
 }
 
 function getLineups() {
@@ -468,50 +502,89 @@ function getLineups() {
 
 
 function editLineupButton(lineupId) {
+  const myUrl = "http://localhost:8080/get-lineup-by-id?" + lineupId;
+  const response = httpGet(myUrl);
+  const lineupToEditCsv = response.split('_')[0];
+  const otherLineupsCsv = response.split('_')[1];
+  const lineupToEdit = new Lineup(lineupToEditCsv);
+  document.getElementById('lineupName').value = lineupToEdit.name;
+  if (lineupToEdit.team != document.getElementById('teamDropdown').value) {
+    document.getElementById('teamDropdown').value = lineupToEdit.team;
+    selectedTeamId = document.getElementById("teamDropdown").value;
+    //$('#curLineupDiv').hide();
+    //$('#allLineupsDiv').hide();
+    beforeLoadingPlayers();
+    setTimeout(function() {
+      getSeasonStats();
+      getLineups();
+      lineupToCurLineup(lineupToEdit);
+      writeLineupResponse(otherLineupsCsv);
+      refreshPage();
+      //$('#curLineupDiv').show();
+      //$('#allLineupsDiv').show();
+    }, 250);
+  } else {
+    lineupToCurLineup(lineupToEdit);
+    writeLineupResponse(otherLineupsCsv);
+    refreshPage();
+  }
 
+  
+}
+
+function lineupToCurLineup(lineup) {
+  curLineup.length = 0;
+  for (var i = 0; i < lineup.players.length; i++) {
+    for (var j = 0; j < roster.length; j++) {
+      if (roster[j].id == lineup.players[i][0]) {
+        curLineup.push(new SalaryPlayer(roster[j], getRoleId(lineup.players[i][5])));
+      }
+    }
+  }
+}
+
+function deleteLineupButton(lineupId) {
+  const myUrl = "http://localhost:8080/delete-lineup?" + lineupId;
+  const response = httpGet(myUrl);
+  writeLineupResponse(response);
 }
 
 function writeLineupResponse(response) {
-  const allLineups = response.split('\n');
-  var lineupHTML =  '';
-  for (var i = 0; i < allLineups.length; i++) {
-    const lineupData = allLineups[i].split('|');
-    const lineupId = lineupData[0];
-    const lineupTeam = lineupData[1];
-    const lineupName = lineupData[2];
-    const lineupPlayer1 = lineupData[3].split(',');
-    const lineupPlayer2 = lineupData[4].split(',');
-    const lineupPlayer3 = lineupData[5].split(',');
-    const lineupPlayer4 = lineupData[6].split(',');
-    const lineupPlayer5 = lineupData[7].split(',');
-
-    var i;
-    var tableStr = '';
-    tableStr += '<table id="lineupsTable'+lineupId+'" class="allLineupsTable">';
-    tableStr += '<caption id="lineupsCaption'+lineupId+'" class="allLineupsCaption">'+lineupName+'</caption>';
-    tableStr += '<thead id="lineupsThead'+lineupId+'" class="allLineupsThead">';
-    tableStr += '<tr>';
-    tableStr += '<th>Pos.</th>';
-    tableStr += '<th>#</th>';
-    tableStr += '<th>Name</th>';
-    tableStr += '<th class="lineupTh">Salary</th>';
-    tableStr += '<th class="lineupTh">Role</th>';
-    tableStr += '</tr>';
-    tableStr += '</thead>';
-    tableStr += '<tbody id="lineupsTbody'+lineupId+'" class="allLineupsTbody">';
-    tableStr += '<tr class="even-row"><td><div hidden>'+lineupPlayer1[0]+'</div>'+lineupPlayer1[1]+'</td><td>'+lineupPlayer1[2]+'</td><td class="leftGlow">'+lineupPlayer1[3].replaceAll('%20',' ')+'</td><td>'+lineupPlayer1[4]+'</td><td class="rightGlow selectedFire">'+lineupPlayer1[5]+'</td></tr>';
-    tableStr += '<tr><td><div hidden>'+lineupPlayer2[0]+'</div>'+lineupPlayer2[1]+'</td><td>'+lineupPlayer2[2]+'</td><td class="leftGlow">'+lineupPlayer2[3].replaceAll('%20',' ')+'</td><td>'+lineupPlayer2[4]+'</td><td class="rightGlow selectedFire">'+lineupPlayer2[5]+'</td></tr>';
-    tableStr += '<tr class="even-row"><td><div hidden>'+lineupPlayer3[0]+'</div>'+lineupPlayer3[1]+'</td><td>'+lineupPlayer3[2]+'</td><td class="leftGlow">'+lineupPlayer3[3].replaceAll('%20',' ')+'</td><td>'+lineupPlayer3[4]+'</td><td class="rightGlow selectedFire">'+lineupPlayer3[5]+'</td></tr>';
-    tableStr += '<tr><td><div hidden>'+lineupPlayer4[0]+'</div>'+lineupPlayer4[1]+'</td><td>'+lineupPlayer4[2]+'</td><td class="leftGlow">'+lineupPlayer4[3].replaceAll('%20',' ')+'</td><td>'+lineupPlayer4[4]+'</td><td class="rightGlow selectedFire">'+lineupPlayer4[5]+'</td></tr>';
-    tableStr += '<tr class="even-row"><td><div hidden>'+lineupPlayer5[0]+'</div>'+lineupPlayer5[1]+'</td><td>'+lineupPlayer5[2]+'</td><td class="leftGlow">'+lineupPlayer5[3].replaceAll('%20',' ')+'</td><td>'+lineupPlayer5[4]+'</td><td class="rightGlow selectedFire">'+lineupPlayer5[5]+'</td></tr>';
-    tableStr += '<tr class="tableEnd"><td></td><td></td><td></td><td></td><td></td></tr>';
-    tableStr += '</tbody>';
-    tableStr += '</table>';
-    lineupHTML += tableStr;
+  if (response.length < 1) {
+    $('#allLineupsDiv').hide();
+  } else {
+    const allLineupsCsv = response.split('\n');
+    var lineupHTML =  '';
+    for (var i = 0; i < allLineupsCsv.length; i++) {
+      const lineup = new Lineup(allLineupsCsv[i]);
+      var tableStr = '';
+      tableStr += '<table id="lineupsTable'+lineup.id+'" class="allLineupsTable">';
+      tableStr += '<caption id="lineupsCaption'+lineup.id+'" class="allLineupsCaption"><table class="allLineupsCaptionTable"><thead><tr><th class="lineupButtons"><div class="clearSavedLineup" onclick="deleteLineupButton('+lineup.id+')">X</div><div class="editSavedLineup" onclick="editLineupButton('+lineup.id+')">Edit</div></th><th>'+lineup.name.replaceAll('%20',' ')+'</th><th>'+lineup.team.replace(/([A-Z])/g, ' $1').trim()+'<th></thead></table></caption>';
+      tableStr += '<thead id="lineupsThead'+lineup.id+'" class="allLineupsThead">';
+      tableStr += '<tr>';
+      tableStr += '<th>Pos.</th>';
+      tableStr += '<th>#</th>';
+      tableStr += '<th>Name</th>';
+      tableStr += '<th class="lineupTh">Salary</th>';
+      tableStr += '<th class="lineupTh">Role</th>';
+      tableStr += '</tr>';
+      tableStr += '</thead>';
+      tableStr += '<tbody id="lineupsTbody'+lineup.id+'" class="allLineupsTbody">';
+      tableStr += '<tr class="even-row"><td><div hidden>'+lineup.players[0][0]+'</div>'+lineup.players[0][1]+'</td><td>'+lineup.players[0][2]+'</td><td class="leftGlow">'+lineup.players[0][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[0][4]+'</td><td class="rightGlow selectedFire">'+lineup.players[0][5]+'</td></tr>';
+      tableStr += '<tr><td><div hidden>'+lineup.players[1][0]+'</div>'+lineup.players[1][1]+'</td><td>'+lineup.players[1][2]+'</td><td class="leftGlow">'+lineup.players[1][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[1][4]+'</td><td class="rightGlow selectedFire">'+lineup.players[1][5]+'</td></tr>';
+      tableStr += '<tr class="even-row"><td><div hidden>'+lineup.players[2][0]+'</div>'+lineup.players[2][1]+'</td><td>'+lineup.players[2][2]+'</td><td class="leftGlow">'+lineup.players[2][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[2][4]+'</td><td class="rightGlow selectedFire">'+lineup.players[2][5]+'</td></tr>';
+      tableStr += '<tr><td><div hidden>'+lineup.players[3][0]+'</div>'+lineup.players[3][1]+'</td><td>'+lineup.players[3][2]+'</td><td class="leftGlow">'+lineup.players[3][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[3][4]+'</td><td class="rightGlow selectedFire">'+lineup.players[3][5]+'</td></tr>';
+      tableStr += '<tr class="even-row"><td><div hidden>'+lineup.players[4][0]+'</div>'+lineup.players[4][1]+'</td><td>'+lineup.players[4][2]+'</td><td class="leftGlow">'+lineup.players[4][3].replaceAll('%20',' ')+'</td><td>'+lineup.players[4][4]+'</td><td class="rightGlow selectedFire">'+lineup.players[4][5]+'</td></tr>';
+      tableStr += '<tr class="tableEnd"><td></td><td></td><td></td><td></td><td></td></tr>';
+      tableStr += '</tbody>';
+      tableStr += '</table>';
+      lineupHTML += tableStr;
+      document.getElementById('allLineupsDiv').innerHTML = lineupHTML;
+      $('#allLineupsDiv').show();
+    }
   }
 
-  document.getElementById('allLineupsDiv').innerHTML = lineupHTML;
-  $('#allLineupsDiv').show();
+
 }
 
 function rewriteLineupHTML() {
