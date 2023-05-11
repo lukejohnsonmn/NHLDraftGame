@@ -5,6 +5,7 @@ import json
 import math
 import urllib.request
 import os.path
+import requests
 
 hostName = "localhost"
 serverPort = 8080
@@ -114,8 +115,12 @@ def deleteLineup(lineupId):
 
 def writeNewLineup(newLineupPlayerCsv):
     fileName = 'lineups/lineup.csv'
-    f = open(fileName, "r")
-    contentLength = len(f.read())
+    contentLength = 0
+    try:
+        f = open(fileName, "r")
+        contentLength = len(f.read())
+    except:
+        contentLength = 0
     
     if (not os.path.isfile(fileName)) or (contentLength == 0):
         f = open(fileName, "w")
@@ -184,65 +189,53 @@ class Team:
 
 class SeasonStats:
     def __init__(self, jsonStats):
-        self.games = jsonStats['games']
-        self.goals = jsonStats['goals']
-        self.assists = jsonStats['assists']
-        self.shots = jsonStats['shots']
-        self.blocked = jsonStats['blocked']
-        self.hits = jsonStats['hits']
-        self.faceOffPct = jsonStats['faceOffPct']
-        self.penaltyMinutes = jsonStats['pim']
-        self.plusMinus = jsonStats['plusMinus']
-        self.timeOnIce = timeStrToSeconds(jsonStats['timeOnIce'])
+        self.games = jsonStats.get('games', 0)
+        self.goals = jsonStats.get('goals', 0)
+        self.assists = jsonStats.get('assists', 0)
+        self.shots = jsonStats.get('shots', 0)
+        self.blocked = jsonStats.get('blocked', 0)
+        self.hits = jsonStats.get('hits', 0)
+        self.faceOffPct = jsonStats.get('faceOffPct', 0.0)
+        self.penaltyMinutes = jsonStats.get('pim', 0)
+        self.plusMinus = jsonStats.get('plusMinus', 0)
+        self.timeOnIce = timeStrToSeconds(jsonStats.get('timeOnIce', '0:00'))
     
-    def addPostSeasonStats(self, gameStats):
-        self.games += 1
-        self.goals += gameStats.goals
-        self.assists += gameStats.assists
-        self.shots += gameStats.shots
-        self.blocked += gameStats.blocked
-        self.hits += gameStats.hits
-        self.faceOffPct = ((self.games-1)*self.faceOffPct + gameStats.faceOffPct) / self.games
-        self.penaltyMinutes += gameStats.penaltyMinutes
-        self.plusMinus += gameStats.plusMinus
-        self.timeOnIce += timeStrToSeconds(gameStats.timeOnIce)
+    def addPostSeasonStats(self, postSeasonStats):
+        if postSeasonStats != None:
+            self.games += postSeasonStats.games
+            self.goals += postSeasonStats.goals
+            self.assists += postSeasonStats.assists
+            self.shots += postSeasonStats.shots
+            self.blocked += postSeasonStats.blocked
+            self.hits += postSeasonStats.hits
+            self.faceOffPct = ((self.games-1)*self.faceOffPct + postSeasonStats.faceOffPct) / self.games
+            self.penaltyMinutes += postSeasonStats.penaltyMinutes
+            self.plusMinus += postSeasonStats.plusMinus
+            self.timeOnIce += postSeasonStats.timeOnIce
 
 class PerGameStats:
     def __init__(self, seasonStats):
         self.games = seasonStats.games
-        self.goals = round(seasonStats.goals / self.games, 2)
-        self.assists = round(seasonStats.assists / self.games, 2)
-        self.shots = round(seasonStats.shots / self.games, 2)
-        self.blocked = round(seasonStats.blocked / self.games, 2)
-        self.hits = round(seasonStats.hits / self.games, 2)
-        self.faceOffPct = round(seasonStats.faceOffPct, 2)
-        self.penaltyMinutes = round(seasonStats.penaltyMinutes / self.games, 2)
-        self.plusMinus = round(seasonStats.plusMinus / self.games, 2)
-        self.timeOnIce = secondsToTimeStr(seasonStats.timeOnIce / self.games)
-
-class GameStats:
-    def __init__(self, jsonStats):
-        self.goals = jsonStats['goals']
-        self.assists = jsonStats['assists']
-        self.shots = jsonStats['shots']
-        self.blocked = jsonStats['blocked']
-        self.hits = jsonStats['hits']
-        try:
-            self.faceOffWins = jsonStats['faceOffWins']
-        except:
-            self.faceOffWins = 0
-        try:
-            self.faceOffTaken = jsonStats['faceoffTaken']
-        except:
-            self.faceOffTaken = 0
-        if self.faceOffTaken == 0:
-            self.faceOffPct = 0
+        if (self.games > 0):
+            self.goals = round(seasonStats.goals / self.games, 2)
+            self.assists = round(seasonStats.assists / self.games, 2)
+            self.shots = round(seasonStats.shots / self.games, 2)
+            self.blocked = round(seasonStats.blocked / self.games, 2)
+            self.hits = round(seasonStats.hits / self.games, 2)
+            self.faceOffPct = round(seasonStats.faceOffPct, 2)
+            self.penaltyMinutes = round(seasonStats.penaltyMinutes / self.games, 2)
+            self.plusMinus = round(seasonStats.plusMinus / self.games, 2)
+            self.timeOnIce = secondsToTimeStr(seasonStats.timeOnIce / self.games)
         else:
-            self.faceOffPct = jsonStats['faceOffPct']
-        
-        self.penaltyMinutes = jsonStats['penaltyMinutes']
-        self.plusMinus = jsonStats['plusMinus']
-        self.timeOnIce = jsonStats['timeOnIce']
+            self.goals = 0
+            self.assists = 0
+            self.shots = 0
+            self.blocked = 0
+            self.hits = 0
+            self.faceOffPct = 0.0
+            self.penaltyMinutes = 0
+            self.plusMinus = 0
+            self.timeOnIce = 0
 
 class Player:
     def __init__(self, id, fullName, jerseyNumber, position, teamId, teamName, season):
@@ -257,12 +250,14 @@ class Player:
         self.team = Team(teamId, teamName, season)
         self.startedLastGame = False
 
-        jsonStats = getSeasonStatsForPlayer(self)
+        jsonRegStats = getSeasonStatsForPlayer(self)
         self.seasonStats = None
-        if jsonStats != None:
+        if jsonRegStats != None:
             if (self.positionCode != 'G'):
-                self.seasonStats = SeasonStats(jsonStats)
-                self.gameStats = GameStats(jsonStats)
+                self.seasonStats = SeasonStats(jsonRegStats)
+                jsonPostStats = getPostSeasonStatsForPlayer(self)
+                if jsonPostStats != None:
+                    self.seasonStats.addPostSeasonStats(SeasonStats(jsonPostStats))
             else:
                 self.salary = 0
         else:
@@ -289,7 +284,7 @@ class Roster:
         self.todaysDate = todaysDate
         self.team = Team(self.id, self.name, self.season)
         self.roster = getRosterForTeam(self.id, self.name, self.season)
-        addPostSeasonStatsToPlayers(self)
+        #addPostSeasonStatsToPlayers(self)
         getStartingLineupForLastGame(self, todaysDate)
 
         for player in self.roster:
@@ -377,51 +372,6 @@ def getStartingLineupForLastGame(roster, todaysDate):
         if p.id in startersIdList:
             p.setStartedLastGame()
 
-# Get post season stats by iterating through all playoff games (after 2023-04-13)
-
-def addPostSeasonStatsToPlayers(roster):
-    gamePkList = getAllPostSeasonGamePks(roster.team, roster.todaysDate)
-    for gamePk in gamePkList:
-        statsToMerge = getDictOfStatsToMerge(roster, gamePk)
-        for key in statsToMerge:
-            for player in roster.roster:
-                if key == player.id and player.seasonStats != None:
-                    player.seasonStats.addPostSeasonStats(statsToMerge[key])
-                    break
-
-def getDictOfStatsToMerge(roster, gamePk):
-    playersJson = getAllPlayerJsonsForGamePk(roster.team, gamePk)
-    playerKeys = playersJson.keys()
-    statsToMerge = {}
-    for playerKey in playerKeys:
-        if str(playersJson[playerKey]['stats']) != '{}' and playersJson[playerKey]['position']['code'] != 'G':
-            playerId = playersJson[playerKey]['person']['id']
-            gameStats = GameStats(playersJson[playerKey]['stats']['skaterStats'])
-            statsToMerge[playerId] = gameStats
-    return statsToMerge
-
-def getAllPostSeasonGamePks(teamObj, todaysDate):
-    count = 100 #Stop unexpected infinite loops
-    date = todaysDate
-    year = date.split('-')[0]
-    endOfRegSeason = '-04-14'
-    gamePkList = []
-    skipDay = False
-    while date != year + endOfRegSeason and count > 0:
-        count -= 1
-        date = decrementDate(date, skipDay)
-        gamePk = getGamePkGivenTeamAndDate(teamObj, date)
-        if gamePk > 0:
-            skipDay = True
-            gamePkList.append(gamePk)
-        else:
-            skipDay = False
-    return gamePkList
-        
-
-        
-        
-
 
 # Original calculations below here
 
@@ -444,17 +394,27 @@ def calcAvgSalary(salaryStats):
 def estimateFaceOffPoints(player):
     stats = player.seasonStats
     team = player.team
-    estFaceOffsPerGame = (stats.timeOnIce/60) / stats.games * team.estFaceOffsPerSecond
-    estFaceOffWinsPerGame = 2 * (stats.faceOffPct / 100) * estFaceOffsPerGame
-    estFaceOffLosesPerGame = (1 - stats.faceOffPct / 100) * estFaceOffsPerGame
+    if stats.games > 0:
+        estFaceOffsPerGame = (stats.timeOnIce/60) / stats.games * team.estFaceOffsPerSecond
+        estFaceOffWinsPerGame = 2 * (stats.faceOffPct / 100) * estFaceOffsPerGame
+        estFaceOffLosesPerGame = (1 - stats.faceOffPct / 100) * estFaceOffsPerGame
+    else:
+        estFaceOffsPerGame = 0
+        estFaceOffWinsPerGame = 0
+        estFaceOffLosesPerGame = 0
     return estFaceOffWinsPerGame - estFaceOffLosesPerGame
 
 def estimateBaseFaceOffPoints(player):
     stats = player.seasonStats
     team = player.team
-    estFaceOffsPerGame = stats.timeOnIce / stats.games * team.estFaceOffsPerSecond
-    estFaceOffWinsPerGame = (stats.faceOffPct / 100) * estFaceOffsPerGame
-    estFaceOffLosesPerGame = (1 - stats.faceOffPct / 100) * estFaceOffsPerGame
+    if stats.games > 0:
+        estFaceOffsPerGame = stats.timeOnIce / stats.games * team.estFaceOffsPerSecond
+        estFaceOffWinsPerGame = (stats.faceOffPct / 100) * estFaceOffsPerGame
+        estFaceOffLosesPerGame = (1 - stats.faceOffPct / 100) * estFaceOffsPerGame
+    else:
+        estFaceOffsPerGame = 0
+        estFaceOffWinsPerGame = 0
+        estFaceOffLosesPerGame = 0
     return estFaceOffWinsPerGame - estFaceOffLosesPerGame
 
 # format: '12:15'
@@ -484,14 +444,27 @@ def getSeasonStatsForTeam(team):
     jsonData = json.loads(response)
     return jsonData['teams'][0]['teamStats'][0]['splits'][0]['stat']
 
-def getSeasonStatsForPlayer(player):
-    teamStatsUrl = 'https://statsapi.web.nhl.com/api/v1/people/' + str(player.id) + '/stats?stats=statsSingleSeason&season=' + player.season
-    response = httpGet(teamStatsUrl)
+def getPostSeasonStatsForPlayer(player):
+    urlPostSeason = 'https://statsapi.web.nhl.com/api/v1/people/' + str(player.id) + '/stats?stats=statsSingleSeasonPlayoffs&season=' + player.season
+    response = httpGet(urlPostSeason)
     jsonData = json.loads(response)
     if len(jsonData['stats'][0]['splits']) > 0:
         return jsonData['stats'][0]['splits'][0]['stat']
     else:
         return None
+
+def getSeasonStatsForPlayer(player):
+    urlRegSeason = 'https://statsapi.web.nhl.com/api/v1/people/' + str(player.id) + '/stats?stats=statsSingleSeason&season=' + player.season
+    response = httpGet(urlRegSeason)
+    jsonData = json.loads(response)
+    if len(jsonData['stats'][0]['splits']) > 0:
+        return jsonData['stats'][0]['splits'][0]['stat']
+    else:
+        return None
+
+
+
+
     
 def getAllPlayerJsonsForGamePk(teamObj, gamePk):
     #get boxscores --> get player ids for team
