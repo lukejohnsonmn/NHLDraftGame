@@ -79,7 +79,35 @@ class Points {
 class Game {
   constructor(eitherTeam) {
     this.players = getAllPlayersForGameToday(eitherTeam);
-    
+    this.calcColdScore();
+    this.calcHotScore();
+    console.log(this.players);
+  }
+
+  calcColdScore() {
+    this.players.sort((a, b) => a.points.base - b.points.base);
+    this.coldest = this.players[0].points.base;
+    var total = 0;
+    for (var i = 0; i < 2*this.players.length/3; i++) {
+      total += this.players[i].points.base;
+      if (this.players[i].points.base < this.coldest) {
+        this.coldest = this.players[i].points.base;
+      }
+    }
+    this.coldScore = Math.max(0, 3 * total / (2*this.players.length))
+  }
+
+  calcHotScore() {
+    this.players.sort((a, b) => b.points.max - a.points.max);
+    this.hottest = this.players[0].points.max;
+    var total = 0;
+    for (var i = 0; i < 2*this.players.length/3; i++) {
+      total += this.players[i].points.max;
+      if (this.players[i].points.max > this.hottest) {
+        this.hottest = this.players[i].points.max;
+      }
+    }
+    this.hotScore = Math.max(0, 3 * total / (2*this.players.length))
   }
 }
 
@@ -93,20 +121,26 @@ class Team {
 
   calcColdScore() {
     this.players.sort((a, b) => a.base - b.base);
-    this.coldest = this.players[0].base;
+    this.coldest = this.players[0].points.base;
     var total = 0;
-    for (var i = 0; i < 2*this.players.length/3; i++) {
+    for (var i = 0; i < this.players.length/2; i++) {
       total += this.players[i].points.base;
+      if (this.players[i].points.base < this.coldest) {
+        this.coldest = this.players[i].points.base;
+      }
     }
     this.coldScore = total / (2*this.players.length/3)
   }
 
   calcHotScore() {
     this.players.sort((a, b) => b.max - a.max);
-    this.hottest = this.players[0].max;
+    this.hottest = this.players[0].points.max;
     var total = 0;
-    for (var i = 0; i < 2*this.players.length/3; i++) {
+    for (var i = 0; i < this.players.length/2; i++) {
       total += this.players[i].points.max;
+      if (this.players[i].points.max > this.hottest) {
+        this.hottest = this.players[i].points.max;
+      }
     }
     this.hotScore = total / (2*this.players.length/3)
   }
@@ -155,26 +189,19 @@ function httpGet(url)
 function updateStats() {
   console.log('loading player stats');
   const game = new Game('Stars');
-
-  console.log(game.players);
-  game.players.sort(function(a, b) {
-    if (a.points.bestRole < b.points.bestRole) {
-      return -1
-    }
-    if (a.points.bestRole > b.points.bestRole) {
-      return 1
-    }
-    return 0
-  })
-  for (var i = 0; i < game.players.length; i++) {
-    if (['Playmaker','Enforcer'].includes(game.players[i].points.bestRole)) {
-      console.log(game.players[i].points.bestRole + '\t' + game.players[i].positionCode + ' ' + game.players[i].fullName);
-    } else {
-      console.log(game.players[i].points.bestRole + '\t\t' + game.players[i].positionCode + ' ' + game.players[i].fullName);
-    }
-  }
+  console.log('hottest: ' + game.hottest);
+  console.log('hotScore: ' + game.hotScore);
+  console.log('coldScore: ' + game.coldScore);
+  console.log('coldest: ' + game.coldest);
   console.log('done');
 }
+
+
+
+
+
+
+
 
 function getAllPlayersForGameToday(eitherTeam) {
   const teamId = mapTeamNameToId(eitherTeam);
