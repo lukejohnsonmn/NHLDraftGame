@@ -1,27 +1,142 @@
 class LineupManager {
-  constructor(fullLineupCsv) {
+  constructor(game, fullLineupCsv) {
     const lineupCsvs = fullLineupCsv.split('\n');
     this.lineups = [];
     for (var i = 0; i < lineupCsvs.length; i++) {
-      this.lineups.push(new Lineup(lineupCsvs[i]));
+      this.lineups.push(new Lineup(game, lineupCsvs[i]));
     }
+    this.lineups.sort((a, b) => b.score - a.score);
+  }
+
+  toHTML() {
+    var leftDiv = '<div id="scoreboardLeftDiv">';
+    var rightDiv = '<div id="scoreboardRightDiv">';
+    for (var i = 0; i < this.lineups.length; i++) {
+      if (i % 2 == 0) {
+        leftDiv += this.lineups[i].toHTML();
+      } else {
+        rightDiv += this.lineups[i].toHTML();
+      }
+    }
+    leftDiv += '</div>';
+    rightDiv += '</div>';
+    return leftDiv + rightDiv;
   }
 }
 
 class Lineup {
-  constructor(lineupCsv) {
+  constructor(game, lineupCsv) {
     const lineupInfo = lineupCsv.split('|');
     this.id = lineupInfo[0];
     this.team = lineupInfo[1];
     this.name = lineupInfo[2];
     this.players = [];
     for (var i = 3; i < lineupInfo.length; i++) {
-      this.players.push(this.getPlayerByTeamAndId(this.team, lineupInfo[i].split(',')[0]))
+      const player = game.getPlayerById(lineupInfo[i].split(',')[0]);
+      const role = lineupInfo[i].split(',')[5];
+      this.players.push(new LineupPlayer(game, player, role));
+    }
+    this.players.sort((a, b) => b.points - a.points);
+    this.score = 0;
+    for (var i = 0; i < this.players.length; i++) {
+      this.score += this.players[i].points;
     }
   }
 
-  getPlayerByTeamAndId(teamName, playerId) {
-    return teamManager.getTeamByName(teamName).getPlayerById(playerId);
+  toHTML() {
+    var tableStr = '';
+    tableStr += '<table class="allLineupsTable '+this.team+'LightBorder">';
+    tableStr += '<caption class="allLineupsCaption '+this.team+'Primary '+this.team+'LightBorder"><table class="allLineupsCaptionTable"><thead><tr><th></th><th>'+this.name.replaceAll('%20',' ')+'</th><th>'+this.team.replace(/([A-Z])/g, ' $1').trim()+'</th></thead></table></caption>';
+    
+    tableStr += '<thead class="'+this.team+'Light">';
+    tableStr += '<tr>';
+    tableStr += '<th>Points</th>';
+    tableStr += '<th>Role</th>';
+    tableStr += '<th>Pos.</th>';
+    tableStr += '<th>#</th>';
+    tableStr += '<th>Name</th>';
+    tableStr += '<th>Goals</th>';
+    tableStr += '<th>Assists</th>';
+    tableStr += '<th>Shots</th>';
+    tableStr += '<th>Blocked Shots</th>';
+    tableStr += '<th>Hits</th>';
+    tableStr += '<th>Face Off Wins</th>';
+    tableStr += '<th>Face Off Loses</th>';
+    tableStr += '<th>Penalty Minutes</th>';
+    tableStr += '<th>Plus Minus</th>';
+    tableStr += '</tr>';
+    tableStr += '</thead>';
+
+    tableStr += '<tbody class="'+this.team+'Primary">';
+    for (var i = 0; i < this.players.length; i++) {
+      if (i % 2 == 0) {
+        tableStr += '<tr class="'+this.team+'Dark '+this.players[i].temp+'">'
+      } else {
+        tableStr += '<tr class="'+this.players[i].temp+'">'
+      }
+      tableStr += this.players[i].toHTML();
+      tableStr += '</tr>'
+    }
+    tableStr += '<tr class="'+this.team+'Light"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>';
+    tableStr += '</tbody>';
+
+    tableStr += '</table>';
+    return tableStr;
+  }
+}
+
+class LineupPlayer {
+  constructor(game, player, role) {
+    this.info = player;
+    this.role = role;
+
+    if (role == 'Captain') {
+      this.points = player.points.captain;
+    } else if (role == 'Scorer') {
+      this.points = player.points.scorer;
+    } else if (role == 'Playmaker') {
+      this.points = player.points.playmaker;
+    } else if (role == 'Shooter') {
+      this.points = player.points.shooter;
+    } else if (role == 'Blocker') {
+      this.points = player.points.blocker;
+    } else if (role == 'Enforcer') {
+      this.points = player.points.enforcer;
+    } else if (role == 'Center') {
+      this.points = player.points.center;
+    } else {
+      this.points = player.points.base;
+    }
+
+    if (this.points == game.hottest) {
+      this.temp = 'hottest';
+    } else if (this.points == game.coldest) {
+      this.temp = 'coldest';
+    } else if (this.points >= game.hotScore) {
+      this.temp = 'hot';
+    } else if (this.points <= game.coldScore) {
+      this.temp = 'cold';
+    } else {
+      this.temp = 'normal';
+    }
+  }
+
+  toHTML() {
+    var tableStr = '<td>'+this.points+'</td>';
+    tableStr += '<td>'+this.role+'</td>';
+    tableStr += '<td>'+this.info.positionCode+'</td>';
+    tableStr += '<td>'+this.info.jerseyNumber+'</td>';
+    tableStr += '<td class="noWrap">'+this.info.fullName+'</td>';
+    tableStr += '<td>'+this.info.goals+'</td>';
+    tableStr += '<td>'+this.info.assists+'</td>';
+    tableStr += '<td>'+this.info.shots+'</td>';
+    tableStr += '<td>'+this.info.blocked+'</td>';
+    tableStr += '<td>'+this.info.hits+'</td>';
+    tableStr += '<td>'+this.info.faceOffWins+'</td>';
+    tableStr += '<td>'+this.info.faceOffLoses+'</td>';
+    tableStr += '<td>'+this.info.penaltyMinutes+'</td>';
+    tableStr += '<td>'+this.info.plusMinus+'</td>';
+    return tableStr;
   }
 }
 
@@ -50,7 +165,7 @@ class Player {
 class Points {
   constructor(player) {
     this.base = 15*player.goals + 10*player.assists + player.shots + player.blocked + player.hits
-        + player.faceOffWins - player.faceOffLoses - 5*player.penaltyMinutes + 5*player.plusMinus;
+        + player.faceOffWins - player.faceOffLoses - 5*player.penaltyMinutes + 3*player.plusMinus;
     this.captain = this.base + 15*player.goals + 10*player.assists;
     this.scorer = this.base + 15*player.goals;
     this.playmaker = this.base + 10*player.assists;
@@ -77,72 +192,36 @@ class Points {
 }
 
 class Game {
-  constructor(eitherTeam) {
+  constructor(fullLineupCsv) {
+    const eitherTeam = fullLineupCsv.split('\n')[0].split('|')[1];
     this.players = getAllPlayersForGameToday(eitherTeam);
     this.calcColdScore();
     this.calcHotScore();
-    console.log(this.players);
+    this.lineupManager = new LineupManager(this, fullLineupCsv);
+    document.getElementById('scoreboardBody').innerHTML = this.lineupManager.toHTML();
   }
 
   calcColdScore() {
     this.players.sort((a, b) => a.points.base - b.points.base);
     this.coldest = this.players[0].points.base;
     var total = 0;
-    for (var i = 0; i < 2*this.players.length/3; i++) {
+    for (var i = 0; i < this.players.length/2; i++) {
       total += this.players[i].points.base;
-      if (this.players[i].points.base < this.coldest) {
-        this.coldest = this.players[i].points.base;
-      }
     }
-    this.coldScore = Math.max(0, 3 * total / (2*this.players.length))
+    this.coldScore = Math.max(-1.0, 2 * total / this.players.length)
+    if (this.coldScore == 0.0) {
+      this.coldScore = -1.0
+    }
   }
 
   calcHotScore() {
     this.players.sort((a, b) => b.points.max - a.points.max);
     this.hottest = this.players[0].points.max;
     var total = 0;
-    for (var i = 0; i < 2*this.players.length/3; i++) {
-      total += this.players[i].points.max;
-      if (this.players[i].points.max > this.hottest) {
-        this.hottest = this.players[i].points.max;
-      }
-    }
-    this.hotScore = Math.max(0, 3 * total / (2*this.players.length))
-  }
-}
-
-class Team {
-  constructor(name) {
-    this.name = name;
-    this.generatePlayers();
-    this.calcColdScore();
-    this.calcHotScore();
-  }
-
-  calcColdScore() {
-    this.players.sort((a, b) => a.base - b.base);
-    this.coldest = this.players[0].points.base;
-    var total = 0;
-    for (var i = 0; i < this.players.length/2; i++) {
-      total += this.players[i].points.base;
-      if (this.players[i].points.base < this.coldest) {
-        this.coldest = this.players[i].points.base;
-      }
-    }
-    this.coldScore = total / (2*this.players.length/3)
-  }
-
-  calcHotScore() {
-    this.players.sort((a, b) => b.max - a.max);
-    this.hottest = this.players[0].points.max;
-    var total = 0;
     for (var i = 0; i < this.players.length/2; i++) {
       total += this.players[i].points.max;
-      if (this.players[i].points.max > this.hottest) {
-        this.hottest = this.players[i].points.max;
-      }
     }
-    this.hotScore = total / (2*this.players.length/3)
+    this.hotScore = Math.max(1.0, 2 * total / this.players.length)
   }
 
   getPlayerById(playerId) {
@@ -151,57 +230,38 @@ class Team {
         return this.players[i];
       }
     }
-    return this.players[0];
-  }
-
-  generatePlayers() {
-    this.players = [];
-    this.players.push(new Player(this.name));
+    return null;
   }
 }
 
-class TeamManager {
-  constructor(teamNames) {
-    this.teams = [];
-    for (var i = 0; i < teamNames.length; i++) {
-      this.teams.push(new Team(teamNames[i]));
-    }
-  }
 
-  getTeamByName(teamName) {
-    for (var i = 0; i < this.teams.length; i++) {
-      if (this.teams[i].name == teamName) {
-        return this.teams[i];
-      }
-    }
-    return this.teams[0];
-  }
-}
 
-function httpGet(url)
-{
+function httpGet(url) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", url, false);
     xmlHttp.send(null);
     return JSON.parse(xmlHttp.responseText);
 }
 
-function updateStats() {
+function httpGetCsv(url) {
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open("GET", url, false);
+  xmlHttp.send(null);
+  return xmlHttp.responseText;
+}
+
+function loadPage() {
   console.log('loading player stats');
-  const game = new Game('Stars');
+  const lineupsUrl = "http://localhost:8080/get-lineups";
+  const response = httpGetCsv(lineupsUrl);
+  console.log('response: ' + response);
+  const game = new Game(response);
   console.log('hottest: ' + game.hottest);
   console.log('hotScore: ' + game.hotScore);
   console.log('coldScore: ' + game.coldScore);
   console.log('coldest: ' + game.coldest);
   console.log('done');
 }
-
-
-
-
-
-
-
 
 function getAllPlayersForGameToday(eitherTeam) {
   const teamId = mapTeamNameToId(eitherTeam);
@@ -214,7 +274,8 @@ function getTodaysDate() {
   var year = today.getFullYear();
   var month = String(today.getMonth() + 1).padStart(2, '0');
   var day = String(today.getDate()).padStart(2, '0');
-  return year + '-' + month + '-' + day;
+  //return year + '-' + month + '-' + day;
+  return '2023-05-11'
 }
 
 function getGamePkGivenTeamAndDate(teamId, date) {
@@ -235,7 +296,6 @@ function extractGamePk(jsonData, teamId) {
   }
   return 0;
 }
-
 
 function getAllPlayerForGamePk(gamePk) {
   const boxScoreUrl = 'https://statsapi.web.nhl.com/api/v1/game/' + gamePk + '/boxscore';
