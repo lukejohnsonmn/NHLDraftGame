@@ -204,14 +204,14 @@ class Player {
 
 class Points {
   constructor(player) {
-    this.base = 15*player.goals + 10*player.assists + player.shots + player.blocked + player.hits
-        + player.faceOffWins - player.faceOffLoses - 5*player.penaltyMinutes + 5*player.plusMinus;
-    this.captain = this.base + 15*player.goals + 10*player.assists;
-    this.scorer = this.base + 15*player.goals;
-    this.playmaker = this.base + 10*player.assists;
-    this.shooter = this.base + 2*player.shots;
-    this.blocker = this.base + 3*player.blocked;
-    this.enforcer = this.base + 2*player.hits;
+    this.base = 10*player.goals + 5*player.assists + player.shots + player.blocked + player.hits
+        + player.faceOffWins - player.faceOffLoses - 2*player.penaltyMinutes + 2*player.plusMinus;
+    this.captain = this.base + 10*player.goals + 5*player.assists;
+    this.scorer = this.base + 10*player.goals;
+    this.playmaker = this.base + 5*player.assists;
+    this.shooter = this.base + player.shots;
+    this.blocker = this.base + 2*player.blocked;
+    this.enforcer = this.base + player.hits;
     this.center = this.base + player.faceOffWins;
     this.max = Math.max(this.captain, this.scorer, this.playmaker, this.shooter, this.blocker, this.enforcer, this.center);
     this.bestRole = 'Captain';
@@ -311,7 +311,8 @@ function getTodaysDate() {
   var year = today.getFullYear();
   var month = String(today.getMonth() + 1).padStart(2, '0');
   var day = String(today.getDate()).padStart(2, '0');
-  return year + '-' + month + '-' + day;
+  //return year + '-' + month + '-' + day;
+  return '2023-05-13';
 }
 
 function getGamePkGivenTeamAndDate(teamId, date) {

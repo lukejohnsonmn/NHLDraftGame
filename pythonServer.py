@@ -164,8 +164,8 @@ def removeTrailingNewlines(outputStr):
 class SalaryStats:
     def __init__(self, player):
         stats = player.perGameStats
-        self.goals = 15000 * stats.goals
-        self.assists = 10000 * stats.assists
+        self.goals = 10000 * stats.goals
+        self.assists = 5000 * stats.assists
         self.faceOffs = 0
         self.faceOffsCenter = 0
         if (player.positionCode == 'C'):
@@ -174,8 +174,8 @@ class SalaryStats:
         self.hits = 1000 * stats.hits
         self.shots = 1000 * stats.shots
         self.blocked = 1000 * stats.blocked
-        self.penalties = -5000 * stats.penaltyMinutes
-        self.plusMinus = 5000 * stats.plusMinus
+        self.penalties = -2000 * stats.penaltyMinutes
+        self.plusMinus = 2000 * stats.plusMinus
         self.baseSalary = self.goals + self.assists + self.faceOffs + self.hits + self.shots + self.blocked + self.penalties + self.plusMinus
 
 class Team:
@@ -380,9 +380,9 @@ def calcAvgSalary(salaryStats):
         scorer = max(1000, math.floor(salaryStats.baseSalary + salaryStats.goals))                                    # goals x2
         playmaker = max(1000, math.floor(salaryStats.baseSalary + salaryStats.assists))                               # assists x2
         center = max(1000, math.floor(salaryStats.baseSalary - salaryStats.faceOffs + salaryStats.faceOffsCenter))    # face off wins x2
-        enforcer = max(1000, math.floor(salaryStats.baseSalary + 2 * salaryStats.hits))                               # hits x3
-        shooter = max(1000, math.floor(salaryStats.baseSalary + 2 * salaryStats.shots))                               # shots x3
-        blocker = max(1000, math.floor(salaryStats.baseSalary + 3 * salaryStats.blocked))                             # blocked shots x4
+        enforcer = max(1000, math.floor(salaryStats.baseSalary + salaryStats.hits))                                   # hits x2
+        shooter = max(1000, math.floor(salaryStats.baseSalary + salaryStats.shots))                                   # shots x2
+        blocker = max(1000, math.floor(salaryStats.baseSalary + 2 * salaryStats.blocked))                             # blocked shots x3
         if salaryStats.faceOffs == 0:
             avgSalary = captain + scorer + playmaker + enforcer + shooter + blocker
             avgSalary = math.floor(max(1000, avgSalary) / 6)
@@ -685,7 +685,7 @@ def formatRosterInfo(roster):
             line += str(player.jerseyNumber) + ','
             line += str(player.positionCode) + ','
             line += str(player.startedLastGame) + ','
-            line += str(math.floor(1.55 * player.salary)) + ','
+            line += str(math.floor(1 * player.salary)) + ','
             line += str(player.perGameStats.games) + ','
             line += str(player.seasonStats.goals) + ','
             line += str(player.seasonStats.assists) + ','
