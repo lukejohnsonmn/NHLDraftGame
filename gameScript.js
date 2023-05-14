@@ -848,14 +848,14 @@ function afterPlayerRowsLoaded() {
             $('.goals-td').addClass("selectedFire");
             $('#headGoals').addClass("selectedFire");
             $('#statGoals').addClass("selectedFire");
-            $('#statGoals').html('+30 per');
+            $('#statGoals').html('+20 per');
           }
           if (!playmakerIsSelected) {
             $('#captainButton').addClass("selectedFire");
             $('.assists-td').addClass("selectedFire");
             $('#headAssists').addClass("selectedFire");
             $('#statAssists').addClass("selectedFire");
-            $('#statAssists').html('+20 per');
+            $('#statAssists').html('+10 per');
           }
         }
       }, function() {
@@ -865,14 +865,14 @@ function afterPlayerRowsLoaded() {
             $('.goals-td').removeClass("selectedFire");
             $('#headGoals').removeClass("selectedFire");
             $('#statGoals').removeClass("selectedFire");
-            $('#statGoals').html('+15 per');
+            $('#statGoals').html('+10 per');
           }
           if (!playmakerIsSelected) {
             $('#captainButton').removeClass("selectedFire");
             $('.assists-td').removeClass("selectedFire");
             $('#headAssists').removeClass("selectedFire");
             $('#statAssists').removeClass("selectedFire");
-            $('#statAssists').html('+10 per');
+            $('#statAssists').html('+5 per');
           }
         }
       });
@@ -890,14 +890,14 @@ function afterPlayerRowsLoaded() {
           $('.goals-td').addClass("selectedFire");
           $('#headGoals').addClass("selectedFire");
           $('#statGoals').addClass("selectedFire");
-          $('#statGoals').html('+30 per');
+          $('#statGoals').html('+20 per');
           $('.assists-td').removeClass("fire");
           $('#headAssists').removeClass("fire");
           $('#statAssists').removeClass("fire");
           $('.assists-td').addClass("selectedFire");
           $('#headAssists').addClass("selectedFire");
           $('#statAssists').addClass("selectedFire");
-          $('#statAssists').html('+20 per');
+          $('#statAssists').html('+10 per');
         } else {
           resetAllSelectedRoles();
           captainIsSelected = true;
@@ -905,11 +905,11 @@ function afterPlayerRowsLoaded() {
           $('.goals-td').addClass("fire");
           $('#headGoals').addClass("fire");
           $('#statGoals').addClass("fire");
-          $('#statGoals').html('+30 per');
+          $('#statGoals').html('+20 per');
           $('.assists-td').addClass("fire");
           $('#headAssists').addClass("fire");
           $('#statAssists').addClass("fire");
-          $('#statAssists').html('+20 per');
+          $('#statAssists').html('+10 per');
           tryInsertPlayer();
         }
       });
@@ -926,7 +926,7 @@ function afterPlayerRowsLoaded() {
             $('.goals-td').addClass("selectedFire");
             $('#headGoals').addClass("selectedFire");
             $('#statGoals').addClass("selectedFire");
-            $('#statGoals').html('+30 per');
+            $('#statGoals').html('+20 per');
           }
         }
       }, function() {
@@ -936,7 +936,7 @@ function afterPlayerRowsLoaded() {
             $('.goals-td').removeClass("selectedFire");
             $('#headGoals').removeClass("selectedFire");
             $('#statGoals').removeClass("selectedFire");
-            $('#statGoals').html('+15 per');
+            $('#statGoals').html('+10 per');
           }
         }
       });
@@ -954,7 +954,7 @@ function afterPlayerRowsLoaded() {
           $('.goals-td').addClass("selectedFire");
           $('#headGoals').addClass("selectedFire");
           $('#statGoals').addClass("selectedFire");
-          $('#statGoals').html('+30 per');
+          $('#statGoals').html('+20 per');
         } else {
           resetAllSelectedRoles();
           scorerIsSelected = true;
@@ -962,7 +962,7 @@ function afterPlayerRowsLoaded() {
           $('.goals-td').addClass("fire");
           $('#headGoals').addClass("fire");
           $('#statGoals').addClass("fire");
-          $('#statGoals').html('+30 per');
+          $('#statGoals').html('+20 per');
           tryInsertPlayer();
         }
       });
@@ -978,7 +978,7 @@ function afterPlayerRowsLoaded() {
             $('.assists-td').addClass("selectedFire");
             $('#headAssists').addClass("selectedFire");
             $('#statAssists').addClass("selectedFire");
-            $('#statAssists').html('+20 per');
+            $('#statAssists').html('+10 per');
           }
         }
       }, function() {
@@ -988,7 +988,7 @@ function afterPlayerRowsLoaded() {
             $('.assists-td').removeClass("selectedFire");
             $('#headAssists').removeClass("selectedFire");
             $('#statAssists').removeClass("selectedFire");
-            $('#statAssists').html('+10 per');
+            $('#statAssists').html('+5 per');
           }
         }
       });
@@ -1005,7 +1005,7 @@ function afterPlayerRowsLoaded() {
           $('.assists-td').addClass("selectedFire");
           $('#headAssists').addClass("selectedFire");
           $('#statAssists').addClass("selectedFire");
-          $('#statAssists').html('+20 per');
+          $('#statAssists').html('+10 per');
         } else {
           resetAllSelectedRoles();
           playmakerIsSelected = true;
@@ -1013,7 +1013,7 @@ function afterPlayerRowsLoaded() {
           $('.assists-td').addClass("fire");
           $('#headAssists').addClass("fire");
           $('#statAssists').addClass("fire");
-          $('#statAssists').html('+20 per');
+          $('#statAssists').html('+10 per');
           tryInsertPlayer();
         }
       });
@@ -1029,7 +1029,7 @@ function afterPlayerRowsLoaded() {
           $('.shots-td').addClass("selectedFire");
           $('#headShots').addClass("selectedFire");
           $('#statShots').addClass("selectedFire");
-          $('#statShots').html('+3 per');
+          $('#statShots').html('+2 per');
         }
       }, function() {
         if (!shooterIsSelected) {
@@ -1053,7 +1053,7 @@ function afterPlayerRowsLoaded() {
           $('.shots-td').addClass("selectedFire");
           $('#headShots').addClass("selectedFire");
           $('#statShots').addClass("selectedFire");
-          $('#statShots').html('+3 per');
+          $('#statShots').html('+2 per');
         } else {
           resetAllSelectedRoles();
           shooterIsSelected = true;
@@ -1061,7 +1061,7 @@ function afterPlayerRowsLoaded() {
           $('.shots-td').addClass("fire");
           $('#headShots').addClass("fire");
           $('#statShots').addClass("fire");
-          $('#statShots').html('+3 per');
+          $('#statShots').html('+2 per');
           tryInsertPlayer();
         }
       });
@@ -1077,7 +1077,7 @@ function afterPlayerRowsLoaded() {
           $('.blocked-td').addClass("selectedFire");
           $('#headBlocked').addClass("selectedFire");
           $('#statBlocked').addClass("selectedFire");
-          $('#statBlocked').html('+4 per');
+          $('#statBlocked').html('+3 per');
         }
       }, function() {
         if (!blockerIsSelected) {
@@ -1101,7 +1101,7 @@ function afterPlayerRowsLoaded() {
           $('.blocked-td').addClass("selectedFire");
           $('#headBlocked').addClass("selectedFire");
           $('#statBlocked').addClass("selectedFire");
-          $('#statBlocked').html('+4 per');
+          $('#statBlocked').html('+3 per');
         } else {
           resetAllSelectedRoles();
           blockerIsSelected = true;
@@ -1109,7 +1109,7 @@ function afterPlayerRowsLoaded() {
           $('.blocked-td').addClass("fire");
           $('#headBlocked').addClass("fire");
           $('#statBlocked').addClass("fire");
-          $('#statBlocked').html('+4 per');
+          $('#statBlocked').html('+3 per');
           tryInsertPlayer();
         }
       });
@@ -1125,7 +1125,7 @@ function afterPlayerRowsLoaded() {
           $('.hits-td').addClass("selectedFire");
           $('#headHits').addClass("selectedFire");
           $('#statHits').addClass("selectedFire");
-          $('#statHits').html('+3 per');
+          $('#statHits').html('+2 per');
         }
       }, function() {
         if (!enforcerIsSelected) {
@@ -1149,7 +1149,7 @@ function afterPlayerRowsLoaded() {
           $('.hits-td').addClass("selectedFire");
           $('#headHits').addClass("selectedFire");
           $('#statHits').addClass("selectedFire");
-          $('#statHits').html('+3 per');
+          $('#statHits').html('+2 per');
         } else {
           resetAllSelectedRoles();
           enforcerIsSelected = true;
@@ -1157,7 +1157,7 @@ function afterPlayerRowsLoaded() {
           $('.hits-td').addClass("fire");
           $('#headHits').addClass("fire");
           $('#statHits').addClass("fire");
-          $('#statHits').html('+3 per');
+          $('#statHits').html('+2 per');
           tryInsertPlayer();
         }
       });
@@ -1306,8 +1306,8 @@ function resetAllSelectedRoles() {
   $('#headFaceOffs').removeClass("fire");
   $('#statFaceOffs').removeClass("fire");
 
-  $('#statGoals').html('+15 per');
-  $('#statAssists').html('+10 per');
+  $('#statGoals').html('+10 per');
+  $('#statAssists').html('+5 per');
   $('#statShots').html('+1 per');
   $('#statBlocked').html('+1 per');
   $('#statHits').html('+1 per');

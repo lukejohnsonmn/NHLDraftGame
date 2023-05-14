@@ -32,9 +32,14 @@ class Lineup {
     this.name = lineupInfo[2];
     this.players = [];
     for (var i = 3; i < lineupInfo.length; i++) {
-      const player = game.getPlayerById(lineupInfo[i].split(',')[0]);
-      const role = lineupInfo[i].split(',')[5];
+      const playerInfo = lineupInfo[i].split(',')
+      const role = playerInfo[5];
+      var player = game.getPlayerById(lineupInfo[i].split(',')[0]);
+      if (player == null) {
+        player = new NonStartingPlayer(role, playerInfo[1], playerInfo[2], playerInfo[3]);
+      }
       this.players.push(new LineupPlayer(game, player, role));
+
     }
     this.players.sort((a, b) => b.points - a.points);
     this.score = 0;
@@ -45,7 +50,7 @@ class Lineup {
 
   toHTML() {
     var tableStr = '';
-    tableStr += '<table class="allLineupsTable '+this.team+'LightBorder">';
+    tableStr += '<table class="gameLineupsTable '+this.team+'LightBorder">';
     tableStr += '<caption class="allLineupsCaption '+this.team+'Primary '+this.team+'LightBorder"><table class="allLineupsCaptionTable"><thead><tr><th></th><th>'+this.name.replaceAll('%20',' ')+'</th><th>'+this.team.replace(/([A-Z])/g, ' $1').trim()+'</th></thead></table></caption>';
     
     tableStr += '<thead class="'+this.team+'Light">';
@@ -54,14 +59,14 @@ class Lineup {
     tableStr += '<th>Role</th>';
     tableStr += '<th>Pos.</th>';
     tableStr += '<th>#</th>';
-    tableStr += '<th>Name</th>';
+    tableStr += '<th class="lineupPlayerNameCol">Name</th>';
     tableStr += '<th>Goals</th>';
     tableStr += '<th>Assists</th>';
     tableStr += '<th>Shots</th>';
     tableStr += '<th>Blocked Shots</th>';
     tableStr += '<th>Hits</th>';
-    tableStr += '<th>Face Off Wins</th>';
-    tableStr += '<th>Face Off Loses</th>';
+    tableStr += '<th>Faceoff Wins</th>';
+    tableStr += '<th>Faceoff Losses</th>';
     tableStr += '<th>Penalty Minutes</th>';
     tableStr += '<th>Plus Minus</th>';
     tableStr += '</tr>';
@@ -89,21 +94,35 @@ class LineupPlayer {
   constructor(game, player, role) {
     this.info = player;
     this.role = role;
+    this.captain = 'inactiveRole';
+    this.scorer = 'inactiveRole';
+    this.playmaker = 'inactiveRole';
+    this.shooter = 'inactiveRole';
+    this.blocker = 'inactiveRole';
+    this.enforcer = 'inactiveRole';
+    this.center = 'inactiveRole';
 
     if (role == 'Captain') {
       this.points = player.points.captain;
+      this.captain = 'activeRole';
     } else if (role == 'Scorer') {
       this.points = player.points.scorer;
+      this.scorer = 'activeRole';
     } else if (role == 'Playmaker') {
       this.points = player.points.playmaker;
+      this.playmaker = 'activeRole';
     } else if (role == 'Shooter') {
       this.points = player.points.shooter;
+      this.shooter = 'activeRole';
     } else if (role == 'Blocker') {
       this.points = player.points.blocker;
+      this.blocker = 'activeRole';
     } else if (role == 'Enforcer') {
       this.points = player.points.enforcer;
+      this.enforcer = 'activeRole';
     } else if (role == 'Center') {
       this.points = player.points.center;
+      this.center = 'activeRole';
     } else {
       this.points = player.points.base;
     }
@@ -127,16 +146,36 @@ class LineupPlayer {
     tableStr += '<td>'+this.info.positionCode+'</td>';
     tableStr += '<td>'+this.info.jerseyNumber+'</td>';
     tableStr += '<td class="noWrap">'+this.info.fullName+'</td>';
-    tableStr += '<td>'+this.info.goals+'</td>';
-    tableStr += '<td>'+this.info.assists+'</td>';
-    tableStr += '<td>'+this.info.shots+'</td>';
-    tableStr += '<td>'+this.info.blocked+'</td>';
-    tableStr += '<td>'+this.info.hits+'</td>';
-    tableStr += '<td>'+this.info.faceOffWins+'</td>';
+    tableStr += '<td class="'+this.scorer+' '+this.captain+'">'+this.info.goals+'</td>';
+    tableStr += '<td class="'+this.playmaker+' '+this.captain+'">'+this.info.assists+'</td>';
+    tableStr += '<td class="'+this.shooter+'">'+this.info.shots+'</td>';
+    tableStr += '<td class="'+this.blocker+'">'+this.info.blocked+'</td>';
+    tableStr += '<td class="'+this.enforcer+'">'+this.info.hits+'</td>';
+    tableStr += '<td class="'+this.center+'">'+this.info.faceOffWins+'</td>';
     tableStr += '<td>'+this.info.faceOffLoses+'</td>';
     tableStr += '<td>'+this.info.penaltyMinutes+'</td>';
     tableStr += '<td>'+this.info.plusMinus+'</td>';
     return tableStr;
+  }
+}
+
+class NonStartingPlayer {
+  constructor(role, positionCode, jerseyNumber, fullName) {
+    this.role = role;
+    this.positionCode = positionCode;
+    this.jerseyNumber = jerseyNumber;
+    this.fullName = fullName.replaceAll('%20', ' ');
+    this.goals = 0;
+    this.assists = 0;
+    this.shots = 0;
+    this.blocked = 0;
+    this.hits = 0;
+    this.faceOffWins = 0;
+    this.faceOffLoses = 0;
+    this.penaltyMinutes = 0;
+    this.plusMinus = 0;
+    this.points = new Points(this);
+    this.penaltyMinutes = this.penaltyMinutes + ':00';
   }
 }
 
@@ -158,6 +197,7 @@ class Player {
     this.penaltyMinutes = gameStats.penaltyMinutes;
     this.plusMinus = gameStats.plusMinus;
     this.points = new Points(this);
+    this.penaltyMinutes = this.penaltyMinutes + ':00';
   }
 }
 
@@ -165,7 +205,7 @@ class Player {
 class Points {
   constructor(player) {
     this.base = 15*player.goals + 10*player.assists + player.shots + player.blocked + player.hits
-        + player.faceOffWins - player.faceOffLoses - 5*player.penaltyMinutes + 3*player.plusMinus;
+        + player.faceOffWins - player.faceOffLoses - 5*player.penaltyMinutes + 5*player.plusMinus;
     this.captain = this.base + 15*player.goals + 10*player.assists;
     this.scorer = this.base + 15*player.goals;
     this.playmaker = this.base + 10*player.assists;
@@ -209,7 +249,7 @@ class Game {
       total += this.players[i].points.base;
     }
     this.coldScore = Math.max(-1.0, 2 * total / this.players.length)
-    if (this.coldScore == 0.0) {
+    if (this.coldScore <= 0.0) {
       this.coldScore = -1.0
     }
   }
@@ -251,16 +291,13 @@ function httpGetCsv(url) {
 }
 
 function loadPage() {
-  console.log('loading player stats');
   const lineupsUrl = "http://localhost:8080/get-lineups";
   const response = httpGetCsv(lineupsUrl);
-  console.log('response: ' + response);
   const game = new Game(response);
   console.log('hottest: ' + game.hottest);
   console.log('hotScore: ' + game.hotScore);
   console.log('coldScore: ' + game.coldScore);
   console.log('coldest: ' + game.coldest);
-  console.log('done');
 }
 
 function getAllPlayersForGameToday(eitherTeam) {
@@ -274,8 +311,7 @@ function getTodaysDate() {
   var year = today.getFullYear();
   var month = String(today.getMonth() + 1).padStart(2, '0');
   var day = String(today.getDate()).padStart(2, '0');
-  //return year + '-' + month + '-' + day;
-  return '2023-05-11'
+  return year + '-' + month + '-' + day;
 }
 
 function getGamePkGivenTeamAndDate(teamId, date) {
@@ -300,10 +336,17 @@ function extractGamePk(jsonData, teamId) {
 function getAllPlayerForGamePk(gamePk) {
   const boxScoreUrl = 'https://statsapi.web.nhl.com/api/v1/game/' + gamePk + '/boxscore';
   const response = httpGet(boxScoreUrl);
-  const awayPlayersJson = response.teams.away.players;
   const homePlayersJson = response.teams.home.players;
+  const awayPlayersJson = response.teams.away.players;
 
   const allPlayersList = [];
+
+  for (const playerId in homePlayersJson) {
+    const playerJson = homePlayersJson[playerId];
+    if (['D','L','C','R'].includes(playerJson.position.code)) {
+      allPlayersList.push(new Player(playerJson));
+    }
+  }
 
   for (const playerId in awayPlayersJson) {
     const playerJson = awayPlayersJson[playerId];
@@ -312,12 +355,6 @@ function getAllPlayerForGamePk(gamePk) {
     }
   }
 
-  for (const playerId in homePlayersJson) {
-    const playerJson = homePlayersJson[playerId];
-    if (['D','L','C','R'].includes(playerJson.position.code)) {
-      allPlayersList.push(new Player(playerJson));
-    }
-  }
   return allPlayersList;
 }
 

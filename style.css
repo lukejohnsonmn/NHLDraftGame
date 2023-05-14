@@ -34,18 +34,26 @@ body {
 #scoreboardLeftDiv {
 	float: left;
 	width: 48%;
-	margin: var(--halfTableSpacing) 1% var(--halfTableSpacing) 1%;
+	margin-left: 1%;
+	margin-right: 1%;
 }
 
 #scoreboardRightDiv {
 	float: right;
 	width: 48%;
-	margin: var(--halfTableSpacing) 1% var(--halfTableSpacing) 1%;
+	margin-left: 1%;
+	margin-right: 1%;
 }
 
 .noWrap {
     white-space: nowrap;
 }
+
+.activeRole {
+	box-shadow: inset 0px 0px 3px 3px #ffd700;
+}
+
+
 
 
 
@@ -302,6 +310,33 @@ table, th, td {
 	margin: 0px;
 }
 
+
+
+
+.hottest  {
+	animation: hottestBurn 1.5s linear infinite alternate;
+}
+
+
+@keyframes hottestBurn {
+	from { text-shadow: -.1em 0 .3em #665700, .1em -.1em .3em #998200, -.2em -.2em .4em #ccad00, .2em -.3em .3em #ffd700, -.2em -.4em .4em #ffe033, .1em -.5em .7em #ffe866, .1em -.7em .7em #fff099; }
+	45%  { text-shadow: .1em -.2em .5em #665700, .15em 0 .4em #998200, -.1em -.25em .5em #ccad00, .15em -.45em .5em #ffd700, -.1em -.5em .6em #ffe033, 0 -.8em .6em #ffe866, .2em -1em .8em #fff099; }
+	70%  { text-shadow: -.1em 0 .3em #665700, .1em -.1em .3em #998200, -.2em -.2em .6em #ccad00, .2em -.3em .4em #ffd700, -.2em -.4em .7em #ffe033, .1em -.5em .7em #ffe866, .1em -.7em .9em #fff099; }
+	to   { text-shadow: -.1em -.2em .6em #665700, -.15em 0 .6em #998200, .1em -.25em .6em #ccad00, -.15em -.45em .5em #ffd700, .1em -.5em .6em #ffe033, 0 -.8em .6em #ffe866, -.2em -1em .8em #fff099; }
+}
+
+.coldest  {
+	animation: coldestBurn 1.5s linear infinite alternate;
+}
+
+
+@keyframes coldestBurn {
+	from { text-shadow: -.1em 0 .3em #333333, .1em -.1em .3em #4d4d4d, -.2em -.2em .4em #666666, .2em -.3em .3em #808080, -.2em -.4em .4em #999999, .1em -.5em .7em #b3b3b3, .1em -.7em .7em #cccccc; }
+	45%  { text-shadow: .1em -.2em .5em #333333, .15em 0 .4em #4d4d4d, -.1em -.25em .5em #666666, .15em -.45em .5em #808080, -.1em -.5em .6em #999999, 0 -.8em .6em #b3b3b3, .2em -1em .8em #cccccc; }
+	70%  { text-shadow: -.1em 0 .3em #333333, .1em -.1em .3em #4d4d4d, -.2em -.2em .6em #666666, .2em -.3em .4em #808080, -.2em -.4em .7em #999999, .1em -.5em .7em #b3b3b3, .1em -.7em .9em #cccccc; }
+	to   { text-shadow: -.1em -.2em .6em #333333, -.15em 0 .6em #4d4d4d, .1em -.25em .6em #666666, -.15em -.45em .5em #808080, .1em -.5em .6em #999999, 0 -.8em .6em #b3b3b3, -.2em -1em .8em #cccccc; }
+}
+
 .cold  {
 	animation: coldBurn 1.5s linear infinite alternate;
 }
@@ -534,7 +569,7 @@ table, th, td {
 	margin-left: var(--halfTableSpacing);
 }
 
-#curLineupTable, .allLineupsTable {
+#curLineupTable, .allLineupsTable, .gameLineupsTable {
 	border-style: solid;
 	border-left-width: var(--tableSpacing);
 	border-right-width: var(--tableSpacing);
@@ -602,8 +637,16 @@ table, th, td {
 	background-color: var(--primaryLight);
 }
 
-.allLineupsTable {
+.allLineupsTable, .gameLineupsTable {
 	margin: var(--tableSpacing) 0px var(--tableSpacing);
+}
+
+.gameLineupsTable {
+	table-layout: fixed;
+}
+
+.lineupPlayerNameCol {
+	width: 15%;
 }
 
 
