@@ -315,13 +315,13 @@ function generateRoleButtonsHTML() {
       roleButtonsHTML += '<button type="button" class="roleButton" id="playmakerButton">Playmaker<div class="subButton">Assists x2</div></button>';
     }
     if (roleIsStillAvailable(4)) {
-      roleButtonsHTML += '<button type="button" class="roleButton" id="shooterButton">Shooter<div class="subButton">Shots x3</div></button>';
+      roleButtonsHTML += '<button type="button" class="roleButton" id="shooterButton">Shooter<div class="subButton">Shots x2</div></button>';
     }
     if (roleIsStillAvailable(5)) {
-      roleButtonsHTML += '<button type="button" class="roleButton" id="blockerButton">Blocker<div class="subButton">Blocked Shots x4</div></button>';
+      roleButtonsHTML += '<button type="button" class="roleButton" id="blockerButton">Blocker<div class="subButton">Blocked Shots x3</div></button>';
     }
     if (roleIsStillAvailable(6)) {
-      roleButtonsHTML += '<button type="button" class="roleButton" id="enforcerButton">Enforcer<div class="subButton">Hits x3</div></button>';
+      roleButtonsHTML += '<button type="button" class="roleButton" id="enforcerButton">Enforcer<div class="subButton">Hits x2</div></button>';
     }
     if (roleIsStillAvailable(7)) {
       roleButtonsHTML += '<button type="button" class="roleButton" id="centerButton">Center<div class="subButton">Face Off Wins x2</div></button>';

@@ -50,7 +50,11 @@ body {
 }
 
 .activeRole {
-	box-shadow: inset 0px 0px 3px 3px #ffd700;
+	box-shadow: inset 0px 0px 6px 6px rgba(255, 215, 0, 0.35);
+}
+
+.alignToLeft {
+	text-align: left;
 }
 
 
@@ -582,7 +586,7 @@ table, th, td {
 	border-color: var(--primaryLight);
 }
 
-#curLineupCaption, #lineupName, .allLineupsCaption, .allLineupsCaptionTable th {
+#curLineupCaption, #lineupName, .allLineupsCaption, .allLineupsCaptionTable th, .gameLineupsCaptionTable th {
 	color: var(--text);
 	background: transparent;
 	text-align: center;
@@ -597,10 +601,14 @@ table, th, td {
 }
 
 
-.allLineupsCaptionTable {
+.allLineupsCaptionTable, .gameLineupsCaptionTable {
 	margin: 0px;
 	padding-top: 0px;
 	width: 100%;
+}
+
+.gameLineupsCaptionTeam, .gameLineupsCaptionName {
+	width: 43%;
 }
 
 
@@ -641,7 +649,7 @@ table, th, td {
 	margin: var(--tableSpacing) 0px var(--tableSpacing);
 }
 
-.gameLineupsTable {
+.gameLineupsTable, .gameLineupsCaptionTable {
 	table-layout: fixed;
 }
 

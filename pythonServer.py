@@ -685,7 +685,7 @@ def formatRosterInfo(roster):
             line += str(player.jerseyNumber) + ','
             line += str(player.positionCode) + ','
             line += str(player.startedLastGame) + ','
-            line += str(math.floor(1 * player.salary)) + ','
+            line += str(math.floor(2.35 * player.salary)) + ','
             line += str(player.perGameStats.games) + ','
             line += str(player.seasonStats.goals) + ','
             line += str(player.seasonStats.assists) + ','
@@ -714,30 +714,6 @@ def writeToFile(paramName, paramSeason, paramTodaysDate):
         print(fileName + ' already exists')
         f = open(fileName, "r")
         return f.read()
-
-
-
-def formatRosterInfoOld(roster):
-    outputStr = ''
-    for player in roster.roster:
-        if player.positionCode != 'G':
-            line = str(player.fullName) + ','
-            line += str(player.jerseyNumber) + ','
-            line += str(player.positionCode) + ','
-            line += str(player.startedLastGame) + ','
-            line += str(player.salary) + ','
-            line += str(player.perGameStats.games) + ','
-            line += str(player.perGameStats.timeOnIce) + ','
-            line += str('{:.2f}'.format(player.perGameStats.goals)) + ','
-            line += str('{:.2f}'.format(player.perGameStats.assists)) + ','
-            line += str('{:.2f}'.format(player.perGameStats.shots)) + ','
-            line += str('{:.2f}'.format(player.perGameStats.blocked)) + ','
-            line += str('{:.2f}'.format(player.perGameStats.hits)) + ','
-            line += str('{:.2f}'.format(round(player.perGameStats.faceOffPct, 2))) + ','
-            line += str('{:.2f}'.format(player.perGameStats.penaltyMinutes)) + ','
-            line += str('{:.2f}'.format(player.perGameStats.plusMinus)) + '|'
-            outputStr += line
-    return outputStr[:-1]
 
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)

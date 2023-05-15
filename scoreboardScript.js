@@ -1,3 +1,8 @@
+var globalGame;
+var globalHomeTeamName;
+var globalAwayTeamName;
+var isShowingLineups = true;
+
 class LineupManager {
   constructor(game, fullLineupCsv) {
     const lineupCsvs = fullLineupCsv.split('\n');
@@ -51,7 +56,7 @@ class Lineup {
   toHTML() {
     var tableStr = '';
     tableStr += '<table class="gameLineupsTable '+this.team+'LightBorder">';
-    tableStr += '<caption class="allLineupsCaption '+this.team+'Primary '+this.team+'LightBorder"><table class="allLineupsCaptionTable"><thead><tr><th></th><th>'+this.name.replaceAll('%20',' ')+'</th><th>'+this.team.replace(/([A-Z])/g, ' $1').trim()+'</th></thead></table></caption>';
+    tableStr += '<caption class="allLineupsCaption '+this.team+'Primary '+this.team+'LightBorder"><table class="gameLineupsCaptionTable"><thead><tr><th>'+this.score+'</th><th class="gameLineupsCaptionName">'+this.name.replaceAll('%20',' ')+'</th><th class="gameLineupsCaptionTeam">'+this.team.replace(/([A-Z])/g, ' $1').trim()+'</th></thead></table></caption>';
     
     tableStr += '<thead class="'+this.team+'Light">';
     tableStr += '<tr>';
@@ -142,7 +147,7 @@ class LineupPlayer {
 
   toHTML() {
     var tableStr = '<td>'+this.points+'</td>';
-    tableStr += '<td>'+this.role+'</td>';
+    tableStr += '<td class="alignToLeft">'+this.role+'</td>';
     tableStr += '<td>'+this.info.positionCode+'</td>';
     tableStr += '<td>'+this.info.jerseyNumber+'</td>';
     tableStr += '<td class="noWrap">'+this.info.fullName+'</td>';
@@ -199,6 +204,28 @@ class Player {
     this.points = new Points(this);
     this.penaltyMinutes = this.penaltyMinutes + ':00';
   }
+
+  generateTemp() {
+    if (this.points.max == globalGame.hottest) {
+      return 'hottest';
+    } else if (this.points.max == globalGame.maxColdest) {
+      return 'coldest';
+    } else if (this.points.max >= globalGame.hotScore) {
+      return 'hot';
+    } else if (this.points.max <= globalGame.coldScore) {
+      return 'cold';
+    } else {
+      return 'normal';
+    }
+  }
+
+  generateRoleActive(role) {
+    if (this.points.bestRole == role) {
+      return 'activeRole';
+    } else {
+      return 'inactiveRole';
+    }
+  }
 }
 
 
@@ -234,16 +261,22 @@ class Points {
 class Game {
   constructor(fullLineupCsv) {
     const eitherTeam = fullLineupCsv.split('\n')[0].split('|')[1];
-    this.players = getAllPlayersForGameToday(eitherTeam);
+    const allPlayers = getAllPlayersForGameToday(eitherTeam);
+    this.players = allPlayers[0];
+    this.homePlayers = allPlayers[1];
+    this.awayPlayers = allPlayers[2];
     this.calcColdScore();
     this.calcHotScore();
     this.lineupManager = new LineupManager(this, fullLineupCsv);
-    document.getElementById('scoreboardBody').innerHTML = this.lineupManager.toHTML();
   }
 
   calcColdScore() {
     this.players.sort((a, b) => a.points.base - b.points.base);
-    this.coldest = this.players[0].points.base;
+    if (this.players.length == 0 || this.players[0].points.base == 0) {
+      this.coldest = -1;
+    } else {
+      this.coldest = this.players[0].points.base;
+    }
     var total = 0;
     for (var i = 0; i < this.players.length/2; i++) {
       total += this.players[i].points.base;
@@ -256,7 +289,15 @@ class Game {
 
   calcHotScore() {
     this.players.sort((a, b) => b.points.max - a.points.max);
-    this.hottest = this.players[0].points.max;
+    
+
+    if (this.players.length == 0 || this.players[0].points.max == 0) {
+      this.hottest = 1;
+      this.maxColdest = -1;
+    } else {
+      this.hottest = this.players[0].points.max;
+      this.maxColdest = this.players[this.players.length-1].points.max;
+    }
     var total = 0;
     for (var i = 0; i < this.players.length/2; i++) {
       total += this.players[i].points.max;
@@ -291,14 +332,21 @@ function httpGetCsv(url) {
 }
 
 function loadPage() {
+  console.log('loading page!');
   const lineupsUrl = "http://localhost:8080/get-lineups";
   const response = httpGetCsv(lineupsUrl);
-  const game = new Game(response);
-  console.log('hottest: ' + game.hottest);
-  console.log('hotScore: ' + game.hotScore);
-  console.log('coldScore: ' + game.coldScore);
-  console.log('coldest: ' + game.coldest);
+  globalGame = new Game(response);
+  if (isShowingLineups) {
+    document.getElementById('scoreboardBody').innerHTML = globalGame.lineupManager.toHTML();
+  } else {
+    document.getElementById('scoreboardBody').innerHTML = generateHomeAndAwayHTML();
+  }
 }
+
+// Update stats every 30 seconds
+setInterval(function(){
+  loadPage()
+}, 30000)
 
 function getAllPlayersForGameToday(eitherTeam) {
   const teamId = mapTeamNameToId(eitherTeam);
@@ -311,8 +359,7 @@ function getTodaysDate() {
   var year = today.getFullYear();
   var month = String(today.getMonth() + 1).padStart(2, '0');
   var day = String(today.getDate()).padStart(2, '0');
-  //return year + '-' + month + '-' + day;
-  return '2023-05-13';
+  return year + '-' + month + '-' + day;
 }
 
 function getGamePkGivenTeamAndDate(teamId, date) {
@@ -339,13 +386,18 @@ function getAllPlayerForGamePk(gamePk) {
   const response = httpGet(boxScoreUrl);
   const homePlayersJson = response.teams.home.players;
   const awayPlayersJson = response.teams.away.players;
+  globalHomeTeamName = response.teams.home.team.name;
+  globalAwayTeamName = response.teams.away.team.name;
 
   const allPlayersList = [];
+  const homeTeamPlayers = [];
+  const awayTeamPlayers = [];
 
   for (const playerId in homePlayersJson) {
     const playerJson = homePlayersJson[playerId];
     if (['D','L','C','R'].includes(playerJson.position.code)) {
       allPlayersList.push(new Player(playerJson));
+      homeTeamPlayers.push(new Player(playerJson));
     }
   }
 
@@ -353,10 +405,22 @@ function getAllPlayerForGamePk(gamePk) {
     const playerJson = awayPlayersJson[playerId];
     if (['D','L','C','R'].includes(playerJson.position.code)) {
       allPlayersList.push(new Player(playerJson));
+      awayTeamPlayers.push(new Player(playerJson));
     }
   }
 
-  return allPlayersList;
+  homeTeamPlayers.sort((a, b) => b.points.max - a.points.max);
+  awayTeamPlayers.sort((a, b) => b.points.max - a.points.max);
+  return [allPlayersList, homeTeamPlayers, awayTeamPlayers];
+}
+
+function toggleTeamStats() {
+  if (isShowingLineups) {
+    document.getElementById('scoreboardBody').innerHTML = generateHomeAndAwayHTML();;
+  } else {
+    document.getElementById('scoreboardBody').innerHTML = globalGame.lineupManager.toHTML();
+  }
+  isShowingLineups = !isShowingLineups;
 }
 
 function mapTeamNameToId(teamName) {
@@ -427,4 +491,90 @@ function mapTeamNameToId(teamName) {
         return 55;
     }
     return 0;
+}
+
+
+
+
+
+
+
+function generateHomeAndAwayHTML() {
+  var leftDiv = '<div id="scoreboardLeftDiv">';
+  var rightDiv = '<div id="scoreboardRightDiv">';
+  leftDiv += generateTeamHTML(globalGame.homePlayers, globalHomeTeamName);
+  rightDiv += generateTeamHTML(globalGame.awayPlayers, globalAwayTeamName);
+  leftDiv += '</div>';
+  rightDiv += '</div>';
+  return leftDiv + rightDiv;
+}
+
+function generateTeamHTML(team, teamName) {
+  var tableStr = '';
+  tableStr += '<table class="gameLineupsTable '+shortenTeamName(teamName)+'LightBorder">';
+  tableStr += '<caption class="allLineupsCaption '+shortenTeamName(teamName)+'Primary '+shortenTeamName(teamName)+'LightBorder">'+teamName+'</caption>';
+  
+  tableStr += '<thead class="'+shortenTeamName(teamName)+'Light">';
+  tableStr += '<tr>';
+  tableStr += '<th>Points</th>';
+  tableStr += '<th>Best Role</th>';
+  tableStr += '<th>Pos.</th>';
+  tableStr += '<th>#</th>';
+  tableStr += '<th class="lineupPlayerNameCol">Name</th>';
+  tableStr += '<th>Goals</th>';
+  tableStr += '<th>Assists</th>';
+  tableStr += '<th>Shots</th>';
+  tableStr += '<th>Blocked Shots</th>';
+  tableStr += '<th>Hits</th>';
+  tableStr += '<th>Faceoff Wins</th>';
+  tableStr += '<th>Faceoff Losses</th>';
+  tableStr += '<th>Penalty Minutes</th>';
+  tableStr += '<th>Plus Minus</th>';
+  tableStr += '</tr>';
+  tableStr += '</thead>';
+
+  tableStr += '<tbody class="'+shortenTeamName(teamName)+'Primary">';
+  for (var i = 0; i < team.length; i++) {
+    if (i % 2 == 0) {
+      tableStr += '<tr class="'+shortenTeamName(teamName)+'Dark '+team[i].generateTemp()+'">'
+    } else {
+      tableStr += '<tr class="'+team[i].generateTemp()+'">'
+    }
+    tableStr += generatePlayerHTML(team[i]);
+    tableStr += '</tr>'
+  }
+  tableStr += '<tr class="'+shortenTeamName(teamName)+'Light"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>';
+  tableStr += '</tbody>';
+
+  tableStr += '</table>';
+  return tableStr;
+}
+
+function generatePlayerHTML(player) {
+  var tableStr = '<td>'+player.points.max+'</td>';
+  tableStr += '<td class="alignToLeft">'+player.points.bestRole+'</td>';
+  tableStr += '<td>'+player.positionCode+'</td>';
+  tableStr += '<td>'+player.jerseyNumber+'</td>';
+  tableStr += '<td class="noWrap">'+player.fullName+'</td>';
+  tableStr += '<td class="'+player.generateRoleActive('Scorer')+' '+player.generateRoleActive('Captain')+'">'+player.goals+'</td>';
+  tableStr += '<td class="'+player.generateRoleActive('Playmaker')+' '+player.generateRoleActive('Captain')+'">'+player.assists+'</td>';
+  tableStr += '<td class="'+player.generateRoleActive('Shooter')+'">'+player.shots+'</td>';
+  tableStr += '<td class="'+player.generateRoleActive('Blocker')+'">'+player.blocked+'</td>';
+  tableStr += '<td class="'+player.generateRoleActive('Enforcer')+'">'+player.hits+'</td>';
+  tableStr += '<td class="'+player.generateRoleActive('Center')+'">'+player.faceOffWins+'</td>';
+  tableStr += '<td>'+player.faceOffLoses+'</td>';
+  tableStr += '<td>'+player.penaltyMinutes+'</td>';
+  tableStr += '<td>'+player.plusMinus+'</td>';
+  return tableStr;
+}
+
+function shortenTeamName(teamName) {
+  if (teamName == 'Vegas Golden Knights' || teamName == 'Toronto Maple Leafs' || teamName == 'Detroit Red Wings' || teamName == 'Columbus Blue Jackets') {
+    return teamName.split(' ')[1] + teamName.split(' ')[2];
+  } else if (teamName == 'Tampa Bay Lighting' || teamName == 'St. Louis Blues' || teamName == 'San Jose Sharks' || teamName == 'New York Rangers'
+          || teamName == 'New York Islanders' || teamName == 'Los Angeles Kings' || teamName == 'New Jersey Devils') {
+    return teamName.split(' ')[2];
+  } else {
+    return teamName.split(' ')[1];
+  }
 }
